@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Less3.ForceGraph;
 using UnityEditor;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
@@ -38,7 +39,16 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
             _data = value;
             if (_data != null)
             {
-                element.Q<Label>("Label").text = value.ToString();
+                if (_data is IForceNodeTitle title)
+                    element.Q<Label>("Label").text = title.GetNodeTitle();
+                else
+                    element.Q<Label>("Label").text = value.ToString();
+
+                if (_data is IForceNodeStyle style)
+                {
+                    element.Q("NodeContainer").style.backgroundColor = style.NodeBackgroundColor;
+                    element.Q<Label>("Label").style.color = style.NodeLabelColor;
+                }
             }
         }
     }
@@ -64,7 +74,20 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
 
 public class ForceCanvasConnection<T, U>
 {
-    public U data;
+    private U _data;
+    public U data
+    {
+        get => _data;
+        set
+        {
+            _data = value;
+            if (_data != null)
+            {
+                if (_data is IForceConnectionStyle style)
+                    element.style.backgroundColor = style.ConnectionColor;
+            }
+        }
+    }
     public VisualElement element;
     public ForceCanvasNodeElement<T> from;
     public ForceCanvasNodeElement<T> to;

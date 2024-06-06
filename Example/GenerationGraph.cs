@@ -8,6 +8,7 @@ using Less3.ForceGraph;
 [CreateAssetMenu(fileName = "GenerationGraph", menuName = "GenerationGraph")]
 public class GenerationGraph : ForceGraph
 {
+
     [ProgressBar(0, 100)]
     public float test;
     public string customProperty;

@@ -74,7 +74,7 @@ namespace Less3.ForceGraph.Editor
             forceDirectedCanvas.PossibleNodeTypes = (target as ForceGraph).GraphNodeTypes();
 
             breadcrumbs = inspector.Q<ToolbarBreadcrumbs>("Breadcrumbs");
-            breadcrumbs.PushItem(target.name, () => GotoGraph());
+            breadcrumbs.PushItem("<b>" + target.name, () => GotoGraph());
 
             inspector.Q<Label>("Typename").text = target.GetType().Name;
 
