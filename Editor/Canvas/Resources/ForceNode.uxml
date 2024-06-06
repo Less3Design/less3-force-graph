@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/FunNode.uss?fileID=7433441132597879392&amp;guid=e742649e6cc79dd42b188768f3d82f66&amp;type=3#FunNode" />
+    <ui:VisualElement name="Border" class="NodeBorder">
+        <ui:VisualElement name="NodeContainer" class="NodeContainer" style="flex-grow: 0; flex-direction: row; align-items: center; justify-content: space-around; flex-shrink: 1; align-self: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 6px; padding-bottom: 4px; padding-left: 6px; background-color: rgb(60, 60, 60);">
+            <ui:VisualElement name="Icon" style="flex-grow: 0; width: 14px; height: 14px; margin-right: 4px; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=2346436936791262179&amp;guid=f2f03f7d197c5b14d878d84f4c1860fc&amp;type=3#console.infoicon&apos;);" />
+            <ui:Label text="Label" name="Label" style="-unity-font-style: bold;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

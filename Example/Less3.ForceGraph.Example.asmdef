@@ -1,0 +1,16 @@
+{
+    "name": "Less3.ForceGraph.Example",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8911a4102e8fc524f917fef0a61cbb26"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
