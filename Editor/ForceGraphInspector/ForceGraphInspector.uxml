@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/SOAPI/ForceGraphInspectorUSS.uss?fileID=7433441132597879392&amp;guid=47f9ab646df74fd4ba0d07f691dcf4bd&amp;type=3#ForceGraphInspectorUSS" />
-    <ui:VisualElement name="Separator" class="Separator" style="flex-grow: 0; justify-content: space-between; align-items: stretch; margin-top: -2px;">
+    <Style src="project://database/Assets/Less3_ForceGraph/Editor/ForceGraphInspector/ForceGraphInspectorUSS.uss?fileID=7433441132597879392&amp;guid=47f9ab646df74fd4ba0d07f691dcf4bd&amp;type=3#ForceGraphInspectorUSS" />
+    <ui:VisualElement name="Header" class="Separator" style="flex-grow: 0; justify-content: space-between; align-items: stretch; margin-top: -2px; overflow: hidden;">
         <ui:VisualElement name="ButtonGroup" style="flex-grow: 1; flex-direction: row; margin-top: 2px; margin-bottom: 2px; margin-right: 0; margin-left: 0; justify-content: space-between;">
             <uie:Toolbar style="background-color: rgba(60, 60, 60, 0); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; overflow: hidden; flex-grow: 1; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
                 <ui:VisualElement name="OpenScript" class="ScriptButton" style="flex-grow: 0; background-color: rgb(253, 109, 64); justify-content: space-around; align-items: flex-start; padding-left: 6px; padding-right: 6px; margin-right: 1px;">
@@ -9,7 +9,7 @@
                 <uie:ToolbarBreadcrumbs name="Breadcrumbs" style="flex-shrink: 1;" />
                 <uie:ToolbarSpacer style="flex-grow: 1;" />
                 <ui:VisualElement name="IconContainer" style="flex-grow: 1; justify-content: space-around; align-items: flex-end;">
-                    <ui:VisualElement class="DefaultTextBackgroundColor" style="flex-grow: 0; background-image: url(&apos;project://database/Assets/Less3Icon48px.png?fileID=2800000&amp;guid=10877b5e18a5fd14d80364c8171b745d&amp;type=3#Less3Icon48px&apos;); opacity: 0.3; width: 14px; height: 14px;" />
+                    <ui:VisualElement class="DefaultTextBackgroundColor" style="flex-grow: 0; background-image: url(&apos;project://database/Assets/Less3_ForceGraph/Editor/Textures/Less3Icon48px.png?fileID=2800000&amp;guid=10877b5e18a5fd14d80364c8171b745d&amp;type=3#Less3Icon48px&apos;); opacity: 0.3; width: 14px; height: 14px;" />
                 </ui:VisualElement>
                 <ui:Label tabindex="-1" text="LESS_3" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-text-align: middle-left; opacity: 0.3; -unity-font-style: bold;" />
             </uie:Toolbar>
@@ -20,13 +20,13 @@
             <ui:VisualElement name="GraphOrigin" style="flex-grow: 1; position: absolute; left: 0; top: 0; right: 0; bottom: 0; justify-content: space-around;" />
             <ui:VisualElement name="ButtonOverlay" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.3); padding-top: 2px; padding-right: 0; padding-bottom: 2px; padding-left: 0; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; align-items: center; margin-top: 4px; margin-right: 4px; margin-bottom: 2px; margin-left: 4px;">
                 <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="Button" focusable="false" style="margin-bottom: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; height: 19px; align-items: center;">
-                    <ui:VisualElement tooltip="Fast forward the graph simulation. Note this requires simulating the graph mutiple times per frame and may lead to degraded performance on large graphs or slow machines." class="DefaultTextBackgroundColor" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Icons/Frame%2015.png?fileID=2800000&amp;guid=ade0db16655092540bffdf58dd75b38b&amp;type=3#Frame 15&apos;); width: 14px; height: 14px; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px;" />
+                    <ui:VisualElement tooltip="Fast forward the graph simulation. Note this requires simulating the graph mutiple times per frame and may lead to degraded performance on large graphs or slow machines." class="DefaultTextBackgroundColor" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Less3_ForceGraph/Editor/Textures/Frame%2015.png?fileID=2800000&amp;guid=ade0db16655092540bffdf58dd75b38b&amp;type=3#Frame 15&apos;); width: 14px; height: 14px; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px;" />
                 </ui:Button>
                 <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" focusable="false" style="margin-top: -1px; margin-bottom: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;">
-                    <ui:VisualElement tooltip="Automatically scale and position the graph to keep all nodes in view." class="DefaultTextBackgroundColor" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Icons/Frame%2016.png?fileID=2800000&amp;guid=095fb0abdbb74cb4cb45df29c39e970c&amp;type=3#Frame 16&apos;); width: 16px; height: 16px;" />
+                    <ui:VisualElement tooltip="Automatically scale and position the graph to keep all nodes in view." class="DefaultTextBackgroundColor" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Less3_ForceGraph/Editor/Textures/Frame%2016.png?fileID=2800000&amp;guid=095fb0abdbb74cb4cb45df29c39e970c&amp;type=3#Frame 16&apos;); width: 16px; height: 16px;" />
                 </ui:Button>
                 <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" focusable="false" enable-rich-text="true" tooltip="Open the graph simulation settings panel." name="SettingsButton" style="margin-top: -1px; border-top-left-radius: 0; border-top-right-radius: 0;">
-                    <ui:VisualElement class="DefaultTextBackgroundColor" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Icons/Frame%2018.png?fileID=2800000&amp;guid=2325a7fc52fc3e448af815a708e39562&amp;type=3#Frame 18&apos;); width: 14px; height: 14px; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px;" />
+                    <ui:VisualElement class="DefaultTextBackgroundColor" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Less3_ForceGraph/Editor/Textures/Frame%2018.png?fileID=2800000&amp;guid=2325a7fc52fc3e448af815a708e39562&amp;type=3#Frame 18&apos;); width: 14px; height: 14px; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px;" />
                 </ui:Button>
             </ui:VisualElement>
             <ui:VisualElement name="SettingsOverlay" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.7); padding-top: 2px; padding-right: 6px; padding-bottom: 2px; padding-left: 4px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; align-items: stretch; margin-top: 2px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px;">
@@ -64,7 +64,7 @@
                 <uie:ToolbarBreadcrumbs name="Breadcrumbs" style="flex-shrink: 1;" />
                 <uie:ToolbarSpacer style="flex-grow: 1;" />
                 <ui:VisualElement name="IconContainer" style="flex-grow: 1; justify-content: space-around; align-items: flex-end;">
-                    <ui:VisualElement class="DefaultTextBackgroundColor" style="flex-grow: 0; background-image: url(&apos;project://database/Assets/Less3Icon48px.png?fileID=2800000&amp;guid=10877b5e18a5fd14d80364c8171b745d&amp;type=3#Less3Icon48px&apos;); opacity: 0.3; width: 14px; height: 14px;" />
+                    <ui:VisualElement class="DefaultTextBackgroundColor" style="flex-grow: 0; background-image: url(&apos;project://database/Assets/Less3_ForceGraph/Editor/Textures/Less3Icon48px.png?fileID=2800000&amp;guid=10877b5e18a5fd14d80364c8171b745d&amp;type=3#Less3Icon48px&apos;); opacity: 0.3; width: 14px; height: 14px;" />
                 </ui:VisualElement>
                 <ui:Label tabindex="-1" text="LESS_3" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-text-align: middle-left; opacity: 0.3; -unity-font-style: bold;" />
             </uie:Toolbar>
