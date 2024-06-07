@@ -440,7 +440,17 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
                 connectionLine.style.opacity = Mathf.Lerp(.7f, 0.3f, thicknessFloat);
 
             connectionLine.style.width = dist;
-            connectionLine.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(pos2.y - pos1.y, pos2.x - pos1.x) * Mathf.Rad2Deg);
+
+            //prevent error when nodes are on top of each other (i think )
+            if (pos1 == pos2)
+            {
+                connectionLine.style.width = 0;
+                connectionLine.style.height = 0;
+            }
+            else
+            {
+                connectionLine.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(pos2.y - pos1.y, pos2.x - pos1.x) * Mathf.Rad2Deg);
+            }
         }
 
         //TODO put this somewhere....
