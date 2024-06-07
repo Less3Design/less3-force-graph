@@ -19,7 +19,9 @@ namespace Less3.ForceGraph.Editor
 
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
             DrawPropertiesExcluding(serializedObject, EXCLUDED_PROPERTIES);
+            serializedObject.ApplyModifiedProperties();
         }
     }
 
@@ -30,7 +32,9 @@ namespace Less3.ForceGraph.Editor
 
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
             DrawPropertiesExcluding(serializedObject, EXCLUDED_PROPERTIES);
+            serializedObject.ApplyModifiedProperties();
         }
     }
 
@@ -41,7 +45,9 @@ namespace Less3.ForceGraph.Editor
 
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
             DrawPropertiesExcluding(serializedObject, EXCLUDED_PROPERTIES);
+            serializedObject.ApplyModifiedProperties();
         }
     }
 

@@ -31,7 +31,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: CoolNode
   m_EditorClassIdentifier: 
-  anotheRTest: 0
+  position: {x: 33.03551, y: 98.993965}
+  anotheRTest: 2.47
   otherTest: 0
 --- !u!114 &-1094281507883388005
 MonoBehaviour:
@@ -47,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   from: {fileID: -855252967114471495}
   to: {fileID: 1977790700564708838}
-  test: 0
+  test: 13.2
   customProperty: 
   customProperty2: 
   anotheRTest: 0
@@ -64,6 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: Example
   m_EditorClassIdentifier: 
+  position: {x: 89.47726, y: -10.377284}
   anotheRTest: 24.04
   otherTest: 0
 --- !u!114 &-646070167554751451
@@ -97,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
+  position: {x: -87.41079, y: -95.59715}
   anotheRTest: 1.68
   otherTest: 0
 --- !u!114 &11400000
@@ -155,5 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: BetterExample
   m_EditorClassIdentifier: 
-  anotheRTest: 14.67
+  position: {x: -35.101925, y: 6.9804506}
+  anotheRTest: 24.94
   otherTest: 0
