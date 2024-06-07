@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Unity.VisualScripting;
-using Sirenix.OdinInspector.Editor;
 
 namespace Less3.ForceGraph.Editor
 {
@@ -14,13 +13,40 @@ namespace Less3.ForceGraph.Editor
     /// The inspector, specifically for the parameters of the graph object.
     /// We need this empty class otherwise we creat an infinite loop of graph inspectors
     /// </summary>
-    public class ForceGraphParametersEditorBase : OdinEditor { }
+    public class ForceGraphParametersEditorBase : UnityEditor.Editor
+    {
+        private readonly string[] EXCLUDED_PROPERTIES = new string[] { "m_Script", "nodes", "connections" };
+
+        public override void OnInspectorGUI()
+        {
+            DrawPropertiesExcluding(serializedObject, EXCLUDED_PROPERTIES);
+        }
+    }
 
     [CustomEditor(typeof(ForceNode), true)]
-    public class ForceNodeParametersEditorBase : OdinEditor { }
+    public class ForceNodeParametersEditorBase : UnityEditor.Editor
+    {
+        private readonly string[] EXCLUDED_PROPERTIES = new string[] { "m_Script", "position" };
+
+        public override void OnInspectorGUI()
+        {
+            DrawPropertiesExcluding(serializedObject, EXCLUDED_PROPERTIES);
+        }
+    }
+
+    [CustomEditor(typeof(ForceConnection), true)]
+    public class ForceConnectionParametersEditorBase : UnityEditor.Editor
+    {
+        private readonly string[] EXCLUDED_PROPERTIES = new string[] { "m_Script" };
+
+        public override void OnInspectorGUI()
+        {
+            DrawPropertiesExcluding(serializedObject, EXCLUDED_PROPERTIES);
+        }
+    }
 
     [CustomEditor(typeof(ForceGraph), true)]
-    public class ForceGraphInspector : OdinEditor
+    public class ForceGraphInspector : UnityEditor.Editor
     {
         public static readonly float DEFAULT_GRAPH_HEIGHT = 400f;
         public static readonly string HEIGHT_SETTING_KEY = "ForceGraphInspectorHeight";
@@ -89,7 +115,7 @@ namespace Less3.ForceGraph.Editor
             graphHeightSetter = inspector.Q("GraphParent");
             graphHeightSetter.style.height = EditorPrefs.GetFloat(HEIGHT_SETTING_KEY, DEFAULT_GRAPH_HEIGHT);
 
-            graphParametersInspector = OdinEditor.CreateEditorWithContext(new[] { target }, target, typeof(ForceGraphParametersEditorBase));
+            graphParametersInspector = UnityEditor.Editor.CreateEditorWithContext(new[] { target }, target, typeof(ForceGraphParametersEditorBase));
             graphInspectorRoot.Add(new InspectorElement(graphParametersInspector));
 
             // Setup the node graph settings panel
@@ -164,15 +190,13 @@ namespace Less3.ForceGraph.Editor
             return inspector;
         }
 
-        public new void OnEnable()
+        public void OnEnable()
         {
-            base.OnEnable();
             EditorApplication.update += Update;
         }
 
-        private new void OnDisable()
+        private void OnDisable()
         {
-            base.OnDisable();
             EditorApplication.update -= Update;
         }
 
