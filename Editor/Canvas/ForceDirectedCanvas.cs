@@ -53,11 +53,19 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
         }
     }
 
-    public ForceCanvasNodeElement(T data, VisualElement element)
+    public ForceCanvasNodeElement(T data, VisualElement element, Vector2 position)
     {
         this.element = element;
         this.data = data;
-        simPosition = element.transform.position;
+        simPosition = position;
+
+        //TODO cache this sheesh
+        Vector2 aspectRatio = new Vector2(
+            EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_X_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.x),
+            EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_Y_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.y)
+        );
+        elementPosition = position * aspectRatio;
+        element.transform.position = elementPosition;
     }
 
     public void Update(Vector2 aspectRatio)
@@ -213,7 +221,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         translationContainer.Add(nodesContainer);
     }
 
-    private List<ForceCanvasNodeElement<T>> _nodes = new List<ForceCanvasNodeElement<T>>();
+    public List<ForceCanvasNodeElement<T>> nodes { get; private set; } = new List<ForceCanvasNodeElement<T>>();
     private List<ForceCanvasConnection<T, U>> connections = new List<ForceCanvasConnection<T, U>>();
     private List<VisualElement> connectionLines = new List<VisualElement>();
 
@@ -245,7 +253,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
 
     private void AddNodeInternal(Type type)
     {
-        var node = InitNodeExternal(null);
+        var node = InitNodeExternal(null, Vector2.zero);//TODO: get position from mouse
         OnNodeCreatedInternally?.Invoke(node, type);
     }
 
@@ -253,14 +261,13 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
     /// Create a node on the canvas. Usually called externally when initializing the graph, or when the external data source has a new node.
     /// </summary>
     /// <param name="data"></param>
-    public ForceCanvasNodeElement<T> InitNodeExternal(T data)
+    public ForceCanvasNodeElement<T> InitNodeExternal(T data, Vector2 startPosition)
     {
         VisualElement ui = nodeUXML.Instantiate();
         ui.style.position = Position.Absolute;
-        ui.transform.position = new Vector3(UnityEngine.Random.Range(-200f, 200f), UnityEngine.Random.Range(-100f, 100f), 0);
         nodesContainer.Add(ui);
-        var node = new ForceCanvasNodeElement<T>(data, ui);
-        _nodes.Add(node);
+        var node = new ForceCanvasNodeElement<T>(data, ui, startPosition);
+        nodes.Add(node);
         ui.AddManipulator(new ForceNodeDragManipulator(
             node,
             leftClickAction: (n) =>
@@ -311,7 +318,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         {
             DeleteConnectionInternal(connection);
         }
-        _nodes.Remove(node);
+        nodes.Remove(node);
         node.element.RemoveFromHierarchy();
         OnNodeDeletedInternally?.Invoke(node);
     }
@@ -342,8 +349,8 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
 
     private ForceCanvasConnection<T, U> AddConnection(T data1, T data2)
     {
-        ForceCanvasNodeElement<T> node1 = _nodes.Find(n => n.data.Equals(data1));
-        ForceCanvasNodeElement<T> node2 = _nodes.Find(n => n.data.Equals(data2));
+        ForceCanvasNodeElement<T> node1 = nodes.Find(n => n.data.Equals(data1));
+        ForceCanvasNodeElement<T> node2 = nodes.Find(n => n.data.Equals(data2));
         if (node1 == null || node2 == null)
             return null;
         ForceCanvasConnection<T, U> connection = new ForceCanvasConnection<T, U>
@@ -371,17 +378,17 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         for (int iteration = 0; iteration < iterations; iteration++)
         {
             // Gravity to center of canvas
-            for (int i = 0; i < _nodes.Count; i++)
+            for (int i = 0; i < nodes.Count; i++)
             {
-                _nodes[i].force = -_nodes[i].simPosition * _gravity;
+                nodes[i].force = -nodes[i].simPosition * _gravity;
             }
             // Node repulsion
-            for (int i = 0; i < _nodes.Count; i++)
+            for (int i = 0; i < nodes.Count; i++)
             {
-                for (int j = 0; j < _nodes.Count; j++)
+                for (int j = 0; j < nodes.Count; j++)
                 {
-                    var a = _nodes[i];
-                    var b = _nodes[j];
+                    var a = nodes[i];
+                    var b = nodes[j];
                     if (a == b) continue;
                     Vector2 dir = a.simPosition - b.simPosition;
                     Vector2 force2 = dir / (dir.magnitude * dir.magnitude);
@@ -401,9 +408,9 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
             }
 
             // Apply forces to nodes
-            for (int i = 0; i < _nodes.Count; i++)
+            for (int i = 0; i < nodes.Count; i++)
             {
-                _nodes[i].Update(_aspectRatio);
+                nodes[i].Update(_aspectRatio);
             }
         }
 
@@ -501,7 +508,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
 
     public void TrySelectData(T data)
     {
-        var node = _nodes.Find(n => n.data.Equals(data));
+        var node = nodes.Find(n => n.data.Equals(data));
         if (node != null)
             SelectNode(node);
     }

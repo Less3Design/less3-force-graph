@@ -151,7 +151,9 @@ namespace Less3.ForceGraph.Editor
 
             foreach (var node in (target as ForceGraph).nodes)
             {
-                forceDirectedCanvas.InitNodeExternal(node);
+                if (node.position == Vector2.zero)
+                    node.position = new Vector2(UnityEngine.Random.Range(-200, 200), UnityEngine.Random.Range(-200, 200));
+                forceDirectedCanvas.InitNodeExternal(node, node.position);
             }
 
             foreach (var connection in (target as ForceGraph).connections)
@@ -231,15 +233,20 @@ namespace Less3.ForceGraph.Editor
         private void Update()
         {
             if (forceDirectedCanvas != null)
+            {
                 forceDirectedCanvas.Simulate(1);
+
+                foreach (var node in forceDirectedCanvas.nodes)
+                {
+                    // We ignore this to try and avoid unnecessary writes to the asset
+                    if (Mathf.Approximately(node.data.position.x, node.simPosition.x) && Mathf.Approximately(node.data.position.y, node.simPosition.y))
+                        continue;
+                    node.data.position = node.simPosition;
+                }
+            }
 
             if (graphHeightSetter != null)
                 graphHeightSetter.style.height = EditorPrefs.GetFloat(HEIGHT_SETTING_KEY, DEFAULT_GRAPH_HEIGHT);
-        }
-
-        public void OnGUI()
-        {
-            Debug.Log("OnGUI");
         }
     }
 }
