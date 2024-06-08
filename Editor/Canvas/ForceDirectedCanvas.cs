@@ -40,14 +40,26 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
             if (_data != null)
             {
                 if (_data is IForceNodeTitle title)
-                    element.Q<Label>("Label").text = title.GetNodeTitle();
+                    element.Q<Label>("Label").text = title.NodeTitle;
                 else
                     element.Q<Label>("Label").text = value.ToString();
 
+                var icon = element.Q<VisualElement>("Icon");
                 if (_data is IForceNodeStyle style)
                 {
                     element.Q("NodeContainer").style.backgroundColor = style.NodeBackgroundColor;
                     element.Q<Label>("Label").style.color = style.NodeLabelColor;
+                    icon.style.unityBackgroundImageTintColor = style.NodeLabelColor;
+                }
+
+                if (_data is IForceNodeIcon iconData)
+                {
+                    icon.style.display = DisplayStyle.Flex;
+                    icon.style.backgroundImage = Resources.Load<Texture2D>(iconData.NodeIcon);
+                }
+                else
+                {
+                    icon.style.display = DisplayStyle.None;
                 }
             }
         }

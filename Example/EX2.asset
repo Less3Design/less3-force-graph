@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5471289110692619918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: -97.07661, y: 150.23355}
+  anotheRTest: 0
+  otherTest: 0
 --- !u!114 &-5249549159799665585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14,6 +29,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   from: {fileID: -855252967114471495}
   to: {fileID: -3269151069304688901}
+  test: 3.78
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 1.31
+  otherTest: -10.35
+--- !u!114 &-3735328540511974886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: -1570610597568067428}
+  to: {fileID: -346276720921472644}
   test: 0
   customProperty: 
   customProperty2: 
@@ -31,8 +65,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: CoolNode
   m_EditorClassIdentifier: 
-  position: {x: 33.03551, y: 98.993965}
+  position: {x: 181.63585, y: 20.733585}
   anotheRTest: 2.47
+  otherTest: 0
+--- !u!114 &-2331574731912409917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: 7408776099348495504}
+  to: {fileID: -346276720921472644}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
+  otherTest: 0
+--- !u!114 &-1570610597568067428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: -148.62093, y: 33.808033}
+  anotheRTest: 0
   otherTest: 0
 --- !u!114 &-1094281507883388005
 MonoBehaviour:
@@ -65,28 +133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: Example
   m_EditorClassIdentifier: 
-  position: {x: 89.47726, y: -10.377284}
+  position: {x: 94.25229, y: 93.13811}
   anotheRTest: 24.04
-  otherTest: 0
---- !u!114 &-646070167554751451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
-  m_Name: GenerationConnection
-  m_EditorClassIdentifier: 
-  from: {fileID: 1977790700564708838}
-  to: {fileID: -346276720921472644}
-  test: 0
-  customProperty: 
-  customProperty2: 
-  anotheRTest: 0
-  otherTest: 0
+  otherTest: -19.18
 --- !u!114 &-346276720921472644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  position: {x: -87.41079, y: -95.59715}
+  position: {x: -120.25816, y: -96.31416}
   anotheRTest: 1.68
-  otherTest: 0
+  otherTest: -6.96
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,12 +168,18 @@ MonoBehaviour:
   - {fileID: -855252967114471495}
   - {fileID: -346276720921472644}
   - {fileID: -3269151069304688901}
+  - {fileID: 7408776099348495504}
+  - {fileID: -1570610597568067428}
+  - {fileID: -5471289110692619918}
   connections:
   - {fileID: -5249549159799665585}
   - {fileID: -1094281507883388005}
-  - {fileID: -646070167554751451}
   - {fileID: 1523834605276822348}
-  test: 0
+  - {fileID: 6898477271005305712}
+  - {fileID: -2331574731912409917}
+  - {fileID: -3735328540511974886}
+  - {fileID: 7826203451816932946}
+  test: 2.36
   customProperty: 
   customProperty2: 
 --- !u!114 &1523834605276822348
@@ -158,6 +213,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: BetterExample
   m_EditorClassIdentifier: 
-  position: {x: -35.101925, y: 6.9804506}
+  position: {x: 89.83764, y: -50.732697}
   anotheRTest: 24.94
+  otherTest: 0
+--- !u!114 &6898477271005305712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: 7408776099348495504}
+  to: {fileID: 1977790700564708838}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
+  otherTest: 0
+--- !u!114 &7408776099348495504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: 0.22988509, y: -150.86641}
+  anotheRTest: 0
+  otherTest: 0
+--- !u!114 &7826203451816932946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: -5471289110692619918}
+  to: {fileID: -1570610597568067428}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
   otherTest: 0

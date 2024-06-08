@@ -31,7 +31,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 102.76266, y: 58.895905}
+  position: {x: 107.3422, y: 49.14657}
+  icon: 1
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &-8426943850718450726
@@ -84,7 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -38.05359, y: 163.22844}
+  position: {x: -24.357548, y: 163.96315}
+  icon: 15
   anotheRTest: 0
   otherTest: 17.032042
 --- !u!114 &-4425164021417615068
@@ -99,7 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 186.54901, y: 145.9053}
+  position: {x: 198.00012, y: 129.34064}
+  icon: 0
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &-2542630492206384727
@@ -114,7 +117,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -145.71318, y: -186.50484}
+  position: {x: -162.02527, y: -172.79036}
+  icon: 0
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &-2438242820744950089
@@ -129,7 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -44.5702, y: 19.092812}
+  position: {x: -43.368645, y: 21.993069}
+  icon: 2
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &-2042164900345036123
@@ -144,7 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -197.23041, y: 10.271249}
+  position: {x: -196.08936, y: 28.334152}
+  icon: 0
   anotheRTest: 0
   otherTest: 4.4406967
 --- !u!114 &-1351157072909861205
@@ -159,7 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -137.69344, y: 215.3943}
+  position: {x: -115.38193, y: 228.89369}
+  icon: 0
   anotheRTest: 0
   otherTest: 48.285553
 --- !u!114 &-1018487527272542118
@@ -175,6 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
+  icon: 0
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &-117813570468601616
@@ -243,7 +251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -30.748312, y: -131.56287}
+  position: {x: -42.462833, y: -129.05388}
+  icon: 0
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &2430478923513127696
@@ -296,7 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 71.53816, y: -209.54236}
+  position: {x: 53.20026, y: -215.0344}
+  icon: 2
   anotheRTest: 0
   otherTest: 83.81113
 --- !u!114 &3244842704816133467
@@ -311,7 +321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 233.1593, y: -85.17795}
+  position: {x: 225.14325, y: -104.792694}
+  icon: 0
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &4790703632181751273

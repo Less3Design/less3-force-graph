@@ -87,3 +87,7 @@
     transition-duration: 0.15s;
     transition-timing-function: ease-out-back;
 }
+
+.Icon {
+    -unity-background-image-tint-color: var(--unity-colors-default-text);
+}
