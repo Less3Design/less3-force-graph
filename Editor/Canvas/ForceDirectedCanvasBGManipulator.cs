@@ -38,14 +38,13 @@ public class ForceDirectedCanvasBGManipulator : PointerManipulator
         if (evt.button == (int)MouseButton.LeftMouse)
         {
             OnLeftClick?.Invoke();
-            return;
         }
         if (evt.button == (int)MouseButton.RightMouse)
         {
             OnRightClick?.Invoke();
             return;
         }
-        if (evt.button == (int)MouseButton.MiddleMouse)
+        if (evt.button == (int)MouseButton.MiddleMouse || evt.button == (int)MouseButton.LeftMouse)
         {
             _enabled = true;
             PointerCaptureHelper.CapturePointer(target, evt.pointerId);
