@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/Less3_ForceGraph/Editor/Canvas/Resources/ForceNode.uss?fileID=7433441132597879392&amp;guid=e742649e6cc79dd42b188768f3d82f66&amp;type=3#ForceNode" />
-    <ui:VisualElement name="Border" class="NodeBorder">
+    <ui:VisualElement name="Border" class="NodeBorder" style="padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px;">
         <ui:VisualElement name="NodeContainer" class="NodeContainer" style="flex-grow: 0; flex-direction: row; align-items: center; justify-content: space-around; flex-shrink: 1; align-self: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 6px; padding-bottom: 4px; padding-left: 6px; background-color: rgb(60, 60, 60);">
             <ui:VisualElement name="Icon" class="Icon" style="flex-grow: 0; width: 14px; height: 14px; margin-right: 4px; background-image: none;" />
             <ui:Label text="Label" name="Label" style="-unity-font-style: bold;" />

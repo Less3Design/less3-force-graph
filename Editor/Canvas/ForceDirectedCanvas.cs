@@ -196,6 +196,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         });
 
         translationContainer = new VisualElement();
+        translationContainer.name = "TranslationContainer";
         translationContainer.pickingMode = PickingMode.Ignore;
         translationContainer.style.position = Position.Absolute;
         translationContainer.style.left = 0;
@@ -217,7 +218,6 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         var line = new VisualElement();
         line.style.position = Position.Absolute;
         line.style.backgroundColor = UnityEngine.ColorUtility.TryParseHtmlString("99FF33", out var color) ? color : UnityEngine.Color.green;
-
         line.style.height = 4f;
         line.style.transformOrigin = new TransformOrigin(0, Length.Percent(50));
         newConnectionLine = line;
@@ -262,6 +262,10 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
     //* Public Settings
     public List<Type> PossibleConnectionTypes = new List<Type>();
     public List<Type> PossibleNodeTypes = new List<Type>();
+    /// <summary>
+    /// If true the canvas will automatically zoom and pan to fit all nodes in view
+    /// </summary>
+    public bool FitInView;
 
     private void AddNodeInternal(Type type)
     {
@@ -427,6 +431,15 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         }
 
         DrawConnections();
+        if (FitInView)
+        {
+            UpdateCanvasToFit();
+        }
+        else
+        {
+            //todo add scaling with mouse wheel maybe
+            translationContainer.transform.scale = Vector3.one;
+        }
     }
 
     private void DrawConnections()
@@ -472,7 +485,8 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
     //Draw a connection from a node to the mouse. Initiated through the right click menu
     private void DrawNewConnection()
     {
-        if (newConnectionFromNode == null)
+        //TODO: new connection line currently disabled.
+        if (newConnectionFromNode == null || true)
         {
             newConnectionLine.style.display = DisplayStyle.None;
             return;
@@ -528,6 +542,20 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         ));
     }
 
+    public void UpdateCanvasToFit()
+    {
+        // Really useful property that Unity doesnt expose right now (:facepalm:)
+        // This gives us the rect for all children inside the container
+        Rect containerBounds = (Rect)typeof(VisualElement).GetProperty("boundingBox", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(translationContainer);
+        Rect containerRect = translationContainer.layout;
+
+        Vector2 scaleFact = new Vector2(containerRect.width / (containerBounds.width * 1.1f), containerRect.height / (containerBounds.height * 1.1f));
+        float scale = Mathf.Min(scaleFact.x, scaleFact.y, 1f);
+        scale = scale / 1f;
+
+        translationContainer.transform.scale = Vector3.Lerp(translationContainer.transform.scale, new Vector3(scale, scale, 1f), .03f);
+    }
+
     public void TrySelectData(T data)
     {
         var node = nodes.Find(n => n.data.Equals(data));
@@ -568,5 +596,10 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         }
         if (notifySelectionChanged)
             OnSelectionChanged?.Invoke();
+    }
+
+    public void SetViewScale(float scale)
+    {
+        translationContainer.transform.scale = new Vector3(scale, scale, 1f);
     }
 }

@@ -58,6 +58,9 @@ namespace Less3.ForceGraph.Editor
         public static readonly string HEIGHT_SETTING_KEY = "ForceGraphInspectorHeight";
         public static readonly float MIN_GRAPH_HEIGHT = 100f;
 
+        public static readonly string FAST_FORWARD_SETTINGS_KEY = "ForceGraphFastForward";
+        public static readonly string FIT_TO_SCREEN_SETTINGS_KEY = "ForceGraphFitToScreen";
+
         private UnityEditor.Editor graphParametersInspector;
 
         public VisualTreeAsset inspectorUXML;
@@ -178,8 +181,57 @@ namespace Less3.ForceGraph.Editor
             // * Shoe / hide settings overlay
             var settingsOverlay = inspector.Q("SettingsOverlay");
             settingsOverlay.style.display = DisplayStyle.None;
-            inspector.Q<Button>("SettingsButton").clicked += () => settingsOverlay.style.display = settingsOverlay.style.display == DisplayStyle.None ? DisplayStyle.Flex : DisplayStyle.None;
+            var settingsButton = inspector.Q<Button>("SettingsButton");
+            settingsButton.clicked += () =>
+            {
+                bool show = settingsOverlay.style.display == DisplayStyle.None;
+                settingsOverlay.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
+                if (show)
+                    settingsButton.AddToClassList("ToggleButtonEnabled");
+                else
+                    settingsButton.RemoveFromClassList("ToggleButtonEnabled");
+            };
 
+            var fastForwardButton = inspector.Q<Button>("FastForward");
+            if (EditorPrefs.GetBool(FAST_FORWARD_SETTINGS_KEY, false))
+                fastForwardButton.AddToClassList("ToggleButtonEnabled");
+            else
+                fastForwardButton.RemoveFromClassList("ToggleButtonEnabled");
+
+            fastForwardButton.clicked += () =>
+            {
+                EditorPrefs.SetBool(FAST_FORWARD_SETTINGS_KEY, !EditorPrefs.GetBool(FAST_FORWARD_SETTINGS_KEY, false));
+                bool fastForward = EditorPrefs.GetBool(FAST_FORWARD_SETTINGS_KEY, false);
+                if (fastForward)
+                    fastForwardButton.AddToClassList("ToggleButtonEnabled");
+                else
+                    fastForwardButton.RemoveFromClassList("ToggleButtonEnabled");
+            };
+
+            var fitToScreenButton = inspector.Q<Button>("ScaleToFit");
+            bool fitToScreen = EditorPrefs.GetBool(FIT_TO_SCREEN_SETTINGS_KEY, true);
+            if (fitToScreen)
+                fitToScreenButton.AddToClassList("ToggleButtonEnabled");
+            else
+                fitToScreenButton.RemoveFromClassList("ToggleButtonEnabled");
+            forceDirectedCanvas.FitInView = fitToScreen;
+
+            fitToScreenButton.clicked += () =>
+            {
+                EditorPrefs.SetBool(FIT_TO_SCREEN_SETTINGS_KEY, !EditorPrefs.GetBool(FIT_TO_SCREEN_SETTINGS_KEY, true));
+                bool fitToScreen = EditorPrefs.GetBool(FIT_TO_SCREEN_SETTINGS_KEY, true);
+                if (fitToScreen)
+                {
+                    fitToScreenButton.AddToClassList("ToggleButtonEnabled");
+                    forceDirectedCanvas.FitInView = true;
+                    forceDirectedCanvas.UpdateCanvasToFit();
+                }
+                else
+                {
+                    fitToScreenButton.RemoveFromClassList("ToggleButtonEnabled");
+                    forceDirectedCanvas.FitInView = false;
+                }
+            };
 
             foreach (var node in (target as ForceGraph).nodes)
             {
@@ -191,6 +243,14 @@ namespace Less3.ForceGraph.Editor
             foreach (var connection in (target as ForceGraph).connections)
             {
                 forceDirectedCanvas.InitConnectionExternal(connection.from, connection.to, connection);
+            }
+
+            if (EditorPrefs.GetBool(FIT_TO_SCREEN_SETTINGS_KEY, true))
+            {
+                forceDirectedCanvas.FitInView = true;
+                // Cause small graphs to zoom in, and large graphs to zoom out when opening if fit is enabled .
+                // Just makes it feel a bit more interesting when scrolling through graphs
+                forceDirectedCanvas.SetViewScale(.5f);
             }
 
             return inspector;
@@ -264,7 +324,8 @@ namespace Less3.ForceGraph.Editor
         {
             if (forceDirectedCanvas != null)
             {
-                forceDirectedCanvas.Simulate(1);
+                // 4 steps per tick on fast forward. That might be excessive for slow machines. 2 or 3 are still useful
+                forceDirectedCanvas.Simulate(EditorPrefs.GetBool(FAST_FORWARD_SETTINGS_KEY, false) ? 4 : 1);
 
                 foreach (var node in forceDirectedCanvas.nodes)
                 {
