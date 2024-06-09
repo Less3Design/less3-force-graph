@@ -87,6 +87,11 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
 
         simAspectRatio = aspectRatio;
         simPosition += force / mass;
+
+        // TODO ideally we validate nan's somewhere else. This can be evaluated multiple times per frame.
+        if (float.IsNaN(simPosition.x) || float.IsNaN(simPosition.y) || float.IsInfinity(simPosition.x) || float.IsInfinity(simPosition.y))
+            simPosition = new Vector2(UnityEngine.Random.Range(-5f, 5f), UnityEngine.Random.Range(-5, 5));
+
         elementPosition = simPosition * aspectRatio;
         element.transform.position = elementPosition;
     }
@@ -129,7 +134,7 @@ public static class ForceDirectedCanvasSettings
     public static readonly float NODE_REPULSTION_MULTIPLIER = 2000f;
 
     public static readonly float DEFAULT_CONNECTION_FORCE = .4f;
-    public static readonly Vector2 CONNECTION_FORCE_RANGE = new Vector2(.1f, 2f);
+    public static readonly Vector2 CONNECTION_FORCE_RANGE = new Vector2(.1f, 1.5f);
 
     public static readonly Vector2 DEFAULT_ASPECT_RATIO = new Vector2(1.6f, 0.6f);
 }
@@ -431,6 +436,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         }
 
         DrawConnections();
+        DrawNewConnection();
         if (FitInView)
         {
             UpdateCanvasToFit();
@@ -466,8 +472,12 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
 
             connectionLine.style.width = dist;
 
-            //prevent error when nodes are on top of each other (i think )
-            if (pos1 == pos2)
+            if (float.IsNaN(pos1.x) || float.IsNaN(pos1.y) || float.IsNaN(pos2.x) || float.IsNaN(pos2.y))
+            {
+                connectionLine.style.width = 0;
+                connectionLine.style.height = 0;
+            }
+            else if (pos1 == pos2)
             {
                 connectionLine.style.width = 0;
                 connectionLine.style.height = 0;
@@ -477,9 +487,6 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
                 connectionLine.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(pos2.y - pos1.y, pos2.x - pos1.x) * Mathf.Rad2Deg);
             }
         }
-
-        //TODO put this somewhere....
-        DrawNewConnection();
     }
 
     //Draw a connection from a node to the mouse. Initiated through the right click menu
