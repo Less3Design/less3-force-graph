@@ -517,6 +517,16 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
 
         line.style.height = 4f;
         line.style.transformOrigin = new TransformOrigin(0, Length.Percent(50));
+
+        // Make the line element easier to hover/click
+        var hitslop = new VisualElement();
+        line.Add(hitslop);
+        hitslop.style.position = Position.Absolute;
+        hitslop.style.left = -6;
+        hitslop.style.right = -6;
+        hitslop.style.top = -6;
+        hitslop.style.bottom = -6;
+
         connectionsContainer.Add(line);
         connectionLines.Add(line);
 
