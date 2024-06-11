@@ -35,5 +35,6 @@ namespace Less3.ForceGraph
     public interface IForceConnectionStyle
     {
         public Color ConnectionColor { get; }
+        public bool Dashed { get; }
     }
 }

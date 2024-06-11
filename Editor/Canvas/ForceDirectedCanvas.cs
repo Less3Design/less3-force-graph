@@ -99,6 +99,7 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
 
 public class ForceCanvasConnection<T, U>
 {
+    public static readonly string CONNECTION_DASH_TEXTURE = "TiledConnection";
     private U _data;
     public U data
     {
@@ -108,12 +109,49 @@ public class ForceCanvasConnection<T, U>
             _data = value;
             if (_data != null)
             {
-                if (_data is IForceConnectionStyle style)
-                    element.style.backgroundColor = style.ConnectionColor;
+                if (_data is IForceConnectionStyle style && _element != null)
+                {
+                    if (style.Dashed)
+                    {
+                        _element.style.backgroundImage = Background.FromTexture2D(Resources.Load<Texture2D>(CONNECTION_DASH_TEXTURE));
+                        _element.style.unityBackgroundImageTintColor = style.ConnectionColor;
+                        _element.style.backgroundColor = Color.clear;
+                        _element.style.backgroundRepeat = new BackgroundRepeat(Repeat.Repeat, Repeat.NoRepeat);
+                        _element.style.backgroundSize = new BackgroundSize(Length.Auto(), Length.Auto());
+                    }
+                    else
+                    {
+                        _element.style.backgroundColor = style.ConnectionColor;
+                    }
+                }
             }
         }
     }
-    public VisualElement element;
+
+    private VisualElement _element;
+    public VisualElement element
+    {
+        get => _element;
+        set
+        {
+            _element = value;
+            if (_data != null && _data is IForceConnectionStyle style)
+            {
+                if (style.Dashed)
+                {
+                    _element.style.backgroundImage = Background.FromTexture2D(Resources.Load<Texture2D>(CONNECTION_DASH_TEXTURE));
+                    _element.style.unityBackgroundImageTintColor = style.ConnectionColor;
+                    _element.style.backgroundColor = Color.clear;
+                    _element.style.backgroundRepeat = new BackgroundRepeat(Repeat.Repeat, Repeat.Repeat);
+                    _element.style.backgroundSize = new BackgroundSize(Length.Auto(), Length.Auto());
+                }
+                else
+                {
+                    _element.style.backgroundColor = style.ConnectionColor;
+                }
+            }
+        }
+    }
     public ForceCanvasNodeElement<T> from;
     public ForceCanvasNodeElement<T> to;
 }
@@ -538,6 +576,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         connectionLines.Add(line);
 
         connection.element = line;
+        line.style.backgroundRepeat = new BackgroundRepeat(Repeat.Repeat, Repeat.NoRepeat);
 
         int index = connectionLines.Count - 1;
         line.AddManipulator(new LeftRightClickable(
