@@ -75,6 +75,9 @@ namespace Less3.ForceGraph
             DestroyImmediate(connection, true);
         }
 
+        /// <summary>
+        /// Determine if a connection can be made between two nodes. By default this just simply checks if a connection already exists between the two nodes.
+        /// </summary>
         public virtual bool ValidateConnectionRequest(ForceNode from, ForceNode to, Type connectionType)
         {
             // check if any connections already exist between these nodes
@@ -92,7 +95,11 @@ namespace Less3.ForceGraph
             return true;
         }
 
-        public abstract List<Type> GraphNodeTypes();
-        public abstract List<Type> GraphConnectionTypes();
+        public abstract List<(string, Type)> GraphNodeTypes();
+        /// <summary>
+        /// Returns a dictionary that lists all the connection types that can be made from a node type
+        /// Dict<{NodeType, List<(ConnectionName, ConnectionType)>}>
+        /// </summary>
+        public abstract Dictionary<Type, List<(string, Type)>> GraphConnectionTypes();
     }
 }

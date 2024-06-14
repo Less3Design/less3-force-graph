@@ -223,11 +223,11 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
                 var menu = new GenericDropdownMenu();
 
                 menu.AddDisabledItem("Add Node", false);
-                foreach (var type in PossibleNodeTypes)
+                foreach (var entry in PossibleNodeTypes)
                 {
-                    menu.AddItem($"{type.Name}", false, () =>
+                    menu.AddItem($"{entry.Item1}", false, () =>
                     {
-                        AddNodeInternal(type);
+                        AddNodeInternal(entry.Item2);
                     });
                 }
                 menu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero), this);
@@ -303,8 +303,8 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
     public Action<ForceCanvasConnection<T, U>> OnConnectionDeletedInternally;
 
     //* Public Settings
-    public List<Type> PossibleConnectionTypes = new List<Type>();
-    public List<Type> PossibleNodeTypes = new List<Type>();
+    public Dictionary<Type, List<(string, Type)>> PossibleConnectionTypes = new Dictionary<Type, List<(string, Type)>>();
+    public List<(string, Type)> PossibleNodeTypes = new List<(string, Type)>();
     /// <summary>
     /// If true the canvas will automatically zoom and pan to fit all nodes in view
     /// </summary>
@@ -343,18 +343,20 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
             righClickAction: (n) =>
                 {
                     var castNode = n as ForceCanvasNodeElement<T>;
+                    var nodeType = castNode.data.GetType();
                     var menu = new GenericDropdownMenu();
 
                     SelectNode(castNode);
                     menu.AddDisabledItem("Add Connection", false);
-                    foreach (var type in PossibleConnectionTypes)
-                    {
-                        menu.AddItem($"{type.Name}", false, () =>
+                    if (PossibleConnectionTypes.ContainsKey(nodeType))
+                        foreach (var connectionEntry in PossibleConnectionTypes[nodeType])
                         {
-                            newConnectionFromNode = castNode;
-                            newConnectionType = type;
-                        });
-                    }
+                            menu.AddItem($"{connectionEntry.Item1}", false, () =>
+                            {
+                                newConnectionFromNode = castNode;
+                                newConnectionType = connectionEntry.Item2;
+                            });
+                        }
                     menu.AddSeparator("");
                     menu.AddItem("Delete", false, () =>
                     {

@@ -18,18 +18,20 @@ public class GenerationGraph : ForceGraph
         CreateNode<GenerationNode>();
     }
 
-    public override List<Type> GraphNodeTypes()
+    public override List<(string, Type)> GraphNodeTypes()
     {
-        return new List<Type>
+        return new List<(string, Type)>
         {
-            typeof(GenerationNode)
+            ("GenNode" , typeof(GenerationNode))
         };
     }
-    public override List<Type> GraphConnectionTypes()
+    public override Dictionary<Type, List<(string, Type)>> GraphConnectionTypes()
     {
-        return new List<Type>
+        return new Dictionary<Type, List<(string, Type)>>
         {
-            typeof(GenerationConnection)
+            {typeof(GenerationNode), new List<(string,Type)>() {
+                ("Gen Connection", typeof(GenerationConnection))
+            }}
         };
     }
 }
