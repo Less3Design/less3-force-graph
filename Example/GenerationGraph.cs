@@ -4,19 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Less3.ForceGraph;
 
-[CreateAssetMenu(fileName = "GenerationGraph", menuName = "GenerationGraph")]
 public class GenerationGraph : ForceGraph
 {
 
     public float test;
     public string customProperty;
     public string customProperty2;
-
-    [ContextMenu("Create Node")]
-    private void Create()
-    {
-        CreateNode<GenerationNode>();
-    }
 
     public override List<(string, Type)> GraphNodeTypes()
     {
