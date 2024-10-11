@@ -10,6 +10,17 @@ namespace Less3.ForceGraph
         /// The position of the node in the graph.
         /// </summary>
         public Vector2 position;
+        public ForceGraph graph { get; private set; }
+
+        public void SetGraph(ForceGraph graph)
+        {
+            if (this.graph != null)
+            {
+                Debug.LogError("You cannot change the graph of a node after creation.");
+                return;
+            }
+            this.graph = graph;
+        }
 
         override public string ToString()
         {

@@ -20,6 +20,7 @@ namespace Less3.ForceGraph
         public static string Exit = "Icon_Exit";
         public static string Ghost = "Icon_Ghost";
         public static string Globe = "Icon_Globe";
+        public static string Key = "Icon_Key";
         public static string Lightning = "Icon_Lightning";
         public static string Path = "Icon_Path";
         public static string Poi = "Icon_Poi";

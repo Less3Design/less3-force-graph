@@ -13,6 +13,7 @@ namespace Less3.ForceGraph.Editor
             var node = (ForceNode)ScriptableObject.CreateInstance(type);
             node.name = type.Name;
             AssetDatabase.AddObjectToAsset(node, graph);
+            node.SetGraph(graph);
             graph.nodes.Add(node);
             return node;
         }
@@ -22,6 +23,7 @@ namespace Less3.ForceGraph.Editor
             var newNode = ScriptableObject.CreateInstance<T>();
             newNode.name = typeof(T).Name;
             AssetDatabase.AddObjectToAsset(newNode, graph);
+            newNode.SetGraph(graph);
             graph.nodes.Add(newNode);
             return newNode;
         }
