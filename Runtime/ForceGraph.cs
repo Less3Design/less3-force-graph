@@ -12,7 +12,17 @@ namespace Less3.ForceGraph
         public List<ForceNode> nodes = new List<ForceNode>();
         public List<ForceConnection> connections = new List<ForceConnection>();
 
-
+        private void OnEnable()
+        {
+            //Validation. 
+            foreach(ForceNode n in nodes)
+            {
+                if (n.graph == null)
+                {
+                    n.SetGraph(this);
+                }
+            }
+        }
 
         /// <summary>
         /// Determine if a connection can be made between two nodes. By default this just simply checks if a connection already exists between the two nodes.
