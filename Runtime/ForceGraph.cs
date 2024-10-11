@@ -15,11 +15,15 @@ namespace Less3.ForceGraph
         private void OnEnable()
         {
             //Validation. 
-            foreach(ForceNode n in nodes)
+            foreach (ForceNode n in nodes)
             {
                 if (n.graph == null)
                 {
                     n.SetGraph(this);
+#if UNITY_EDITOR
+                    UnityEditor.EditorUtility.SetDirty(n);
+                    UnityEditor.EditorUtility.SetDirty(this);
+#endif
                 }
             }
         }
