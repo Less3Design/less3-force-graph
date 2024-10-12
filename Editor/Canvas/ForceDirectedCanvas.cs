@@ -13,7 +13,19 @@ public abstract class ForceCanvasNodeElementBase
     public VisualElement element;
     public float mass = 10f;
     public Vector2 force;
-    public bool locked;
+    protected bool _pinned;
+    public virtual bool pinned
+    {
+        get
+        {
+            return _pinned;
+        }
+        set
+        {
+            _pinned = value;
+            element.Q("Pin").style.display = _pinned ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+    }
     public bool frozen;
 
     public Vector2 simPosition { get; protected set; }
@@ -30,6 +42,38 @@ public abstract class ForceCanvasNodeElementBase
 
 public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
 {
+    public override bool pinned
+    {
+        get
+        {
+            if (_data is IForceNodePinnable pinnable)
+            {
+                return pinnable.pinned;
+            }
+            else
+            {
+                return _pinned;
+            }
+        }
+        set
+        {
+            if (_data is IForceNodePinnable pinnable)
+            {
+                pinnable.pinned = value;
+                if (_data is UnityEngine.Object uObj)
+                {
+                    UnityEditor.EditorUtility.SetDirty(uObj);
+                }
+            }
+            else
+            {
+                _pinned = value;
+            }
+
+            element.Q("Pin").style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+    }
+
     private T _data;
     public T data
     {
@@ -71,6 +115,8 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
         this.data = data;
         simPosition = position;
 
+        element.Q("Pin").style.display = pinned ? DisplayStyle.Flex : DisplayStyle.None;
+
         //TODO cache this sheesh
         Vector2 aspectRatio = new Vector2(
             EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_X_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.x),
@@ -82,7 +128,7 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
 
     public void Update(Vector2 aspectRatio)
     {
-        if (frozen || locked)
+        if (frozen || pinned)
             return;
 
         simAspectRatio = aspectRatio;
@@ -372,6 +418,10 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
                             });
                         }
                     menu.AddSeparator("");
+                    menu.AddItem(n.pinned ? "Unpin" : "Pin", false, () =>
+                    {
+                        n.pinned = !n.pinned;
+                    });
                     menu.AddItem("Delete", false, () =>
                     {
                         DeleteNodeInternal(castNode);

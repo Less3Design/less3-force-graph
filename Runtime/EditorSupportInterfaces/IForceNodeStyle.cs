@@ -37,4 +37,12 @@ namespace Less3.ForceGraph
         public Color ConnectionColor { get; }
         public bool Dashed { get; }
     }
+
+    /// <summary>
+    /// Provide a pinned state for the object that is used by the editor.
+    /// </summary>
+    public interface IForceNodePinnable
+    {
+        public bool pinned { get; set; }
+    }
 }
