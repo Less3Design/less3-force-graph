@@ -14,11 +14,21 @@ public class ForceNodeDragManipulator : PointerManipulator
     private Action<ForceCanvasNodeElementBase> _leftClickAction;
     private Action<ForceCanvasNodeElementBase> _rightClickAction;
 
-    public ForceNodeDragManipulator(ForceCanvasNodeElementBase node, Action<ForceCanvasNodeElementBase> leftClickAction, Action<ForceCanvasNodeElementBase> righClickAction)
+    private Action<ForceCanvasNodeElementBase> _enterAction;
+    private Action<ForceCanvasNodeElementBase> _exitAction;
+
+    public ForceNodeDragManipulator(
+        ForceCanvasNodeElementBase node,
+        Action<ForceCanvasNodeElementBase> leftClickAction,
+        Action<ForceCanvasNodeElementBase> righClickAction,
+        Action<ForceCanvasNodeElementBase> enterAction,
+        Action<ForceCanvasNodeElementBase> exitAction)
     {
         _node = node;
         _leftClickAction = leftClickAction;
         _rightClickAction = righClickAction;
+        _enterAction = enterAction;
+        _exitAction = exitAction;
     }
 
     protected override void RegisterCallbacksOnTarget()
@@ -26,6 +36,8 @@ public class ForceNodeDragManipulator : PointerManipulator
         target.RegisterCallback<PointerDownEvent>(PointerDownHandler);
         target.RegisterCallback<PointerMoveEvent>(PointerMoveHandler);
         target.RegisterCallback<PointerUpEvent>(PointerUpHandler);
+        target.RegisterCallback<PointerEnterEvent>(PointerEnterHandler);
+        target.RegisterCallback<PointerOutEvent>(PointerOutHandler);
     }
 
     protected override void UnregisterCallbacksFromTarget()
@@ -33,6 +45,8 @@ public class ForceNodeDragManipulator : PointerManipulator
         target.UnregisterCallback<PointerDownEvent>(PointerDownHandler);
         target.UnregisterCallback<PointerMoveEvent>(PointerMoveHandler);
         target.UnregisterCallback<PointerUpEvent>(PointerUpHandler);
+        target.UnregisterCallback<PointerEnterEvent>(PointerEnterHandler);
+        target.UnregisterCallback<PointerOutEvent>(PointerOutHandler);
     }
 
     private void PointerDownHandler(PointerDownEvent evt)
@@ -75,5 +89,15 @@ public class ForceNodeDragManipulator : PointerManipulator
             target.ReleasePointer(evt.pointerId);
             _node.element.Q("Border").RemoveFromClassList("Pressed");
         }
+    }
+
+    private void PointerEnterHandler(PointerEnterEvent evt)
+    {
+        _enterAction.Invoke(_node);
+    }
+
+    private void PointerOutHandler(PointerOutEvent evt)
+    {
+        _exitAction.Invoke(_node);
     }
 }

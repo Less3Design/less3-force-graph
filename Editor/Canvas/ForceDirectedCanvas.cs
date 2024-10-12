@@ -257,15 +257,25 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         connectionsContainer.style.bottom = 0;
         translationContainer.Add(connectionsContainer);
 
+        effectsContainer = new VisualElement();
+        effectsContainer.pickingMode = PickingMode.Ignore;
+        effectsContainer.name = "EffectsContainer";
+        effectsContainer.style.position = Position.Absolute;
+        effectsContainer.style.left = Length.Percent(50);
+        effectsContainer.style.top = Length.Percent(50);
+        effectsContainer.style.bottom = 0;
+        translationContainer.Add(effectsContainer);
+
         // Create the new connection line
         var line = new VisualElement();
         line.style.position = Position.Absolute;
-        line.style.backgroundColor = UnityEngine.ColorUtility.TryParseHtmlString("99FF33", out var color) ? color : UnityEngine.Color.green;
-        line.style.height = 4f;
+        line.style.backgroundColor = UnityEngine.ColorUtility.TryParseHtmlString("#FD6D40", out var color) ? color : UnityEngine.Color.green;
+        line.style.height = 8f;
         line.style.transformOrigin = new TransformOrigin(0, Length.Percent(50));
+        line.AddToClassList("NewConnectionLineBase");
         newConnectionLine = line;
         newConnectionLine.name = "NewConnectionLine";
-        translationContainer.Add(line);
+        effectsContainer.Add(line);
 
         nodesContainer = new VisualElement();
         nodesContainer.pickingMode = PickingMode.Ignore;
@@ -287,9 +297,11 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
     private VisualElement translationContainer;
     private VisualElement nodesContainer;
     private VisualElement connectionsContainer;
+    private VisualElement effectsContainer;
     private ForceCanvasNodeElement<T> newConnectionFromNode;
     private Type newConnectionType;
     private VisualElement newConnectionLine;
+    private ForceCanvasNodeElementBase hoveredNode;
 
     // * Events & funcs
     public Action OnSelectionChanged;
@@ -334,6 +346,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
                 if (newConnectionFromNode != null && newConnectionFromNode != n)
                 {
                     AddConnectionInternal(newConnectionFromNode, (ForceCanvasNodeElement<T>)n, newConnectionType);
+                    newConnectionFromNode.element.Q("Border").RemoveFromClassList("CreatingConnection");
                     newConnectionFromNode = null;
                 }
                 var castNode = n as ForceCanvasNodeElement<T>;
@@ -355,6 +368,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
                             {
                                 newConnectionFromNode = castNode;
                                 newConnectionType = connectionEntry.Item2;
+                                castNode.element.Q("Border").AddToClassList("CreatingConnection");
                             });
                         }
                     menu.AddSeparator("");
@@ -365,7 +379,10 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
 
                     menu.DropDown(n.element.worldBound, n.element);
 
-                }
+                },
+            enterAction: (n) =>
+            { hoveredNode = n; },
+            exitAction: (n) => { if (hoveredNode == n) hoveredNode = null; }
             )
         );
         return node;
@@ -532,26 +549,36 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
     //Draw a connection from a node to the mouse. Initiated through the right click menu
     private void DrawNewConnection()
     {
-        //TODO: new connection line currently disabled.
-        if (newConnectionFromNode == null || true)
+        if (newConnectionFromNode == null)
         {
             newConnectionLine.style.display = DisplayStyle.None;
+            newConnectionLine.RemoveFromClassList("NewConnectionLineAnim");
             return;
         }
 
+        if (hoveredNode == null)
+        {
+            newConnectionLine.style.display = DisplayStyle.None;
+            newConnectionLine.RemoveFromClassList("NewConnectionLineAnim");
+            return;
+        }
         newConnectionLine.style.display = DisplayStyle.Flex;
-        var pos1 = newConnectionFromNode.simPosition + newConnectionFromNode.element.layout.size * 0.5f;
-        // get mouse position
-        // TODO!!!! IDK HOW TO GET POSITION HERE. 
-        // Right now we normally sim during Update() which means Event.current is null....
-        var mousePosition = Input.mousePosition;
-        Vector2 correctedMousePosition = new Vector2(mousePosition.x - Screen.width * 0.5f, mousePosition.y - Screen.height * 0.5f);
-        Vector2 pos2 = correctedMousePosition;
-        pos2 += new Vector2(0f, 5f);//?? for some reason we have a permanant offset, maybe because of the header on a screen?
+        newConnectionLine.AddToClassList("NewConnectionLineAnim");
+        Vector2 offset = newConnectionFromNode.element.layout.size;
+        offset.x = 0f;
+        offset.y *= 0.5f;
+        var pos1 = newConnectionFromNode.elementPosition + offset;
+        Vector2 pos2 = Vector2.zero;
+
+        offset = hoveredNode.element.layout.size;
+        offset.x = 0f;
+        offset.y *= 0.5f;
+        pos2 = hoveredNode.elementPosition + offset;
+
         newConnectionLine.transform.position = pos1;
         var dist = (pos1 - pos2).magnitude;
-        var thicknessFloat = Mathf.InverseLerp(200f, 1000f, dist);
-        newConnectionLine.style.height = Mathf.Lerp(5f, 3f, thicknessFloat);
+        //var thicknessFloat = Mathf.InverseLerp(200f, 1000f, dist);
+        //newConnectionLine.style.height = Mathf.Lerp(5f, 3f, thicknessFloat);
         newConnectionLine.style.width = dist;
         newConnectionLine.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(pos2.y - pos1.y, pos2.x - pos1.x) * Mathf.Rad2Deg);
     }
@@ -651,6 +678,11 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
             int index = connections.IndexOf(selectedConnection);
             selectedConnection.element.RemoveFromClassList("ConnectionSelected");
             selectedConnection = null;
+        }
+        if (newConnectionFromNode != null)
+        {
+            newConnectionFromNode.element.Q("Border").RemoveFromClassList("CreatingConnection");
+            newConnectionFromNode = null;
         }
         if (notifySelectionChanged)
             OnSelectionChanged?.Invoke();
