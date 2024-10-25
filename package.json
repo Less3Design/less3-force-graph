@@ -1,9 +1,10 @@
 {
     "name": "less3.forcegraph",
-    "displayName": "Force_Graph by Less_3",
-    "version": "0.0.13",
+    "displayName": "Force Graph",
+    "version": "0.0.14",
     "unity": "2022.3",
     "description": "A force directed node graph API for the Unity editor",
+    "author": "Less 3",
     "keywords": [
         "Node Editor"
     ],
