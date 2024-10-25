@@ -54,5 +54,59 @@ namespace Less3.ForceGraph
         /// Dict<{NodeType, List<(ConnectionName, ConnectionType)>}>
         /// </summary>
         public abstract Dictionary<Type, List<(string, Type)>> GraphConnectionTypes();
+
+        // * Utility Functions
+        public List<ForceConnection> GetNodeConnections(ForceNode node)
+        {
+            List<ForceConnection> foundConnections = new List<ForceConnection>();
+            foreach (ForceConnection connection in connections)
+            {
+                if (connection.from == node || connection.to == node)
+                {
+                    foundConnections.Add(connection);
+                }
+            }
+            return foundConnections;
+        }
+
+        public List<T> GetConnectionsOfType<T>() where T : ForceConnection
+        {
+            List<T> foundConnections = new List<T>();
+            foreach (ForceConnection connection in connections)
+            {
+                if (connection is T)
+                {
+                    foundConnections.Add(connection as T);
+                }
+            }
+            return foundConnections;
+        }
+
+        public List<T> GetNodeConnectionsOfType<T>(ForceNode node) where T : ForceConnection
+        {
+            List<T> foundConnections = new List<T>();
+
+            foreach (ForceConnection connection in GetNodeConnections(node))
+            {
+                if (connection is T)
+                {
+                    foundConnections.Add(connection as T);
+                }
+            }
+            return foundConnections;
+        }
+
+        public List<T> GetNodesOfType<T>() where T : ForceNode
+        {
+            List<T> foundNodes = new List<T>();
+            foreach (ForceNode node in nodes)
+            {
+                if (node is T)
+                {
+                    foundNodes.Add(node as T);
+                }
+            }
+            return foundNodes;
+        }
     }
 }
