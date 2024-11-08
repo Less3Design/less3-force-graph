@@ -30,6 +30,14 @@ namespace Less3.ForceGraph
     }
 
     /// <summary>
+    /// Set the scale of the node in the editor canvas. If unused the node is scaled to 1
+    /// </summary>
+    public interface IForceNodeScale
+    {
+        public float NodeScale { get; }
+    }
+
+    /// <summary>
     /// Set the color of a connection in the force graph editor canvas
     /// </summary>
     public interface IForceConnectionStyle

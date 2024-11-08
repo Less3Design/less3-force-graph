@@ -94,6 +94,11 @@ namespace Less3.ForceGraph.Editor
             {
                 (target as ForceGraph).DeleteNode(node.data);
             };
+            forceDirectedCanvas.OnNodeDuplicatedInternally += (node) =>
+            {
+                var n = (target as ForceGraph).DuplicateNode(node.data);
+                forceDirectedCanvas.InitNodeExternal(n,n.position);
+            };
             forceDirectedCanvas.OnConnectionCreatedInternally += (connection, type) =>
             {
                 var asset = (target as ForceGraph).CreateConnection(connection.from.data, connection.to.data, type);

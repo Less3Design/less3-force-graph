@@ -27,6 +27,17 @@ namespace Less3.ForceGraph.Editor
             graph.nodes.Add(newNode);
             return newNode;
         }
+        
+        public static ForceNode DuplicateNode(this ForceGraph graph, ForceNode node)
+        {
+            var newNode = ScriptableObject.Instantiate(node);
+            newNode.name = node.name;
+            AssetDatabase.AddObjectToAsset(newNode, graph);
+            newNode.SetGraph(graph);
+            graph.nodes.Add(newNode);
+            newNode.position = node.position + Vector2.up * 25f;
+            return newNode;
+        }
 
         public static void DeleteNode(this ForceGraph graph, ForceNode node)
         {

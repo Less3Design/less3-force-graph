@@ -95,7 +95,10 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
                     element.Q<Label>("Label").style.color = style.NodeLabelColor;
                     icon.style.unityBackgroundImageTintColor = style.NodeLabelColor;
                 }
-
+                if (_data is IForceNodeScale scale)
+                {
+                    element.transform.scale = new Vector3(scale.NodeScale, scale.NodeScale, 1f);
+                }
                 if (_data is IForceNodeIcon iconData)
                 {
                     icon.style.display = DisplayStyle.Flex;
@@ -109,11 +112,11 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
         }
     }
 
-    public ForceCanvasNodeElement(T data, VisualElement element, Vector2 position)
+    public ForceCanvasNodeElement(T data, VisualElement element, Vector2 newPos)
     {
         this.element = element;
         this.data = data;
-        simPosition = position;
+        simPosition = newPos;
 
         element.Q("Pin").style.display = pinned ? DisplayStyle.Flex : DisplayStyle.None;
 
@@ -122,7 +125,7 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
             EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_X_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.x),
             EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_Y_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.y)
         );
-        elementPosition = position * aspectRatio;
+        elementPosition = newPos * aspectRatio;
         element.transform.position = elementPosition;
     }
 
@@ -358,6 +361,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
     public Action<ForceCanvasConnection<T, U>, Type> OnConnectionCreatedInternally;
     public Action<ForceCanvasNodeElement<T>, Type> OnNodeCreatedInternally;
     public Action<ForceCanvasNodeElement<T>> OnNodeDeletedInternally;
+    public Action<ForceCanvasNodeElement<T>> OnNodeDuplicatedInternally;
     public Action<ForceCanvasConnection<T, U>> OnConnectionDeletedInternally;
 
     //* Public Settings
@@ -422,6 +426,10 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
                     {
                         n.pinned = !n.pinned;
                     });
+                    menu.AddItem("Duplicate", false, () =>
+                    {
+                        DuplicateNodeInternal(castNode);
+                    });
                     menu.AddItem("Delete", false, () =>
                     {
                         DeleteNodeInternal(castNode);
@@ -449,6 +457,11 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         nodes.Remove(node);
         node.element.RemoveFromHierarchy();
         OnNodeDeletedInternally?.Invoke(node);
+    }
+
+    private void DuplicateNodeInternal(ForceCanvasNodeElement<T> node)
+    {
+        OnNodeDuplicatedInternally?.Invoke(node);
     }
 
     private void DeleteConnectionInternal(ForceCanvasConnection<T, U> connection)
