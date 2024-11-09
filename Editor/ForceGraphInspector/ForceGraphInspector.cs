@@ -88,11 +88,14 @@ namespace Less3.ForceGraph.Editor
             // contains the inspector header, body (force graph), and footer (unused)
             VisualElement inspectorContainer = inspector.hierarchy.parent?.parent;
 
-            inspector.parent.style.paddingTop = 0;
-            inspector.parent.style.paddingBottom = 0;
-
             if (inspectorContainer == null)
                 return;
+
+            
+
+            //inspector.parent.style.paddingTop = 0;
+            //inspector.parent.style.paddingBottom = 0;
+
 
             int headerAndFooterHeight = 0;
             foreach (var child in inspectorContainer.Children())
@@ -120,7 +123,7 @@ namespace Less3.ForceGraph.Editor
                 headerAndFooterHeight += (int)child.resolvedStyle.height;
             }
 
-            inspector.style.height = Mathf.FloorToInt(bigContainer.resolvedStyle.height - headerAndFooterHeight) - 4;
+            inspector.style.height = Mathf.FloorToInt(bigContainer.resolvedStyle.height - headerAndFooterHeight) - 8;
         }
 
         private bool init;
