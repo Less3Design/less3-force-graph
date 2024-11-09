@@ -11,7 +11,7 @@ namespace Less3.ForceGraph.Editor
 
     /// <summary>
     /// The inspector, specifically for the parameters of the graph object.
-    /// We need this empty class otherwise we creat an infinite loop of graph inspectors
+    /// We need this empty class otherwise we create an infinite loop of graph inspectors
     /// </summary>
     public class ForceGraphParametersEditorBase : UnityEditor.Editor
     {
@@ -41,7 +41,7 @@ namespace Less3.ForceGraph.Editor
     [CustomEditor(typeof(ForceConnection), true)]
     public class ForceConnectionParametersEditorBase : UnityEditor.Editor
     {
-        private readonly string[] EXCLUDED_PROPERTIES = new string[] { "m_Script" };
+        private readonly string[] EXCLUDED_PROPERTIES = new string[] { "m_Script", "from", "to" };
 
         public override void OnInspectorGUI()
         {
@@ -60,12 +60,13 @@ namespace Less3.ForceGraph.Editor
 
         public static readonly string FAST_FORWARD_SETTINGS_KEY = "ForceGraphFastForward";
         public static readonly string FIT_TO_SCREEN_SETTINGS_KEY = "ForceGraphFitToScreen";
+        public static readonly string LAYERED_MODE_SETTINGS_KEY = "ForceGraphInspectorLayered";
 
         private UnityEditor.Editor graphParametersInspector;
 
         public VisualTreeAsset inspectorUXML;
+        public VisualTreeAsset inspectorLayeredUXML;
 
-        public VisualElement topRoot;
         public VisualElement inspector;
 
         public VisualElement graphInspectorRoot;
@@ -74,15 +75,83 @@ namespace Less3.ForceGraph.Editor
 
         private ForceDirectedCanvas<ForceNode, ForceConnection> forceDirectedCanvas;
         private ToolbarBreadcrumbs breadcrumbs;
+        private bool isLayeredMode;
+
+        private void UpdateHeight()
+        {
+            if (inspector == null)
+                return;
+
+            // As far as i can tell there is no legit way for an inspector element to fill the inspector window without getting nasty.
+            // This manually sets the element height based on some height values in parent elements.
+
+            // contains the inspector header, body (force graph), and footer (unused)
+            VisualElement inspectorContainer = inspector.hierarchy.parent?.parent;
+
+            inspector.parent.style.paddingTop = 0;
+            inspector.parent.style.paddingBottom = 0;
+
+            if (inspectorContainer == null)
+                return;
+
+            int headerAndFooterHeight = 0;
+            foreach (var child in inspectorContainer.Children())
+            {
+                if (child != inspector.parent)
+                {
+                    headerAndFooterHeight += (int)child.resolvedStyle.height;
+                }
+            }
+
+            // Gets the "TemplateContainer" at the top of the inspector window. we want to fill this.
+            VisualElement bigContainer = inspectorContainer.hierarchy.parent.hierarchy.parent.hierarchy.parent.hierarchy.parent.hierarchy.parent.hierarchy.parent;
+
+            if (bigContainer == null)
+            {
+                return;
+            }
+
+            foreach (var child in bigContainer.Children())
+            {
+                if (child is ScrollView)
+                {
+                    continue;
+                }
+                headerAndFooterHeight += (int)child.resolvedStyle.height;
+            }
+
+            inspector.style.height = Mathf.FloorToInt(bigContainer.resolvedStyle.height - headerAndFooterHeight) - 4;
+        }
+
+        private bool init;
 
         public override VisualElement CreateInspectorGUI()
         {
+            isLayeredMode = EditorPrefs.GetBool(LAYERED_MODE_SETTINGS_KEY, true);
+
             inspector = new VisualElement();
             inspector.name = "$ForceGraphInspector";
-            inspectorUXML.CloneTree(inspector);
+            if (isLayeredMode)
+            {
+                inspectorLayeredUXML.CloneTree(inspector);
+            }
+            else
+            {
+                inspectorUXML.CloneTree(inspector);
+            }
 
             forceDirectedCanvas = new ForceDirectedCanvas<ForceNode, ForceConnection>();
             inspector.Q("GraphOrigin").Add(forceDirectedCanvas);
+
+            init = false;
+            inspector.RegisterCallback<GeometryChangedEvent>((evt) =>
+            {
+                if (!init)
+                {
+                    UpdateHeight();
+                    init = true;
+                }
+            });
 
             forceDirectedCanvas.OnSelectionChanged += OnSelectionChanged;
             forceDirectedCanvas.OnNodeCreatedInternally += (node, type) =>
@@ -97,7 +166,7 @@ namespace Less3.ForceGraph.Editor
             forceDirectedCanvas.OnNodeDuplicatedInternally += (node) =>
             {
                 var n = (target as ForceGraph).DuplicateNode(node.data);
-                forceDirectedCanvas.InitNodeExternal(n,n.position);
+                forceDirectedCanvas.InitNodeExternal(n, n.position);
             };
             forceDirectedCanvas.OnConnectionCreatedInternally += (connection, type) =>
             {
@@ -124,10 +193,12 @@ namespace Less3.ForceGraph.Editor
             graphInspectorRoot = inspector.Q("GraphInspector");
             selectionInspectorRoot = inspector.Q("SelectionInspector");
 
-            inspector.Q("Resize").AddManipulator(new ForceGraphInspectorResizeManipulator());
-
-            graphHeightSetter = inspector.Q("GraphParent");
-            graphHeightSetter.style.height = EditorPrefs.GetFloat(HEIGHT_SETTING_KEY, DEFAULT_GRAPH_HEIGHT);
+            if (!isLayeredMode)
+            {
+                inspector.Q("Resize").AddManipulator(new ForceGraphInspectorResizeManipulator());
+                graphHeightSetter = inspector.Q("GraphParent");
+                graphHeightSetter.style.height = EditorPrefs.GetFloat(HEIGHT_SETTING_KEY, DEFAULT_GRAPH_HEIGHT);
+            }
 
             graphParametersInspector = UnityEditor.Editor.CreateEditorWithContext(new[] { target }, target, typeof(ForceGraphParametersEditorBase));
             graphInspectorRoot.Add(new InspectorElement(graphParametersInspector));
@@ -238,6 +309,33 @@ namespace Less3.ForceGraph.Editor
                 }
             };
 
+            var layeredModeButton = inspector.Q<Button>("LayeredMode");
+            bool lMode = EditorPrefs.GetBool(LAYERED_MODE_SETTINGS_KEY, true);
+            if (lMode)
+            {
+                layeredModeButton.AddToClassList("ToggleButtonEnabled");
+            }
+            else
+            {
+                layeredModeButton.RemoveFromClassList("ToggleButtonEnabled");
+            }
+
+            layeredModeButton.clicked += () =>
+            {
+                EditorPrefs.SetBool(LAYERED_MODE_SETTINGS_KEY, !EditorPrefs.GetBool(LAYERED_MODE_SETTINGS_KEY, true));
+                bool lMode = EditorPrefs.GetBool(LAYERED_MODE_SETTINGS_KEY, true);
+                if (lMode)
+                {
+                    layeredModeButton.AddToClassList("ToggleButtonEnabled");
+                }
+                else
+                {
+                    layeredModeButton.RemoveFromClassList("ToggleButtonEnabled");
+                }
+                EditorUtility.SetDirty(target);
+                AssetDatabase.SaveAssets();
+            };
+
             foreach (var node in (target as ForceGraph).nodes)
             {
                 if (node.position == Vector2.zero)
@@ -308,8 +406,13 @@ namespace Less3.ForceGraph.Editor
             graphInspectorRoot.style.display = DisplayStyle.None;
             selectionInspectorRoot.style.display = DisplayStyle.Flex;
             breadcrumbs.Clear();
-            breadcrumbs.PushItem(target.name, () => forceDirectedCanvas.ClearSelection());
+            //breadcrumbs.PushItem(target.name, () => forceDirectedCanvas.ClearSelection());
             breadcrumbs.PushItem("<b>" + node.name, () => { });
+            breadcrumbs.PushItem("<i>" + node.GetType().Name, () =>
+            {
+                var so = new SerializedObject(node);
+                AssetDatabase.OpenAsset(so.FindProperty("m_Script").objectReferenceValue);
+            });
         }
 
         private void GotoConnection(ForceConnection connection)
@@ -319,10 +422,16 @@ namespace Less3.ForceGraph.Editor
             graphInspectorRoot.style.display = DisplayStyle.None;
             selectionInspectorRoot.style.display = DisplayStyle.Flex;
             breadcrumbs.Clear();
-            breadcrumbs.PushItem(target.name, () => forceDirectedCanvas.ClearSelection());
-            breadcrumbs.PushItem(connection.from.name, () => { forceDirectedCanvas.TrySelectData(connection.from); });
+            //breadcrumbs.PushItem(target.name, () => forceDirectedCanvas.ClearSelection());
+            //breadcrumbs.PushItem(connection.from.name, () => { forceDirectedCanvas.TrySelectData(connection.from); });
             breadcrumbs.PushItem("<b>" + connection.name, () => { });
-            breadcrumbs.PushItem(connection.to.name, () => { forceDirectedCanvas.TrySelectData(connection.to); });
+
+            breadcrumbs.PushItem("<i>" + connection.GetType().Name, () =>
+            {
+                var so = new SerializedObject(connection);
+                AssetDatabase.OpenAsset(so.FindProperty("m_Script").objectReferenceValue);
+            });
+            //breadcrumbs.PushItem(connection.to.name, () => { forceDirectedCanvas.TrySelectData(connection.to); });
         }
 
         private void Update()
@@ -341,8 +450,20 @@ namespace Less3.ForceGraph.Editor
                 }
             }
 
-            if (graphHeightSetter != null)
-                graphHeightSetter.style.height = EditorPrefs.GetFloat(HEIGHT_SETTING_KEY, DEFAULT_GRAPH_HEIGHT);
+
+            if (isLayeredMode)
+            {
+                UpdateHeight();
+            }
+            else
+            {
+                Debug.Log("UpdateHeight");
+                if (graphHeightSetter != null)
+                {
+                    Debug.Log("UpdateHeight2");
+                    graphHeightSetter.style.height = EditorPrefs.GetFloat(HEIGHT_SETTING_KEY, DEFAULT_GRAPH_HEIGHT);
+                }
+            }
         }
     }
 }

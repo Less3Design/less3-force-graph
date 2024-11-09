@@ -701,7 +701,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         float scale = Mathf.Min(scaleFact.x, scaleFact.y, 1f);
         scale = scale / 1f;
 
-        translationContainer.transform.scale = Vector3.Lerp(translationContainer.transform.scale, new Vector3(scale, scale, 1f), .03f);
+        translationContainer.transform.scale = Vector3.Lerp(translationContainer.transform.scale, new Vector3(scale, scale, 1f), .09f);
     }
 
     public void TrySelectData(T data)

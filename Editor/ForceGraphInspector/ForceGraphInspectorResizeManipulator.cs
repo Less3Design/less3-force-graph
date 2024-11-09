@@ -11,7 +11,6 @@ namespace Less3.ForceGraph.Editor
     /// </summary>
     public class ForceGraphInspectorResizeManipulator : PointerManipulator
     {
-
         private bool _enabled;
         private Vector2 _targetStartPosition { get; set; }
         private Vector3 _pointerStartPosition { get; set; }
@@ -35,6 +34,7 @@ namespace Less3.ForceGraph.Editor
             _targetStartPosition = target.transform.position;
             _pointerStartPosition = evt.position;
             _startHeight = EditorPrefs.GetFloat(ForceGraphInspector.HEIGHT_SETTING_KEY, ForceGraphInspector.DEFAULT_GRAPH_HEIGHT);
+            Debug.Log("PointerDownHandler");
             if (evt.button == (int)MouseButton.LeftMouse)
             {
                 _enabled = true;
@@ -49,6 +49,7 @@ namespace Less3.ForceGraph.Editor
             {
                 float diff = evt.position.y - _pointerStartPosition.y;
                 EditorPrefs.SetFloat(ForceGraphInspector.HEIGHT_SETTING_KEY, Mathf.Max(ForceGraphInspector.MIN_GRAPH_HEIGHT, _startHeight + diff));
+                Debug.Log($"Setting height to {EditorPrefs.GetFloat(ForceGraphInspector.HEIGHT_SETTING_KEY, ForceGraphInspector.DEFAULT_GRAPH_HEIGHT)}");
             }
         }
 

@@ -31,7 +31,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -152.88512, y: -91.19253}
+  position: {x: 56.287624, y: -140.6243}
+  _pinned: 0
+  test: []
+  test2: []
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &-5249549159799665585
@@ -84,7 +87,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: CoolNode
   m_EditorClassIdentifier: 
-  position: {x: 45.114273, y: -172.20502}
+  position: {x: -119.44292, y: -93.14958}
+  _pinned: 0
+  test: []
+  test2: []
   anotheRTest: 2.47
   otherTest: 0
 --- !u!114 &-2331574731912409917
@@ -118,7 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -149.09164, y: 33.735962}
+  position: {x: 118.242165, y: -54.185673}
+  _pinned: 0
+  test: []
+  test2: []
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &-1094281507883388005
@@ -152,7 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: Example
   m_EditorClassIdentifier: 
-  position: {x: 129.97926, y: -80.44742}
+  position: {x: -129.44217, y: 12.727747}
+  _pinned: 0
+  test: []
+  test2: []
   anotheRTest: 24.04
   otherTest: -19.18
 --- !u!114 &-346276720921472644
@@ -167,7 +179,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  position: {x: -35.94525, y: 100.45984}
+  position: {x: 76.18973, y: 49.36921}
+  _pinned: 0
+  test: []
+  test2: []
   anotheRTest: 1.68
   otherTest: -6.96
 --- !u!114 &11400000
@@ -198,7 +213,7 @@ MonoBehaviour:
   - {fileID: -3735328540511974886}
   - {fileID: 7826203451816932946}
   - {fileID: -9145306494603147776}
-  test: 2.36
+  test: 6.96
   customProperty: 
   customProperty2: 
 --- !u!114 &1977790700564708838
@@ -213,7 +228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: BetterExample
   m_EditorClassIdentifier: 
-  position: {x: 96.05501, y: 46.451492}
+  position: {x: -40.964584, y: 81.019325}
+  _pinned: 0
+  test: []
+  test2: []
   anotheRTest: 24.94
   otherTest: 0
 --- !u!114 &6898477271005305712
@@ -247,7 +265,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 66.773155, y: 163.19788}
+  position: {x: 39.1304, y: 144.84319}
+  _pinned: 0
+  test: []
+  test2: []
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &7826203451816932946

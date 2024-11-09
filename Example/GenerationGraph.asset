@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -48.34281, y: -20.994204}
-  anotheRTest: 0
+  position: {x: -32.628975, y: 30.764687}
+  _pinned: 0
+  anotheRTest: 0.12
   otherTest: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -66,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 48.34274, y: 20.99417}
+  position: {x: 32.62892, y: -30.764631}
+  _pinned: 0
   anotheRTest: 0
   otherTest: 0
