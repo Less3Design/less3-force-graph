@@ -464,10 +464,8 @@ namespace Less3.ForceGraph.Editor
             }
             else
             {
-                Debug.Log("UpdateHeight");
                 if (graphHeightSetter != null)
                 {
-                    Debug.Log("UpdateHeight2");
                     graphHeightSetter.style.height = EditorPrefs.GetFloat(HEIGHT_SETTING_KEY, DEFAULT_GRAPH_HEIGHT);
                 }
             }
