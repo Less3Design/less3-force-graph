@@ -4,11 +4,9 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using Unity.VisualScripting;
 
 namespace Less3.ForceGraph.Editor
 {
-
     /// <summary>
     /// The inspector, specifically for the parameters of the graph object.
     /// We need this empty class otherwise we create an infinite loop of graph inspectors
