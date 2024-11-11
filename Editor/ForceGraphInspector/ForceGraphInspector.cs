@@ -73,6 +73,9 @@ namespace Less3.ForceGraph.Editor
         public VisualElement graphHeightSetter;
         public VisualElement selectionInspectorRoot;
 
+        private Label typeNameLabel;
+        private Object scriptTypeObjectRef;
+
         private ForceDirectedCanvas<ForceNode, ForceConnection> forceDirectedCanvas;
         private ToolbarBreadcrumbs breadcrumbs;
         private bool isLayeredMode;
@@ -91,7 +94,7 @@ namespace Less3.ForceGraph.Editor
             if (inspectorContainer == null)
                 return;
 
-            
+
 
             //inspector.parent.style.paddingTop = 0;
             //inspector.parent.style.paddingBottom = 0;
@@ -189,9 +192,15 @@ namespace Less3.ForceGraph.Editor
             breadcrumbs.PushItem("<b>" + target.name, () => GotoGraph());
 
             inspector.Q<Label>("Typename").text = target.GetType().Name;
+            typeNameLabel = inspector.Q<Label>("Typename");
 
+            scriptTypeObjectRef = serializedObject.FindProperty("m_Script").objectReferenceValue;
             var openScriptElement = inspector.Q("OpenScript");
-            openScriptElement.AddManipulator(new Clickable(() => { AssetDatabase.OpenAsset(serializedObject.FindProperty("m_Script").objectReferenceValue); }));
+            openScriptElement.AddManipulator(new Clickable(() =>
+            {
+                if (scriptTypeObjectRef != null)
+                    AssetDatabase.OpenAsset(scriptTypeObjectRef);
+            }));
 
             graphInspectorRoot = inspector.Q("GraphInspector");
             selectionInspectorRoot = inspector.Q("SelectionInspector");
@@ -400,6 +409,9 @@ namespace Less3.ForceGraph.Editor
 
             breadcrumbs.Clear();
             breadcrumbs.PushItem("<b>" + target.name, () => forceDirectedCanvas.ClearSelection());
+            typeNameLabel.text = target.GetType().Name;
+            var so = new SerializedObject(target);
+            scriptTypeObjectRef = so.FindProperty("m_Script").objectReferenceValue;
         }
 
         private void GotoNode(ForceNode node)
@@ -411,11 +423,9 @@ namespace Less3.ForceGraph.Editor
             breadcrumbs.Clear();
             //breadcrumbs.PushItem(target.name, () => forceDirectedCanvas.ClearSelection());
             breadcrumbs.PushItem("<b>" + node.name, () => { });
-            breadcrumbs.PushItem("<i>" + node.GetType().Name, () =>
-            {
-                var so = new SerializedObject(node);
-                AssetDatabase.OpenAsset(so.FindProperty("m_Script").objectReferenceValue);
-            });
+            typeNameLabel.text = node.GetType().Name;
+            var so = new SerializedObject(node);
+            scriptTypeObjectRef = so.FindProperty("m_Script").objectReferenceValue;
         }
 
         private void GotoConnection(ForceConnection connection)
@@ -428,13 +438,9 @@ namespace Less3.ForceGraph.Editor
             //breadcrumbs.PushItem(target.name, () => forceDirectedCanvas.ClearSelection());
             //breadcrumbs.PushItem(connection.from.name, () => { forceDirectedCanvas.TrySelectData(connection.from); });
             breadcrumbs.PushItem("<b>" + connection.name, () => { });
-
-            breadcrumbs.PushItem("<i>" + connection.GetType().Name, () =>
-            {
-                var so = new SerializedObject(connection);
-                AssetDatabase.OpenAsset(so.FindProperty("m_Script").objectReferenceValue);
-            });
-            //breadcrumbs.PushItem(connection.to.name, () => { forceDirectedCanvas.TrySelectData(connection.to); });
+            typeNameLabel.text = connection.GetType().Name;
+            var so = new SerializedObject(connection);
+            scriptTypeObjectRef = so.FindProperty("m_Script").objectReferenceValue;
         }
 
         private void Update()

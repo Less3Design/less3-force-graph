@@ -1,21 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/Less3_ForceGraph/Editor/ForceGraphInspector/ForceGraphInspectorUSS.uss?fileID=7433441132597879392&amp;guid=47f9ab646df74fd4ba0d07f691dcf4bd&amp;type=3#ForceGraphInspectorUSS" />
-    <ui:VisualElement name="Header" class="Separator" style="flex-grow: 0; justify-content: space-between; align-items: stretch; margin-top: -2px; overflow: hidden; margin-right: -6px; margin-left: -15px;">
-        <ui:VisualElement name="ButtonGroup" style="flex-grow: 1; flex-direction: row; margin-top: 2px; margin-bottom: 2px; margin-right: 0; margin-left: 0; justify-content: space-between;">
-            <uie:Toolbar style="background-color: rgba(60, 60, 60, 0); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; overflow: hidden; flex-grow: 1; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
-                <ui:VisualElement name="OpenScript" class="ScriptButton" style="flex-grow: 0; background-color: rgb(127, 214, 253); justify-content: space-around; align-items: flex-start; padding-left: 6px; padding-right: 6px; margin-right: 1px;">
-                    <ui:Label tabindex="-1" text="Typename" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Typename" picking-mode="Ignore" style="-unity-text-align: middle-left; color: rgb(0, 0, 0); -unity-font-style: italic;" />
-                </ui:VisualElement>
-                <uie:ToolbarBreadcrumbs name="Breadcrumbs" style="flex-shrink: 1;" />
-                <uie:ToolbarSpacer style="flex-grow: 1;" />
-                <ui:VisualElement name="IconContainer" style="flex-grow: 1; justify-content: space-around; align-items: flex-end;">
-                    <ui:VisualElement class="DefaultTextBackgroundColor" style="flex-grow: 0; background-image: url(&apos;project://database/Assets/Less3_ForceGraph/Editor/Textures/Less3Icon48px.png?fileID=2800000&amp;guid=10877b5e18a5fd14d80364c8171b745d&amp;type=3#Less3Icon48px&apos;); opacity: 0.3; width: 14px; height: 14px;" />
-                </ui:VisualElement>
-                <ui:Label tabindex="-1" text="LESS_3" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-text-align: middle-left; opacity: 0.3; -unity-font-style: bold;" />
-            </uie:Toolbar>
-        </ui:VisualElement>
-    </ui:VisualElement>
-    <ui:VisualElement name="GraphBackgroundCorner" class="Separator" style="align-items: stretch; justify-content: space-around; margin-top: 0; flex-grow: 1; margin-right: -6px; margin-left: -15.5px; overflow: hidden; margin-bottom: -8px;">
+    <ui:VisualElement name="GraphBackgroundCorner" class="Separator" style="align-items: stretch; justify-content: space-around; margin-top: -1px; flex-grow: 1; margin-right: -6px; margin-left: -15.5px; overflow: hidden; margin-bottom: -8px;">
         <ui:VisualElement name="GraphParent" style="flex-grow: 1; display: flex; background-color: rgb(32, 32, 32); flex-shrink: 0; height: auto; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; align-self: center; align-items: flex-end; justify-content: flex-start; width: 100%; overflow: hidden; border-top-left-radius: 8px; border-top-right-radius: 8px;">
             <ui:VisualElement name="GraphOrigin" style="flex-grow: 1; position: absolute; left: 4px; top: 4px; right: 4px; bottom: 4px; justify-content: space-around;" />
             <ui:VisualElement name="ButtonOverlay" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.3); padding-top: 2px; padding-right: 0; padding-bottom: 2px; padding-left: 0; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; align-items: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; right: 4px; top: 4px;">
@@ -52,9 +37,18 @@
                 <ui:Button text="Reset to defaults" parse-escape-sequences="true" display-tooltip-when-elided="true" focusable="false" name="ResetSettingsToDefault" style="margin-top: 6px; margin-bottom: 6px;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="InspectorOverlay" class="InspectorOverlayBackground" style="flex-grow: 1; position: absolute; left: 6px; top: 7px; width: 256px; height: auto; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 6px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-bottom-left-radius: 6px; padding-top: 2px; padding-right: 2px; padding-bottom: 4px; padding-left: 15px; transition-property: all; transition-duration: 0.25s; overflow: hidden;">
-            <ui:VisualElement name="GraphInspector" style="margin-left: -15px; transition-property: all; transition-duration: 0.25s; flex-grow: 1;" />
-            <ui:VisualElement name="SelectionInspector" style="margin-left: -15px; transition-property: all; transition-duration: 0.25s; flex-grow: 1;" />
+        <ui:VisualElement name="InspectorOverlay" class="InspectorOverlayBackground InspectorOverlayEdgeBackground" style="flex-grow: 1; position: absolute; left: 6px; top: 6px; height: auto; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 6px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-bottom-left-radius: 6px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; transition-property: all; transition-duration: 0.25s; overflow: hidden; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgba(26, 26, 26, 0);">
+            <uie:Toolbar style="background-color: rgba(60, 60, 60, 0); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; overflow: hidden; flex-grow: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; flex-shrink: 1; margin-bottom: 2px;">
+                <ui:VisualElement name="OpenScript" class="ScriptButton" style="flex-grow: 0; background-color: rgb(127, 214, 253); justify-content: space-around; align-items: flex-start; padding-left: 6px; padding-right: 6px; margin-right: 1px; border-top-left-radius: 4px; border-bottom-left-radius: 4px;">
+                    <ui:Label tabindex="-1" text="Typename" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Typename" picking-mode="Ignore" style="-unity-text-align: middle-left; color: rgb(0, 0, 0); -unity-font-style: normal;" />
+                </ui:VisualElement>
+                <uie:ToolbarBreadcrumbs name="Breadcrumbs" style="flex-shrink: 1;" />
+                <uie:ToolbarSpacer style="flex-grow: 1;" />
+            </uie:Toolbar>
+            <ui:VisualElement name="InspectorOverlay" class="InspectorOverlayBackground" style="flex-grow: 1; height: auto; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; padding-top: 2px; padding-right: 2px; padding-bottom: 4px; padding-left: 15px; transition-property: all; transition-duration: 0.25s; overflow: hidden; min-width: 256px;">
+                <ui:VisualElement name="GraphInspector" style="margin-left: -15px; transition-property: all; transition-duration: 0.25s; flex-grow: 1;" />
+                <ui:VisualElement name="SelectionInspector" style="margin-left: -15px; transition-property: all; transition-duration: 0.25s; flex-grow: 1;" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

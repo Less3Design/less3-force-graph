@@ -93,6 +93,10 @@
     border-bottom-color: rgb(22, 22, 22);
 }
 
+.InspectorOverlayEdgeBackground {
+    background-color: var(--unity-colors-inspector_titlebar-border);
+}
+
 :root {
     padding-bottom: 0;
     padding-top: 0;
