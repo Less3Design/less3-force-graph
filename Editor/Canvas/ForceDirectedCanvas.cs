@@ -28,15 +28,18 @@ public abstract class ForceCanvasNodeElementBase
     }
     public bool frozen;
 
+    // position in YML and without aspect ratio
     public Vector2 simPosition { get; protected set; }
+    // Position with aspect. Pos as it exists in the ui
     public Vector2 elementPosition { get; protected set; }
     public Vector2 simAspectRatio = Vector2.one;
 
-    public void SetElementPosition(Vector2 pos)
+    public void SetElementPosition(Vector2 elemPos)
     {
-        this.simPosition = pos * (new Vector2(1f / simAspectRatio.x, 1f / simAspectRatio.y));
-        elementPosition = pos;
-        element.transform.position = pos;
+        //divide by aspect ratio to get sim position
+        this.simPosition = elemPos * (new Vector2(1f / simAspectRatio.x, 1f / simAspectRatio.y));
+        elementPosition = elemPos;
+        element.transform.position = elemPos;
     }
 }
 
@@ -131,10 +134,14 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
 
     public void Update(Vector2 aspectRatio)
     {
-        if (frozen || pinned)
-            return;
-
         simAspectRatio = aspectRatio;
+        if (frozen || pinned)
+        {
+            elementPosition = simPosition * aspectRatio;
+            element.transform.position = elementPosition;
+            return;
+        }
+
         simPosition += force / mass;
 
         // TODO ideally we validate nan's somewhere else. This can be evaluated multiple times per frame.
