@@ -219,6 +219,7 @@ public static class ForceDirectedCanvasSettings
     public static readonly string CONNECTION_FORCE_KEY = "ForceDirectedCanvasConnectionForce";
     public static readonly string ASPECT_RATIO_X_KEY = "ForceDirectedCanvasAspectRatioX";
     public static readonly string ASPECT_RATIO_Y_KEY = "ForceDirectedCanvasAspectRatioY";
+    public static readonly string ZOOM_KEY = "ForceDirectedCanvasZoom";
 
     public static readonly float DEFAULT_GRAVITY = 1f;
     public static readonly Vector2 GRAVITY_RANGE = new Vector2(.1f, 2f);
@@ -231,6 +232,9 @@ public static class ForceDirectedCanvasSettings
     public static readonly Vector2 CONNECTION_FORCE_RANGE = new Vector2(.1f, 1.5f);
 
     public static readonly Vector2 DEFAULT_ASPECT_RATIO = new Vector2(1.6f, 0.6f);
+
+    public static readonly float DEFAULT_ZOOM = 1f;
+    public static readonly Vector2 ZOOM_RANGE = new Vector2(.1f, 2f);
 }
 
 
@@ -262,11 +266,21 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
     {
         this.style.flexGrow = 1;
 
+        translationContainer = new VisualElement();
+        translationContainer.name = "TranslationContainer";
+        translationContainer.pickingMode = PickingMode.Ignore;
+        translationContainer.style.position = Position.Absolute;
+        translationContainer.style.left = 0;
+        translationContainer.style.right = 0;
+        translationContainer.style.top = 0;
+        translationContainer.style.bottom = 0;
+
         bg = new VisualElement();
         bg.name = "BG";
         bg.style.flexGrow = 1;
         Add(bg);
-        bg.AddManipulator(new ForceDirectedCanvasBGManipulator()
+        Add(translationContainer);
+        bg.AddManipulator(new ForceDirectedCanvasBGManipulator(translationContainer)
         {
             OnLeftClick = () =>
             {
@@ -294,15 +308,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
             }
         });
 
-        translationContainer = new VisualElement();
-        translationContainer.name = "TranslationContainer";
-        translationContainer.pickingMode = PickingMode.Ignore;
-        translationContainer.style.position = Position.Absolute;
-        translationContainer.style.left = 0;
-        translationContainer.style.right = 0;
-        translationContainer.style.top = 0;
-        translationContainer.style.bottom = 0;
-        Add(translationContainer);
+
 
         connectionsContainer = new VisualElement();
         connectionsContainer.pickingMode = PickingMode.Ignore;
@@ -564,15 +570,11 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
 
         DrawConnections();
         DrawNewConnection();
-        if (FitInView)
-        {
-            UpdateCanvasToFit();
-        }
-        else
-        {
-            //todo add scaling with mouse wheel maybe
-            translationContainer.transform.scale = Vector3.one;
-        }
+
+
+
+        //Vector3 desiredScale = Vector3.one * EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM);
+        //translationContainer.transform.scale = Vector3.Lerp(translationContainer.transform.scale, desiredScale, .1f);
     }
 
     private void DrawConnections()
