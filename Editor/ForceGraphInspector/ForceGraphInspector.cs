@@ -408,9 +408,8 @@ namespace Less3.ForceGraph.Editor
                     node.data.position = node.simPosition;
                 }
 
-                if (inspectorOverlay != null)
+                if (inspectorOverlay != null && inspectorOverlay.panel != null)
                 {
-
                     // validate overlay position and prefs
                     Vector2 newPos = new Vector2(EditorPrefs.GetFloat(OVERLAY_X_SETTINGS_KEY, 0), EditorPrefs.GetFloat(OVERLAY_Y_SETTINGS_KEY, 0));
                     newPos.x = Mathf.Clamp(newPos.x, 0, inspectorOverlay.panel.visualTree.worldBound.width - inspectorOverlay.layout.width - 32);
