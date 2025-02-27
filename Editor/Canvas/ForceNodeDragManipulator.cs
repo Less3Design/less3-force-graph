@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ForceNodeDragManipulator : PointerManipulator
+public class ForceNodeDragManipulator : PointerManipulator 
 {
     private bool _enabled;// track if an event started inside the root
 
@@ -17,14 +18,18 @@ public class ForceNodeDragManipulator : PointerManipulator
     private Action<ForceCanvasNodeElementBase> _enterAction;
     private Action<ForceCanvasNodeElementBase> _exitAction;
 
+    private IForceDirectedCanvasGeneric _canvas;
+
     public ForceNodeDragManipulator(
         ForceCanvasNodeElementBase node,
+        IForceDirectedCanvasGeneric c,
         Action<ForceCanvasNodeElementBase> leftClickAction,
         Action<ForceCanvasNodeElementBase> righClickAction,
         Action<ForceCanvasNodeElementBase> enterAction,
         Action<ForceCanvasNodeElementBase> exitAction)
     {
         _node = node;
+        _canvas = c;
         _leftClickAction = leftClickAction;
         _rightClickAction = righClickAction;
         _enterAction = enterAction;
@@ -75,8 +80,10 @@ public class ForceNodeDragManipulator : PointerManipulator
         if (_enabled && target.HasPointerCapture(evt.pointerId))
         {
             Vector3 pointerDelta = evt.position - _pointerStartPosition;
-
-            _node.SetElementPosition(new Vector2(_targetStartPosition.x + pointerDelta.x, _targetStartPosition.y + pointerDelta.y));
+            pointerDelta = pointerDelta * (1f / EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM));
+            Vector2 newPos = new Vector2(_targetStartPosition.x + pointerDelta.x, _targetStartPosition.y + pointerDelta.y);
+            newPos = _canvas.TryGetNodeSnapPosition(newPos, _node);
+            _node.SetElementPosition(newPos);
         }
     }
 

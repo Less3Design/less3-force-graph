@@ -28,10 +28,10 @@
     border-right-color: rgba(255, 255, 255, 0);
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
     border-bottom-right-radius: 9px;
@@ -40,34 +40,13 @@
     padding-right: 1px;
     padding-bottom: 1px;
     padding-left: 1px;
-    transition-duration: 0s;
-    transition-timing-function: ease-out-back;
 }
 
 .NodeBorder:hover {
-    border-left-color: rgb(56, 122, 190);
-    border-right-color: rgb(56, 122, 190);
-    border-top-color: rgb(56, 122, 190);
-    border-bottom-color: rgb(56, 122, 190);
-    scale: 1.1 1.1;
-    transition-duration: 0.1s;
-}
-
-.Selected {
-    border-top-width: 2px;
-    border-right-width: 2px;
-    border-bottom-width: 2px;
-    border-left-width: 2px;
-    border-left-color: rgb(56, 122, 190);
-    border-right-color: rgb(56, 122, 190);
-    border-top-color: rgb(56, 122, 190);
-    border-bottom-color: rgb(56, 122, 190);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    scale: 1.1 1.1;
-    transition-duration: 0.1s;
+    border-left-color: rgba(56, 122, 190, 0.5);
+    border-right-color: rgba(56, 122, 190, 0.5);
+    border-top-color: rgba(56, 122, 190, 0.5);
+    border-bottom-color: rgba(56, 122, 190, 0.5);
 }
 
 .Pressed {
@@ -83,9 +62,21 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    scale: 1.35 1.35;
-    transition-duration: 0.15s;
-    transition-timing-function: ease-out-back;
+}
+
+.Selected {
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgb(56, 122, 190);
+    border-right-color: rgb(56, 122, 190);
+    border-top-color: rgb(56, 122, 190);
+    border-bottom-color: rgb(56, 122, 190);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .Icon {
@@ -107,4 +98,18 @@
     border-bottom-left-radius: 10px;
     scale: 1.1 1.1;
     transition-duration: 0.1s;
+}
+
+.Selected:hover {
+    border-left-color: rgb(75, 164, 255);
+    border-right-color: rgb(75, 164, 255);
+    border-top-color: rgb(75, 164, 255);
+    border-bottom-color: rgb(75, 164, 255);
+}
+
+.Pressed:hover {
+    border-left-color: rgb(75, 164, 255);
+    border-right-color: rgb(75, 164, 255);
+    border-top-color: rgb(75, 164, 255);
+    border-bottom-color: rgb(75, 164, 255);
 }

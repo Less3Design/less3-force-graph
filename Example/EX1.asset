@@ -12,30 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 41.50145, y: -163.60088}
+  position: {x: 194.26888, y: -251.0063}
   _pinned: 1
   test: []
   test2: []
   anotheRTest: 2.02
-  otherTest: 0
---- !u!114 &-9110194983449429143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
-  m_Name: GenerationConnection
-  m_EditorClassIdentifier: 
-  from: {fileID: 2092861304240887723}
-  to: {fileID: 2688399485772735655}
-  test: 0
-  customProperty: 
-  customProperty2: 
-  anotheRTest: 0
   otherTest: 0
 --- !u!114 &-8912062899600972576
 MonoBehaviour:
@@ -49,7 +30,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 113.170204, y: -319.9289}
+  position: {x: 194.26888, y: -408.25275}
   _pinned: 1
   test:
   - 
@@ -68,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -300.8216, y: 50.895638}
+  position: {x: -286.3617, y: 172.57808}
   _pinned: 1
   test: []
   test2: []
@@ -86,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -160.66809, y: 217.19533}
+  position: {x: 33.390522, y: 451.04312}
   _pinned: 1
   test: []
   test2: []
@@ -123,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 302.60535, y: -148.45544}
+  position: {x: 194.26888, y: -67.55646}
   _pinned: 1
   test: []
   test2: []
@@ -141,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 405.0597, y: -44.01001}
+  position: {x: 33.390522, y: 520.6914}
   _pinned: 1
   test: []
   test2: []
@@ -159,10 +140,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -291.96317, y: 179.96579}
+  position: {x: -286.3617, y: 334.0652}
   _pinned: 1
   test: []
   test2: []
+  anotheRTest: 0
+  otherTest: 0
+--- !u!114 &-4124683517637984322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: 209173852575036635}
+  to: {fileID: 2688399485772735655}
+  test: 0
+  customProperty: 
+  customProperty2: 
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &-3064973067104223671
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -475.43384, y: -70.833786}
+  position: {x: 393.03125, y: 172.57808}
   _pinned: 1
   test: []
   test2: []
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -16.24913, y: -290.3627}
+  position: {x: -286.3617, y: -251.0063}
   _pinned: 1
   test:
   - 
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 403.27454, y: 441.0581}
+  position: {x: 33.390522, y: 334.0652}
   _pinned: 1
   test: []
   test2: []
@@ -345,17 +345,17 @@ MonoBehaviour:
   - {fileID: -9158097541687995207}
   - {fileID: 209173852575036635}
   connections:
-  - {fileID: 2430478923513127696}
-  - {fileID: -9110194983449429143}
   - {fileID: 8583018400973459032}
   - {fileID: -117813570468601616}
   - {fileID: -3064973067104223671}
-  - {fileID: 4888594534865248208}
   - {fileID: 3526533912040590577}
   - {fileID: 6054436451978143729}
   - {fileID: -6498062211399598857}
   - {fileID: -2535175398362568692}
   - {fileID: -2472201136592250382}
+  - {fileID: 7902542903229075680}
+  - {fileID: -4124683517637984322}
+  - {fileID: 3062533380332127233}
   test: 23
   customProperty: asdfas
   customProperty2: 
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -80.24896, y: -132.59409}
+  position: {x: 393.03125, y: -67.55646}
   _pinned: 1
   test: []
   test2: []
@@ -389,8 +389,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 110.45555, y: 61.23025}
-  _pinned: 0
+  position: {x: 194.26888, y: 172.57808}
+  _pinned: 1
   test: []
   test2: []
   anotheRTest: 1.8
@@ -407,29 +407,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -149.31201, y: 43.985046}
+  position: {x: 33.390522, y: 172.57808}
   _pinned: 1
   test: []
   test2: []
-  anotheRTest: 0
-  otherTest: 0
---- !u!114 &2430478923513127696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
-  m_Name: GenerationConnection
-  m_EditorClassIdentifier: 
-  from: {fileID: -4689221819860414196}
-  to: {fileID: -1351157072909861205}
-  test: 0
-  customProperty: 
-  customProperty2: 
   anotheRTest: 0
   otherTest: 0
 --- !u!114 &2688399485772735655
@@ -444,12 +425,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -12.871229, y: 217.7962}
+  position: {x: 393.03125, y: 51.855453}
   _pinned: 1
   test: []
   test2: []
   anotheRTest: 0
   otherTest: 83.81113
+--- !u!114 &3062533380332127233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: 2688399485772735655}
+  to: {fileID: -2542630492206384727}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
+  otherTest: 0
 --- !u!114 &3244842704816133467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 7.3840675, y: 579.6684}
+  position: {x: 33.390522, y: 395.40927}
   _pinned: 1
   test: []
   test2: []
@@ -487,25 +487,6 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
---- !u!114 &4888594534865248208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
-  m_Name: GenerationConnection
-  m_EditorClassIdentifier: 
-  from: {fileID: -8380419948180603539}
-  to: {fileID: -4425164021417615068}
-  test: 0
-  customProperty: 
-  customProperty2: 
-  anotheRTest: 0
-  otherTest: 0
 --- !u!114 &6054436451978143729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,6 +501,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   from: {fileID: -5121067539429543758}
   to: {fileID: -9158097541687995207}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
+  otherTest: 0
+--- !u!114 &7902542903229075680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: -5121067539429543758}
+  to: {fileID: 209173852575036635}
   test: 0
   customProperty: 
   customProperty2: 
@@ -556,7 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 399.37656, y: 89.61308}
+  position: {x: 393.03125, y: -251.0063}
   _pinned: 1
   test: []
   test2: []

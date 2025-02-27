@@ -61,10 +61,14 @@ namespace Less3.ForceGraph.Editor
         public static readonly string LAYERED_MODE_SETTINGS_KEY = "ForceGraphInspectorLayered";
 
         private ForceGraph target;
+        private bool wasInit;
 
         private UnityEditor.Editor graphParametersInspector;
 
+        // assigned in the inspector
         public VisualTreeAsset inspectorLayeredUXML;
+        // assigned in the inspector
+        public Texture2D windowIcon;
 
         public VisualElement inspector;
 
@@ -77,6 +81,8 @@ namespace Less3.ForceGraph.Editor
 
         private ForceDirectedCanvas<ForceNode, ForceConnection> forceDirectedCanvas;
         private ToolbarBreadcrumbs breadcrumbs;
+
+
 
         [OnOpenAsset(1)]
         public static bool DoubleClickAsset(int instanceID, int line)
@@ -93,13 +99,13 @@ namespace Less3.ForceGraph.Editor
         public static void OpenInspector(ForceGraph graph)
         {
             var window = GetWindow<ForceGraphInspector>();
-            window.titleContent = new GUIContent("Force Graph Inspector");
-            window.InitGUI(graph);
+            window.InitGUI(graph);//
         }
 
         public void InitGUI(ForceGraph graph)
         {
             target = graph;
+            titleContent = new GUIContent(target.name, windowIcon);
             if (inspector != null)
             {
                 inspector.RemoveFromHierarchy();
@@ -137,9 +143,6 @@ namespace Less3.ForceGraph.Editor
             {
                 (target as ForceGraph).DeleteConnection(connection.data);
             };
-
-            Debug.Log("ForceDirectedCanvasnull: " + (forceDirectedCanvas == null));
-            Debug.Log("target null: " + (target == null));
 
             forceDirectedCanvas.ConnectionValidator = target.ValidateConnectionRequest;
             forceDirectedCanvas.PossibleConnectionTypes = (target as ForceGraph).GraphConnectionTypes();
@@ -322,12 +325,18 @@ namespace Less3.ForceGraph.Editor
 
         public void OnEnable()
         {
-            EditorApplication.update += Update;
+            EditorApplication.update += Update;//
+            if (wasInit)
+            {
+                InitGUI(target);
+                wasInit = false;
+            }
         }
 
-        private void OnDisable()
+        private void OnDisable()//
         {
             EditorApplication.update -= Update;
+            wasInit = true;
         }
 
         private void OnDestroy()

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Less3.ForceGraph;
+using Less3.ForceGraph.Editor;
 using UnityEditor;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
@@ -234,14 +235,14 @@ public static class ForceDirectedCanvasSettings
     public static readonly Vector2 DEFAULT_ASPECT_RATIO = new Vector2(1.6f, 0.6f);
 
     public static readonly float DEFAULT_ZOOM = 1f;
-    public static readonly Vector2 ZOOM_RANGE = new Vector2(.1f, 2f);
+    public static readonly Vector2 ZOOM_RANGE = new Vector2(.25f, 2f);
 }
 
 
 /// <summary>
 /// A canvas that uses "Force directed drawing" to position nodes. T is type of node data, U is type of connection data.
 /// </summary>
-public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U : class
+public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGeneric where T : class where U : class
 {
     private float _gravity;
     private float _nodeRepulsion;
@@ -280,7 +281,8 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         bg.style.flexGrow = 1;
         Add(bg);
         Add(translationContainer);
-        bg.AddManipulator(new ForceDirectedCanvasBGManipulator(translationContainer)
+        bg.AddManipulator(new ForceDirectedCanvasScrollManipulator(translationContainer));
+        bg.AddManipulator(new ForceDirectedCanvasBGManipulator()
         {
             OnLeftClick = () =>
             {
@@ -402,8 +404,10 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         nodesContainer.Add(ui);
         var node = new ForceCanvasNodeElement<T>(data, ui, startPosition);
         nodes.Add(node);
+        ui.AddManipulator(new ForceDirectedCanvasScrollManipulator(translationContainer));
         ui.AddManipulator(new ForceNodeDragManipulator(
             node,
+            this,
             leftClickAction: (n) =>
             {
                 if (newConnectionFromNode != null && newConnectionFromNode != n)
@@ -571,10 +575,8 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         DrawConnections();
         DrawNewConnection();
 
-
-
-        //Vector3 desiredScale = Vector3.one * EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM);
-        //translationContainer.transform.scale = Vector3.Lerp(translationContainer.transform.scale, desiredScale, .1f);
+        Vector3 desiredScale = Vector3.one * EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM);
+        translationContainer.transform.scale = desiredScale;
     }
 
     private void DrawConnections()
@@ -680,6 +682,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
         line.style.backgroundRepeat = new BackgroundRepeat(Repeat.Repeat, Repeat.NoRepeat);
 
         int index = connectionLines.Count - 1;
+        line.AddManipulator(new ForceDirectedCanvasScrollManipulator(translationContainer));
         line.AddManipulator(new LeftRightClickable(
             (evt) =>
             {
@@ -764,4 +767,40 @@ public class ForceDirectedCanvas<T, U> : VisualElement where T : class where U :
     {
         translationContainer.transform.scale = new Vector3(scale, scale, 1f);
     }
+
+    public Vector2 TryGetNodeSnapPosition(Vector2 pos, ForceCanvasNodeElementBase ignore)
+    {
+        Vector2 snapPos = pos;
+
+        float snapDist = 6f * (1f / EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM));
+        bool x= false;
+        bool y = false;
+        foreach (var node in nodes)
+        {
+            if (node == ignore)
+                continue;
+
+            if (!x && node.elementPosition.x < snapPos.x + snapDist && node.elementPosition.x > snapPos.x - snapDist)
+            {
+                snapPos.x = node.elementPosition.x;
+                x = true;
+            }
+            if (!y && node.elementPosition.y < snapPos.y + snapDist && node.elementPosition.y > snapPos.y - snapDist)
+            {
+                snapPos.y = node.elementPosition.y;
+                y = true;
+            }
+
+            if (x && y)
+                break;
+        }
+        return snapPos;
+    }
+}
+
+// because we have lots of generic stuff going on. Its very hard to call a method on the canvas without knowing the types.
+// this lets us do stuff when we don't know type.
+public interface IForceDirectedCanvasGeneric
+{
+    public Vector2 TryGetNodeSnapPosition(Vector2 pos, ForceCanvasNodeElementBase ignore);
 }
