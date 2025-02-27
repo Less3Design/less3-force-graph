@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditor.Callbacks;
-using Codice.Client.GameUI.Update;
 
 namespace Less3.ForceGraph.Editor
 {
