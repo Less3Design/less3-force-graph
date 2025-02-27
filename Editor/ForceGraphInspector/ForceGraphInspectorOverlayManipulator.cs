@@ -53,7 +53,7 @@ namespace Less3.ForceGraph.Editor
 
                 // clamp to panel
                 newPos.x = Mathf.Clamp(newPos.x, 0, target.panel.visualTree.worldBound.width - _root.layout.width - 32);
-                newPos.y = Mathf.Clamp(newPos.y, 0, target.panel.visualTree.worldBound.height - _root.layout.height - 64);
+                newPos.y = Mathf.Clamp(newPos.y, 0, target.panel.visualTree.worldBound.height - _root.layout.height - 48);
 
                 EditorPrefs.SetFloat(ForceGraphInspector.OVERLAY_X_SETTINGS_KEY, newPos.x);
                 EditorPrefs.SetFloat(ForceGraphInspector.OVERLAY_Y_SETTINGS_KEY, newPos.y);
