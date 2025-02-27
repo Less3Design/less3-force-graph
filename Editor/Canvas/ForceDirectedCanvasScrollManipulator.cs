@@ -28,6 +28,11 @@ namespace Less3.ForceGraph.Editor
         {
             float delta = evt.delta.y;
 
+            if ((evt.pressedButtons & (1 << 0)) != 0)
+            {
+                return;
+            }
+
             if (delta != 0)
             {
                 Vector3 mp = evt.mousePosition;

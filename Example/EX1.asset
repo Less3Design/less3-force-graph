@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 33.390522, y: 520.6914}
+  position: {x: 194.26888, y: 451.04312}
   _pinned: 1
   test: []
   test2: []
@@ -240,6 +240,24 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+--- !u!114 &-2080630262113494343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: -96.914116, y: -48.094612}
+  _pinned: 0
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
 --- !u!114 &-2042164900345036123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -286.3617, y: -251.0063}
+  position: {x: 33.390522, y: -251.0063}
   _pinned: 1
   test:
   - 
@@ -344,6 +362,7 @@ MonoBehaviour:
   - {fileID: -8380419948180603539}
   - {fileID: -9158097541687995207}
   - {fileID: 209173852575036635}
+  - {fileID: -2080630262113494343}
   connections:
   - {fileID: 8583018400973459032}
   - {fileID: -117813570468601616}
@@ -425,7 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 393.03125, y: 51.855453}
+  position: {x: 393.03125, y: 54.298664}
   _pinned: 1
   test: []
   test2: []
@@ -462,7 +481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 33.390522, y: 395.40927}
+  position: {x: 194.26888, y: 334.0652}
   _pinned: 1
   test: []
   test2: []

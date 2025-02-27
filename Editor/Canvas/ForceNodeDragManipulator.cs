@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ForceNodeDragManipulator : PointerManipulator 
+public class ForceNodeDragManipulator : PointerManipulator
 {
     private bool _enabled;// track if an event started inside the root
 
@@ -82,7 +82,11 @@ public class ForceNodeDragManipulator : PointerManipulator
             Vector3 pointerDelta = evt.position - _pointerStartPosition;
             pointerDelta = pointerDelta * (1f / EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM));
             Vector2 newPos = new Vector2(_targetStartPosition.x + pointerDelta.x, _targetStartPosition.y + pointerDelta.y);
-            newPos = _canvas.TryGetNodeSnapPosition(newPos, _node);
+
+            if (EditorPrefs.GetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, true))
+            {
+                newPos = _canvas.TryGetNodeSnapPosition(newPos, _node);
+            }
             _node.SetElementPosition(newPos);
         }
     }

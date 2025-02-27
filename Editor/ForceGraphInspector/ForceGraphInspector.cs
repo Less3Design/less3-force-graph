@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditor.Callbacks;
+using Codice.Client.GameUI.Update;
 
 namespace Less3.ForceGraph.Editor
 {
@@ -59,6 +60,10 @@ namespace Less3.ForceGraph.Editor
         public static readonly string FAST_FORWARD_SETTINGS_KEY = "ForceGraphFastForward";
         public static readonly string FIT_TO_SCREEN_SETTINGS_KEY = "ForceGraphFitToScreen";
         public static readonly string LAYERED_MODE_SETTINGS_KEY = "ForceGraphInspectorLayered";
+        public static readonly string PIN_OVERLAY_SETTINGS_KEY = "ForceGraphInspectorPinOverlay";
+
+        public static readonly string OVERLAY_X_SETTINGS_KEY = "ForceGraphInspectorOverlayX";
+        public static readonly string OVERLAY_Y_SETTINGS_KEY = "ForceGraphInspectorOverlayY";
 
         private ForceGraph target;
         private bool wasInit;
@@ -71,6 +76,8 @@ namespace Less3.ForceGraph.Editor
         public Texture2D windowIcon;
 
         public VisualElement inspector;
+        public Label inspectorLabel;
+        public VisualElement inspectorOverlay;
 
         public VisualElement graphInspectorRoot;
         public VisualElement graphHeightSetter;
@@ -217,8 +224,13 @@ namespace Less3.ForceGraph.Editor
                 connectionSlider.value = ForceDirectedCanvasSettings.DEFAULT_CONNECTION_FORCE;
                 aspectField.value = ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO;
             };
+            inspectorLabel = inspector.Q<Label>("InspectorLabel");
+            inspectorLabel.text = target.GetType().Name;
+            inspectorOverlay = inspector.Q("InspectorOverlay");
+            // drag
+            inspectorOverlay.AddManipulator(new ForceGraphInspectorOverlayManipulator(inspectorOverlay));
 
-            // * Shoe / hide settings overlay
+            // * Show / hide settings overlay
             var settingsOverlay = inspector.Q("SettingsOverlay");
             settingsOverlay.style.display = DisplayStyle.None;
             var settingsButton = inspector.Q<Button>("SettingsButton");
@@ -248,57 +260,37 @@ namespace Less3.ForceGraph.Editor
                     fastForwardButton.RemoveFromClassList("ToggleButtonEnabled");
             };
 
-            var fitToScreenButton = inspector.Q<Button>("ScaleToFit");
-            bool fitToScreen = EditorPrefs.GetBool(FIT_TO_SCREEN_SETTINGS_KEY, true);
-            if (fitToScreen)
-                fitToScreenButton.AddToClassList("ToggleButtonEnabled");
+            var snapButton = inspector.Q<Button>("Snap");
+            if (EditorPrefs.GetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, true))
+                snapButton.AddToClassList("ToggleButtonEnabled");
             else
-                fitToScreenButton.RemoveFromClassList("ToggleButtonEnabled");
-            forceDirectedCanvas.FitInView = fitToScreen;
+                snapButton.RemoveFromClassList("ToggleButtonEnabled");
 
-            fitToScreenButton.clicked += () =>
+            snapButton.clicked += () =>
             {
-                EditorPrefs.SetBool(FIT_TO_SCREEN_SETTINGS_KEY, !EditorPrefs.GetBool(FIT_TO_SCREEN_SETTINGS_KEY, true));
-                bool fitToScreen = EditorPrefs.GetBool(FIT_TO_SCREEN_SETTINGS_KEY, true);
-                if (fitToScreen)
-                {
-                    fitToScreenButton.AddToClassList("ToggleButtonEnabled");
-                    forceDirectedCanvas.FitInView = true;
-                    forceDirectedCanvas.UpdateCanvasToFit();
-                }
+                EditorPrefs.SetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, !EditorPrefs.GetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, true));
+                bool snap = EditorPrefs.GetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, true);
+                if (snap)
+                    snapButton.AddToClassList("ToggleButtonEnabled");
                 else
-                {
-                    fitToScreenButton.RemoveFromClassList("ToggleButtonEnabled");
-                    forceDirectedCanvas.FitInView = false;
-                }
+                    snapButton.RemoveFromClassList("ToggleButtonEnabled");
             };
 
-            var layeredModeButton = inspector.Q<Button>("LayeredMode");
-            bool lMode = EditorPrefs.GetBool(LAYERED_MODE_SETTINGS_KEY, true);
-            if (lMode)
-            {
-                layeredModeButton.AddToClassList("ToggleButtonEnabled");
-            }
+            var pinOverlayButton = inspector.Q("PinInspector");
+            if (EditorPrefs.GetBool(PIN_OVERLAY_SETTINGS_KEY, false))
+                pinOverlayButton.AddToClassList("PinOn");
             else
-            {
-                layeredModeButton.RemoveFromClassList("ToggleButtonEnabled");
-            }
+                pinOverlayButton.RemoveFromClassList("PinOn");
 
-            layeredModeButton.clicked += () =>
+            pinOverlayButton.AddManipulator(new Clickable(() =>
             {
-                EditorPrefs.SetBool(LAYERED_MODE_SETTINGS_KEY, !EditorPrefs.GetBool(LAYERED_MODE_SETTINGS_KEY, true));
-                bool lMode = EditorPrefs.GetBool(LAYERED_MODE_SETTINGS_KEY, true);
-                if (lMode)
-                {
-                    layeredModeButton.AddToClassList("ToggleButtonEnabled");
-                }
+                bool pinned = !EditorPrefs.GetBool(PIN_OVERLAY_SETTINGS_KEY, false);
+                EditorPrefs.SetBool(PIN_OVERLAY_SETTINGS_KEY, pinned);
+                if (pinned)
+                    pinOverlayButton.AddToClassList("PinOn");
                 else
-                {
-                    layeredModeButton.RemoveFromClassList("ToggleButtonEnabled");
-                }
-                EditorUtility.SetDirty(target);
-                AssetDatabase.SaveAssets();
-            };
+                    pinOverlayButton.RemoveFromClassList("PinOn");
+            }));
 
             foreach (var node in (target as ForceGraph).nodes)
             {
@@ -369,6 +361,7 @@ namespace Less3.ForceGraph.Editor
             breadcrumbs.PushItem("<b>" + target.name, () => forceDirectedCanvas.ClearSelection());
             typeNameLabel.text = target.GetType().Name;
             var so = new SerializedObject(target);
+            inspectorLabel.text = target.GetType().Name;
             scriptTypeObjectRef = so.FindProperty("m_Script").objectReferenceValue;
         }
 
@@ -383,6 +376,7 @@ namespace Less3.ForceGraph.Editor
             breadcrumbs.PushItem("<b>" + node.name, () => { });
             typeNameLabel.text = node.GetType().Name;
             var so = new SerializedObject(node);
+            inspectorLabel.text = node.GetType().Name;
             scriptTypeObjectRef = so.FindProperty("m_Script").objectReferenceValue;
         }
 
@@ -398,6 +392,7 @@ namespace Less3.ForceGraph.Editor
             breadcrumbs.PushItem("<b>" + connection.name, () => { });
             typeNameLabel.text = connection.GetType().Name;
             var so = new SerializedObject(connection);
+            inspectorLabel.text = connection.GetType().Name;
             scriptTypeObjectRef = so.FindProperty("m_Script").objectReferenceValue;
         }
 
@@ -414,6 +409,18 @@ namespace Less3.ForceGraph.Editor
                     if (Mathf.Approximately(node.data.position.x, node.simPosition.x) && Mathf.Approximately(node.data.position.y, node.simPosition.y))
                         continue;
                     node.data.position = node.simPosition;
+                }
+
+                if (inspectorOverlay != null)
+                {
+
+                    // validate overlay position and prefs
+                    Vector2 newPos = new Vector2(EditorPrefs.GetFloat(OVERLAY_X_SETTINGS_KEY, 0), EditorPrefs.GetFloat(OVERLAY_Y_SETTINGS_KEY, 0));
+                    newPos.x = Mathf.Clamp(newPos.x, 0, inspectorOverlay.panel.visualTree.worldBound.width - inspectorOverlay.layout.width - 32);
+                    newPos.y = Mathf.Clamp(newPos.y, 0, inspectorOverlay.panel.visualTree.worldBound.height - inspectorOverlay.layout.height - 64);
+                    EditorPrefs.SetFloat("ForceGraphInspectorOverlayManipulatorX", newPos.x);
+                    EditorPrefs.SetFloat("ForceGraphInspectorOverlayManipulatorY", newPos.y);
+                    inspectorOverlay.transform.position = newPos;
                 }
             }
         }

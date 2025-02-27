@@ -221,6 +221,7 @@ public static class ForceDirectedCanvasSettings
     public static readonly string ASPECT_RATIO_X_KEY = "ForceDirectedCanvasAspectRatioX";
     public static readonly string ASPECT_RATIO_Y_KEY = "ForceDirectedCanvasAspectRatioY";
     public static readonly string ZOOM_KEY = "ForceDirectedCanvasZoom";
+    public static readonly string SNAP_SETTINGS_KEY = "ForceGraphSnapToGrid";
 
     public static readonly float DEFAULT_GRAVITY = 1f;
     public static readonly Vector2 GRAVITY_RANGE = new Vector2(.1f, 2f);
@@ -773,7 +774,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         Vector2 snapPos = pos;
 
         float snapDist = 6f * (1f / EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM));
-        bool x= false;
+        bool x = false;
         bool y = false;
         foreach (var node in nodes)
         {

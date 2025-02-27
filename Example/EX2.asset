@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: CoolNode
   m_EditorClassIdentifier: 
-  position: {x: 70.41809, y: -98.074745}
+  position: {x: 70.418015, y: -98.074745}
   _pinned: 0
   test: []
   test2: []
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: Example
   m_EditorClassIdentifier: 
-  position: {x: -14.225713, y: -102.69454}
+  position: {x: -14.225727, y: -102.69454}
   _pinned: 0
   test: []
   test2: []
@@ -213,7 +213,7 @@ MonoBehaviour:
   - {fileID: -3735328540511974886}
   - {fileID: 7826203451816932946}
   - {fileID: -9145306494603147776}
-  test: 6.96
+  test: 7.09
   customProperty: 
   customProperty2: 
 --- !u!114 &1977790700564708838

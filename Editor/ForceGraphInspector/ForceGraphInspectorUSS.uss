@@ -104,3 +104,30 @@
     margin-top: 0;
     flex-grow: 1;
 }
+
+.Nurling {
+    background-size: 8px 8px;
+    background-repeat: repeat repeat;
+    background-position-x: left 0;
+}
+
+.Pin:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.Pin {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url('project://database/Assets/Less3_ForceGraph/Editor/Textures/Pin_off.png?fileID=2800000&guid=9a13155f6a2c1934a8811584f5e66390&type=3#Pin_off');
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.3);
+}
+
+.PinOn {
+    background-image: url('project://database/Assets/Less3_ForceGraph/Editor/Textures/Pin_on.png?fileID=2800000&guid=2a261ef0d170a6e40a53e16747960f17&type=3#Pin_on');
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.7);
+}
+
+.PinOn:hover {
+    background-image: url('project://database/Assets/Less3_ForceGraph/Editor/Textures/Pin_on.png?fileID=2800000&guid=2a261ef0d170a6e40a53e16747960f17&type=3#Pin_on');
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.15);
+}
