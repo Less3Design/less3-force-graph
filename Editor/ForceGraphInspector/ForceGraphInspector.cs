@@ -169,9 +169,7 @@ namespace Less3.ForceGraph.Editor
 
             graphInspectorRoot = inspector.Q("GraphInspector");
             selectionInspectorRoot = inspector.Q("SelectionInspector");
-
-            graphParametersInspector = UnityEditor.Editor.CreateEditorWithContext(new[] { target }, target, typeof(ForceGraphParametersEditorBase));
-            graphInspectorRoot.Add(new InspectorElement(graphParametersInspector));
+            graphInspectorRoot.Add(new InspectorElement(target));
 
             // Setup the node graph settings panel
 
