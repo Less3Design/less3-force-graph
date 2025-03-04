@@ -64,7 +64,9 @@ namespace Less3.ForceGraph.Editor
         public static readonly string OVERLAY_X_SETTINGS_KEY = "ForceGraphInspectorOverlayX";
         public static readonly string OVERLAY_Y_SETTINGS_KEY = "ForceGraphInspectorOverlayY";
 
+        [SerializeField]
         private ForceGraph target;
+        [SerializeField]
         private bool wasInit;
 
         private UnityEditor.Editor graphParametersInspector;
@@ -171,56 +173,6 @@ namespace Less3.ForceGraph.Editor
             selectionInspectorRoot = inspector.Q("SelectionInspector");
             graphInspectorRoot.Add(new InspectorElement(target));
 
-            // Setup the node graph settings panel
-
-            // Gravity is currently disabled because its kind of redundant with the repulsion force
-            var gravitySlider = inspector.Q<Slider>("GravitySlider");
-            gravitySlider.value = EditorPrefs.GetFloat(ForceDirectedCanvasSettings.GRAVITY_KEY, ForceDirectedCanvasSettings.DEFAULT_GRAVITY);
-            gravitySlider.lowValue = ForceDirectedCanvasSettings.GRAVITY_RANGE.x;
-            gravitySlider.highValue = ForceDirectedCanvasSettings.GRAVITY_RANGE.y;
-            gravitySlider.RegisterCallback<ChangeEvent<float>>((evt) =>
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.GRAVITY_KEY, evt.newValue)
-            );
-
-            var repulsionSlider = inspector.Q<Slider>("RepulsionSlider");
-            repulsionSlider.value = EditorPrefs.GetFloat(ForceDirectedCanvasSettings.NODE_REPULSION_KEY, ForceDirectedCanvasSettings.DEFAULT_NODE_REPULSION);
-            repulsionSlider.lowValue = ForceDirectedCanvasSettings.NODE_REPULSION_RANGE.x;
-            repulsionSlider.highValue = ForceDirectedCanvasSettings.NODE_REPULSION_RANGE.y;
-            repulsionSlider.RegisterCallback<ChangeEvent<float>>((evt) =>
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.NODE_REPULSION_KEY, evt.newValue)
-            );
-
-            var connectionSlider = inspector.Q<Slider>("ConnectionSlider");
-            connectionSlider.value = EditorPrefs.GetFloat(ForceDirectedCanvasSettings.CONNECTION_FORCE_KEY, ForceDirectedCanvasSettings.DEFAULT_CONNECTION_FORCE);
-            connectionSlider.lowValue = ForceDirectedCanvasSettings.CONNECTION_FORCE_RANGE.x;
-            connectionSlider.highValue = ForceDirectedCanvasSettings.CONNECTION_FORCE_RANGE.y;
-            connectionSlider.RegisterCallback<ChangeEvent<float>>((evt) =>
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.CONNECTION_FORCE_KEY, evt.newValue)
-            );
-
-            var aspectField = inspector.Q<Vector2Field>("AspectField");
-            aspectField.value = new Vector2(
-                EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_X_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.x),
-                EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_Y_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.y)
-            );
-            aspectField.RegisterCallback<ChangeEvent<Vector2>>((evt) =>
-            {
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_X_KEY, evt.newValue.x);
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_Y_KEY, evt.newValue.y);
-            });
-
-            inspector.Q<Button>("ResetSettingsToDefault").clicked += () =>
-            {
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.GRAVITY_KEY, ForceDirectedCanvasSettings.DEFAULT_GRAVITY);
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.NODE_REPULSION_KEY, ForceDirectedCanvasSettings.DEFAULT_NODE_REPULSION);
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.CONNECTION_FORCE_KEY, ForceDirectedCanvasSettings.DEFAULT_CONNECTION_FORCE);
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_X_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.x);
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_Y_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.y);
-                gravitySlider.value = ForceDirectedCanvasSettings.DEFAULT_GRAVITY;
-                repulsionSlider.value = ForceDirectedCanvasSettings.DEFAULT_NODE_REPULSION;
-                connectionSlider.value = ForceDirectedCanvasSettings.DEFAULT_CONNECTION_FORCE;
-                aspectField.value = ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO;
-            };
             inspectorLabel = inspector.Q<Label>("InspectorLabel");
             inspectorLabel.text = target.GetType().Name;
             inspectorOverlay = inspector.Q("InspectorOverlay");
@@ -398,14 +350,14 @@ namespace Less3.ForceGraph.Editor
             if (forceDirectedCanvas != null)
             {
                 // 4 steps per tick on fast forward. That might be excessive for slow machines. 2 or 3 are still useful
-                forceDirectedCanvas.Simulate(EditorPrefs.GetBool(FAST_FORWARD_SETTINGS_KEY, false) ? 4 : 1);
+                forceDirectedCanvas.Update();
 
                 foreach (var node in forceDirectedCanvas.nodes)
                 {
                     // We ignore this to try and avoid unnecessary writes to the asset
-                    if (Mathf.Approximately(node.data.position.x, node.simPosition.x) && Mathf.Approximately(node.data.position.y, node.simPosition.y))
+                    if (Mathf.Approximately(node.data.position.x, node.position.x) && Mathf.Approximately(node.data.position.y, node.position.y))
                         continue;
-                    node.data.position = node.simPosition;
+                    node.data.position = node.position;
                 }
 
                 if (inspectorOverlay != null && inspectorOverlay.panel != null)

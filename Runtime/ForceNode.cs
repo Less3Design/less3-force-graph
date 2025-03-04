@@ -4,26 +4,13 @@ using UnityEngine;
 
 namespace Less3.ForceGraph
 {
-    public abstract class ForceNode : ScriptableObject, IForceNodePinnable
+    public abstract class ForceNode : ScriptableObject
     {
         /// <summary>
         /// The position of the node in the graph.
         /// </summary>
         public Vector2 position;
         public ForceGraph graph { get; private set; }
-        [SerializeField,HideInInspector]
-        private bool _pinned = false;
-        public bool pinned
-        {
-            get
-            {
-                return _pinned;
-            }
-            set
-            {
-                _pinned = value;
-            }
-        }
 
         public void SetGraph(ForceGraph graph)
         {

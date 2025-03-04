@@ -4,8 +4,11 @@ using UnityEngine;
 using Less3.ForceGraph;
 using System.Diagnostics;
 
-public class GenerationNode : ForceNode, IForceNodeIcon
+public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle
 {
+
+    public string n;
+    public string NodeTitle => n;
     public string NodeIcon => ForceNodeIcons.Data;
     public Color NodeBackgroundColor => Color.green;
     public Color NodeLabelColor => Color.black;

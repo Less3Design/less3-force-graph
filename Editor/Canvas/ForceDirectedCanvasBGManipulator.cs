@@ -15,7 +15,7 @@ public class ForceDirectedCanvasBGManipulator : PointerManipulator
     private Vector3 _pointerStartPosition { get; set; }
 
     public Action OnLeftClick { get; set; }
-    public Action OnRightClick { get; set; }
+    public Action<Vector2> OnRightClick { get; set; }
     public Action<Vector2> OnDrag { get; set; }
     private VisualElement _translationContainer;
 
@@ -42,7 +42,7 @@ public class ForceDirectedCanvasBGManipulator : PointerManipulator
         }
         if (evt.button == (int)MouseButton.RightMouse)
         {
-            OnRightClick?.Invoke();
+            OnRightClick?.Invoke(evt.position);
             return;
         }
         if (evt.button == (int)MouseButton.MiddleMouse || evt.button == (int)MouseButton.LeftMouse)

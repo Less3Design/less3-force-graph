@@ -66,7 +66,6 @@ public class ForceNodeDragManipulator : PointerManipulator
         if (evt.button == (int)MouseButton.LeftMouse)
         {
             _enabled = true;
-            _node.frozen = true;
             PointerCaptureHelper.CapturePointer(target, evt.pointerId);
             _node.element.Q("Border").AddToClassList("Pressed");
 
@@ -87,7 +86,7 @@ public class ForceNodeDragManipulator : PointerManipulator
             {
                 newPos = _canvas.TryGetNodeSnapPosition(newPos, _node);
             }
-            _node.SetElementPosition(newPos);
+            _node.SetPosition(newPos);
         }
     }
 
@@ -95,7 +94,6 @@ public class ForceNodeDragManipulator : PointerManipulator
     {
         if (_enabled && target.HasPointerCapture(evt.pointerId))
         {
-            _node.frozen = false;
             _enabled = false;
             target.ReleasePointer(evt.pointerId);
             _node.element.Q("Border").RemoveFromClassList("Pressed");

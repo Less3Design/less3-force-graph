@@ -14,70 +14,17 @@ public abstract class ForceCanvasNodeElementBase
     public VisualElement element;
     public float mass = 10f;
     public Vector2 force;
-    protected bool _pinned;
-    public virtual bool pinned
-    {
-        get
-        {
-            return _pinned;
-        }
-        set
-        {
-            _pinned = value;
-            element.Q("Pin").style.display = _pinned ? DisplayStyle.Flex : DisplayStyle.None;
-        }
-    }
-    public bool frozen;
+    public Vector2 position { get; protected set; }
 
-    // position in YML and without aspect ratio
-    public Vector2 simPosition { get; protected set; }
-    // Position with aspect. Pos as it exists in the ui
-    public Vector2 elementPosition { get; protected set; }
-    public Vector2 simAspectRatio = Vector2.one;
-
-    public void SetElementPosition(Vector2 elemPos)
+    public void SetPosition(Vector2 newPos)
     {
-        //divide by aspect ratio to get sim position
-        this.simPosition = elemPos * (new Vector2(1f / simAspectRatio.x, 1f / simAspectRatio.y));
-        elementPosition = elemPos;
-        element.transform.position = elemPos;
+        this.position = newPos;
+        element.transform.position = newPos;
     }
 }
 
 public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
 {
-    public override bool pinned
-    {
-        get
-        {
-            if (_data is IForceNodePinnable pinnable)
-            {
-                return pinnable.pinned;
-            }
-            else
-            {
-                return _pinned;
-            }
-        }
-        set
-        {
-            if (_data is IForceNodePinnable pinnable)
-            {
-                pinnable.pinned = value;
-                if (_data is UnityEngine.Object uObj)
-                {
-                    UnityEditor.EditorUtility.SetDirty(uObj);
-                }
-            }
-            else
-            {
-                _pinned = value;
-            }
-
-            element.Q("Pin").style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
-        }
-    }
-
     private T _data;
     public T data
     {
@@ -120,37 +67,13 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
     {
         this.element = element;
         this.data = data;
-        simPosition = newPos;
-
-        element.Q("Pin").style.display = pinned ? DisplayStyle.Flex : DisplayStyle.None;
-
-        //TODO cache this sheesh
-        Vector2 aspectRatio = new Vector2(
-            EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_X_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.x),
-            EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_Y_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.y)
-        );
-        elementPosition = newPos * aspectRatio;
-        element.transform.position = elementPosition;
+        position = newPos;
+        element.transform.position = newPos;
     }
 
-    public void Update(Vector2 aspectRatio)
+    public void UpdateContent()
     {
-        simAspectRatio = aspectRatio;
-        if (frozen || pinned)
-        {
-            elementPosition = simPosition * aspectRatio;
-            element.transform.position = elementPosition;
-            return;
-        }
-
-        simPosition += force / mass;
-
-        // TODO ideally we validate nan's somewhere else. This can be evaluated multiple times per frame.
-        if (float.IsNaN(simPosition.x) || float.IsNaN(simPosition.y) || float.IsInfinity(simPosition.x) || float.IsInfinity(simPosition.y))
-            simPosition = new Vector2(UnityEngine.Random.Range(-5f, 5f), UnityEngine.Random.Range(-5, 5));
-
-        elementPosition = simPosition * aspectRatio;
-        element.transform.position = elementPosition;
+        data = data;
     }
 }
 
@@ -215,25 +138,8 @@ public class ForceCanvasConnection<T, U>
 
 public static class ForceDirectedCanvasSettings
 {
-    public static readonly string GRAVITY_KEY = "ForceDirectedCanvasGravity";
-    public static readonly string NODE_REPULSION_KEY = "ForceDirectedCanvasNodeRepulsion";
-    public static readonly string CONNECTION_FORCE_KEY = "ForceDirectedCanvasConnectionForce";
-    public static readonly string ASPECT_RATIO_X_KEY = "ForceDirectedCanvasAspectRatioX";
-    public static readonly string ASPECT_RATIO_Y_KEY = "ForceDirectedCanvasAspectRatioY";
     public static readonly string ZOOM_KEY = "ForceDirectedCanvasZoom";
     public static readonly string SNAP_SETTINGS_KEY = "ForceGraphSnapToGrid";
-
-    public static readonly float DEFAULT_GRAVITY = 1f;
-    public static readonly Vector2 GRAVITY_RANGE = new Vector2(.1f, 2f);
-
-    public static readonly float DEFAULT_NODE_REPULSION = 2.5f;
-    public static readonly Vector2 NODE_REPULSION_RANGE = new Vector2(.1f, 5f);
-    public static readonly float NODE_REPULSTION_MULTIPLIER = 2000f;
-
-    public static readonly float DEFAULT_CONNECTION_FORCE = .4f;
-    public static readonly Vector2 CONNECTION_FORCE_RANGE = new Vector2(.1f, 1.5f);
-
-    public static readonly Vector2 DEFAULT_ASPECT_RATIO = new Vector2(1.6f, 0.6f);
 
     public static readonly float DEFAULT_ZOOM = 1f;
     public static readonly Vector2 ZOOM_RANGE = new Vector2(.25f, 2f);
@@ -245,11 +151,6 @@ public static class ForceDirectedCanvasSettings
 /// </summary>
 public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGeneric where T : class where U : class
 {
-    private float _gravity;
-    private float _nodeRepulsion;
-    private float _connectionForce = .4f;
-    private Vector2 _aspectRatio;
-
     private const string NODE_UXML = "ForceNode";
     private static VisualTreeAsset _nodeUXML;
     public VisualTreeAsset nodeUXML
@@ -290,7 +191,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
                 ClearSelection();
             },
             // * BG Right click menu (add node)
-            OnRightClick = () =>
+            OnRightClick = (Vector2 mousePos) =>
             {
                 ClearSelection();
                 var menu = new GenericDropdownMenu();
@@ -300,7 +201,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
                 {
                     menu.AddItem($"{entry.Item1}", false, () =>
                     {
-                        AddNodeInternal(entry.Item2);
+                        AddNodeInternal(entry.Item2, nodesContainer.WorldToLocal(mousePos));
                     });
                 }
                 menu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero), this);
@@ -388,9 +289,9 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
     /// </summary>
     public bool FitInView;
 
-    private void AddNodeInternal(Type type)
+    private void AddNodeInternal(Type type, Vector2 pos)
     {
-        var node = InitNodeExternal(null, Vector2.zero);//TODO: get position from mouse
+        var node = InitNodeExternal(null, pos);//TODO: get position from mouse
         OnNodeCreatedInternally?.Invoke(node, type);
     }
 
@@ -440,10 +341,6 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
                             });
                         }
                     menu.AddSeparator("");
-                    menu.AddItem(n.pinned ? "Unpin" : "Pin", false, () =>
-                    {
-                        n.pinned = !n.pinned;
-                    });
                     menu.AddItem("Duplicate", false, () =>
                     {
                         DuplicateNodeInternal(castNode);
@@ -524,57 +421,12 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
     /// <summary>
     /// Simulate the forces on nodes. This should be called every frame. Usually in OnGUI() somewhere.
     /// </summary>
-    public void Simulate(int iterations = 1)
+    public void Update()
     {
-        _gravity = EditorPrefs.GetFloat(ForceDirectedCanvasSettings.GRAVITY_KEY, ForceDirectedCanvasSettings.DEFAULT_GRAVITY);
-        _nodeRepulsion = EditorPrefs.GetFloat(ForceDirectedCanvasSettings.NODE_REPULSION_KEY, ForceDirectedCanvasSettings.DEFAULT_NODE_REPULSION) * ForceDirectedCanvasSettings.NODE_REPULSTION_MULTIPLIER;
-        _connectionForce = EditorPrefs.GetFloat(ForceDirectedCanvasSettings.CONNECTION_FORCE_KEY, ForceDirectedCanvasSettings.DEFAULT_CONNECTION_FORCE);
-        _aspectRatio = new Vector2(
-            EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_X_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.x),
-            EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ASPECT_RATIO_Y_KEY, ForceDirectedCanvasSettings.DEFAULT_ASPECT_RATIO.y)
-        );
-
-        for (int iteration = 0; iteration < iterations; iteration++)
-        {
-            // Gravity to center of canvas
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                nodes[i].force = -nodes[i].simPosition * _gravity;
-            }
-            // Node repulsion
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                for (int j = 0; j < nodes.Count; j++)
-                {
-                    var a = nodes[i];
-                    var b = nodes[j];
-                    if (a == b) continue;
-                    Vector2 dir = a.simPosition - b.simPosition;
-                    Vector2 force2 = dir / (dir.magnitude * dir.magnitude);
-                    force2 *= _nodeRepulsion;
-                    a.force += new Vector2(force2.x, force2.y);
-                    b.force -= new Vector2(force2.x, force2.y);
-                }
-            }
-
-            // Connection forces
-            for (int i = 0; i < connections.Count; i++)
-            {
-                var connection = connections[i];
-                var dir = connection.from.simPosition - connection.to.simPosition;
-                connection.from.force -= dir * _connectionForce;
-                connection.to.force += dir * _connectionForce;
-            }
-
-            // Apply forces to nodes
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                nodes[i].Update(_aspectRatio);
-            }
-        }
-
         DrawConnections();
         DrawNewConnection();
+
+        selectedNode?.UpdateContent();
 
         Vector3 desiredScale = Vector3.one * EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM);
         translationContainer.transform.scale = desiredScale;
@@ -589,19 +441,15 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
 
             var connection = connections[i];
             var connectionLine = connectionLines[i];
-            var pos1 = connection.from.elementPosition + connection.from.element.layout.size * new Vector2(0f, 0.5f);
-            var pos2 = connection.to.elementPosition + connection.to.element.layout.size * new Vector2(0f, 0.5f);
-
-            connectionLine.transform.position = pos1;
+            var pos1 = connection.from.position + connection.from.element.layout.size * new Vector2(0f, 0.5f);
+            var pos2 = connection.to.position + connection.to.element.layout.size * new Vector2(0f, 0.5f);
             var dist = (pos1 - pos2).magnitude;
-            var thicknessFloat = Mathf.InverseLerp(100f, 500f, dist);
-            connectionLine.style.height = Mathf.Lerp(4f, 2f, thicknessFloat);
-
+            connectionLine.transform.position = pos1;
+            connectionLine.style.height = 4f;
             if (selectedConnection == connection)
                 connectionLine.style.opacity = 1f;
             else
-                connectionLine.style.opacity = Mathf.Lerp(.7f, 0.3f, thicknessFloat);
-
+                connectionLine.style.opacity = 0.7f;
             connectionLine.style.width = dist;
 
             if (float.IsNaN(pos1.x) || float.IsNaN(pos1.y) || float.IsNaN(pos2.x) || float.IsNaN(pos2.y))
@@ -642,13 +490,13 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         Vector2 offset = newConnectionFromNode.element.layout.size;
         offset.x = 0f;
         offset.y *= 0.5f;
-        var pos1 = newConnectionFromNode.elementPosition + offset;
+        var pos1 = newConnectionFromNode.position + offset;
         Vector2 pos2 = Vector2.zero;
 
         offset = hoveredNode.element.layout.size;
         offset.x = 0f;
         offset.y *= 0.5f;
-        pos2 = hoveredNode.elementPosition + offset;
+        pos2 = hoveredNode.position + offset;
 
         newConnectionLine.transform.position = pos1;
         var dist = (pos1 - pos2).magnitude;
@@ -781,14 +629,14 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
             if (node == ignore)
                 continue;
 
-            if (!x && node.elementPosition.x < snapPos.x + snapDist && node.elementPosition.x > snapPos.x - snapDist)
+            if (!x && node.position.x < snapPos.x + snapDist && node.position.x > snapPos.x - snapDist)
             {
-                snapPos.x = node.elementPosition.x;
+                snapPos.x = node.position.x;
                 x = true;
             }
-            if (!y && node.elementPosition.y < snapPos.y + snapDist && node.elementPosition.y > snapPos.y - snapDist)
+            if (!y && node.position.y < snapPos.y + snapDist && node.position.y > snapPos.y - snapDist)
             {
-                snapPos.y = node.elementPosition.y;
+                snapPos.y = node.position.y;
                 y = true;
             }
 
