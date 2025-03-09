@@ -1,3 +1,7 @@
+> [!WARNING]
+> Project is currently in a weird transition state. Removing the force direction and focusing on just making it a clean simple node editor.
+> **The information below is out of date.**
+
 ![Frame 51](https://github.com/user-attachments/assets/d8d4fab8-37e8-4cf3-ac71-dca490e52337)
 
 A scriptable object framework and node graph UI that lets you easily create complex branching trees of data.
