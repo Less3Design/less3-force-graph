@@ -11,12 +11,18 @@ using UnityEngine.UIElements;
 public class ForceDirectedCanvasBGManipulator : PointerManipulator
 {
     private bool _enabled;
+    private bool _isLeftDrag;
     private Vector2 _targetStartPosition { get; set; }
     private Vector3 _pointerStartPosition { get; set; }
 
     public Action OnLeftClick { get; set; }
     public Action<Vector2> OnRightClick { get; set; }
-    public Action<Vector2> OnDrag { get; set; }
+
+    public Action<Vector2> OnLeftDragStart { get; set; }
+    public Action<Vector2> OnLeftDrag { get; set; }
+    public Action<Vector2> OnLeftDragEnd { get; set; }
+
+    public Action<Vector2> OnMiddleDrag { get; set; }
     private VisualElement _translationContainer;
 
     protected override void RegisterCallbacksOnTarget()
@@ -49,6 +55,11 @@ public class ForceDirectedCanvasBGManipulator : PointerManipulator
         {
             _enabled = true;
             PointerCaptureHelper.CapturePointer(target, evt.pointerId);
+            _isLeftDrag = evt.button == (int)MouseButton.LeftMouse;
+            if (_isLeftDrag)
+            {
+                OnLeftDragStart?.Invoke(evt.position);
+            }
             return;
         }
     }
@@ -57,7 +68,14 @@ public class ForceDirectedCanvasBGManipulator : PointerManipulator
     {
         if (_enabled && target.HasPointerCapture(evt.pointerId))
         {
-            OnDrag?.Invoke(evt.deltaPosition);
+            if (_isLeftDrag)
+            {
+                OnLeftDrag?.Invoke(evt.deltaPosition);
+            }
+            else
+            {
+                OnMiddleDrag?.Invoke(evt.deltaPosition);
+            }
         }
     }
 
@@ -67,6 +85,10 @@ public class ForceDirectedCanvasBGManipulator : PointerManipulator
         {
             _enabled = false;
             target.ReleasePointer(evt.pointerId);
+            if (_isLeftDrag)
+            {
+                OnLeftDragEnd?.Invoke(evt.position);
+            }
         }
     }
 }

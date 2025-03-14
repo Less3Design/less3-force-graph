@@ -178,6 +178,16 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         translationContainer.style.top = 0;
         translationContainer.style.bottom = 0;
 
+        dragBox = new VisualElement();
+        dragBox.name = "DragBox";
+        dragBox.style.position = Position.Absolute;
+        dragBox.style.backgroundColor = Color.red;
+        dragBox.style.width = 8f;
+        dragBox.style.height = 8f;
+        dragBox.style.opacity = 0f;
+        dragBox.pickingMode = PickingMode.Ignore;
+        translationContainer.Add(dragBox);
+
         bg = new VisualElement();
         bg.name = "BG";
         bg.style.flexGrow = 1;
@@ -204,15 +214,24 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
                         AddNodeInternal(entry.Item2, nodesContainer.WorldToLocal(mousePos));
                     });
                 }
-                menu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero), this);
+                menu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero), this, false);
             },
-            OnDrag = (delta) =>
+            OnMiddleDrag = (delta) =>
             {
                 translationContainer.transform.position += new Vector3(delta.x, delta.y, 0);
-            }
+            },
+            OnLeftDragStart = (pos) =>
+            {
+                _leftDragging = true;
+                _leftDragStartPos = nodesContainer.WorldToLocal(pos);
+                _leftDragPos = _leftDragStartPos;
+            },
+            OnLeftDrag = (pos) =>
+            {
+                _leftDragPos = _leftDragPos + pos;
+                dragBox.transform.position = _leftDragPos;
+            },
         });
-
-
 
         connectionsContainer = new VisualElement();
         connectionsContainer.pickingMode = PickingMode.Ignore;
@@ -260,6 +279,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
     public ForceCanvasConnection<T, U> selectedConnection { get; private set; }
 
     private VisualElement bg;
+    private VisualElement dragBox;
     private VisualElement translationContainer;
     private VisualElement nodesContainer;
     private VisualElement connectionsContainer;
@@ -268,6 +288,11 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
     private Type newConnectionType;
     private VisualElement newConnectionLine;
     private ForceCanvasNodeElementBase hoveredNode;
+
+    // edit state
+    private bool _leftDragging;// a left click drag is in proress.
+    private Vector2 _leftDragStartPos;
+    private Vector2 _leftDragPos;
 
     // * Events & funcs
     public Action OnSelectionChanged;
@@ -284,10 +309,6 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
     //* Public Settings
     public Dictionary<Type, List<(string, Type)>> PossibleConnectionTypes = new Dictionary<Type, List<(string, Type)>>();
     public List<(string, Type)> PossibleNodeTypes = new List<(string, Type)>();
-    /// <summary>
-    /// If true the canvas will automatically zoom and pan to fit all nodes in view
-    /// </summary>
-    public bool FitInView;
 
     private void AddNodeInternal(Type type, Vector2 pos)
     {
@@ -350,7 +371,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
                         DeleteNodeInternal(castNode);
                     });
 
-                    menu.DropDown(n.element.worldBound, n.element);
+                    menu.DropDown(n.element.worldBound, n.element, false);
 
                 },
             enterAction: (n) =>
@@ -546,7 +567,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
                 {
                     DeleteConnectionInternal(connection);
                 });
-                menu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero), this);
+                menu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero), this, false);
             }
         ));
     }

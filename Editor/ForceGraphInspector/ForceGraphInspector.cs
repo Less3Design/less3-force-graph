@@ -255,7 +255,6 @@ namespace Less3.ForceGraph.Editor
 
             if (EditorPrefs.GetBool(FIT_TO_SCREEN_SETTINGS_KEY, true))
             {
-                forceDirectedCanvas.FitInView = true;
                 // Cause small graphs to zoom in, and large graphs to zoom out when opening if fit is enabled .
                 // Just makes it feel a bit more interesting when scrolling through graphs
                 forceDirectedCanvas.SetViewScale(.5f);

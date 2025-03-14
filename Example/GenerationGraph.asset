@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -32.628975, y: 30.764687}
-  _pinned: 0
+  n: 
+  test: []
+  test2: []
   anotheRTest: 0.12
   otherTest: 0
 --- !u!114 &11400000
@@ -68,6 +70,8 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 32.62892, y: -30.764631}
-  _pinned: 0
+  n: 
+  test: []
+  test2: []
   anotheRTest: 0
   otherTest: 0
