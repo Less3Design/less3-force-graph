@@ -1,0 +1,106 @@
+.NodeContainer {
+    border-top-color: var(--unity-colors-window-border);
+    border-right-color: var(--unity-colors-window-border);
+    border-bottom-color: var(--unity-colors-window-border);
+    border-left-color: var(--unity-colors-window-border);
+    position: relative;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+:root {
+    flex-grow: 1;
+    align-self: center;
+}
+
+.NodeBorder {
+    flex-grow: 0;
+    align-items: center;
+    justify-content: space-around;
+    align-self: center;
+    border-left-color: rgb(51, 51, 51);
+    border-right-color: rgb(51, 51, 51);
+    border-top-color: rgb(51, 51, 51);
+    border-bottom-color: rgb(51, 51, 51);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+    border-bottom-right-radius: 32px;
+    border-bottom-left-radius: 32px;
+    padding-top: 1px;
+    padding-right: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+}
+
+.NodeBorder:hover {
+    border-left-color: rgba(56, 122, 190, 0.5);
+    border-right-color: rgba(56, 122, 190, 0.5);
+    border-top-color: rgba(56, 122, 190, 0.5);
+    border-bottom-color: rgba(56, 122, 190, 0.5);
+}
+
+.Pressed {
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgb(56, 122, 190);
+    border-right-color: rgb(56, 122, 190);
+    border-top-color: rgb(56, 122, 190);
+    border-bottom-color: rgb(56, 122, 190);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.Selected {
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgb(56, 122, 190);
+    border-right-color: rgb(56, 122, 190);
+    border-top-color: rgb(56, 122, 190);
+    border-bottom-color: rgb(56, 122, 190);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.Icon {
+    -unity-background-image-tint-color: var(--unity-colors-default-text);
+}
+
+.Selected:hover {
+    border-left-color: rgb(75, 164, 255);
+    border-right-color: rgb(75, 164, 255);
+    border-top-color: rgb(75, 164, 255);
+    border-bottom-color: rgb(75, 164, 255);
+}
+
+.Pressed:hover {
+    border-left-color: rgb(75, 164, 255);
+    border-right-color: rgb(75, 164, 255);
+    border-top-color: rgb(75, 164, 255);
+    border-bottom-color: rgb(75, 164, 255);
+}
+
+.HoveredWithNode {
+    border-left-color: rgb(56, 122, 190);
+    border-right-color: rgb(56, 122, 190);
+    border-top-color: rgb(56, 122, 190);
+    border-bottom-color: rgb(56, 122, 190);
+    background-color: rgba(56, 122, 190, 0.3);
+}

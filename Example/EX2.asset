@@ -31,7 +31,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -1402.4385, y: -1341.4656}
+  position: {x: -1320.857, y: -1328.1072}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -68,6 +69,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -789.13715, y: -16.108152}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -84,7 +86,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 496.49606, y: -91.28879}
+  position: {x: 497.4572, y: -91.28879}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -102,6 +105,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1608.6667, y: 388.66666}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -119,6 +123,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 21.439379, y: 172.96562}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -211,7 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 1006.6667, y: 696.00006}
+  position: {x: 938.6667, y: 610.66675}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -229,6 +235,7 @@ MonoBehaviour:
   m_Name: CoolNode
   m_EditorClassIdentifier: 
   position: {x: 277.046, y: -271.40546}
+  n: 
   test: []
   test2: []
   anotheRTest: 2.47
@@ -245,7 +252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 1014, y: 681.3334}
+  position: {x: 1018, y: 768}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -262,7 +270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 1135.8777, y: 710.00006}
+  position: {x: 950, y: 551.3334}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -299,6 +308,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1112.6667, y: 710.00006}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -316,6 +326,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -498.65384, y: 324.3595}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -333,6 +344,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 111.5414, y: -5.658572}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -350,6 +362,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1054, y: -70.333374}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -386,6 +399,7 @@ MonoBehaviour:
   m_Name: Example
   m_EditorClassIdentifier: 
   position: {x: 277.046, y: -196.5995}
+  n: 
   test: []
   test2: []
   anotheRTest: 24.04
@@ -403,6 +417,7 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   position: {x: -97.77156, y: -91.28879}
+  n: 
   test: []
   test2: []
   anotheRTest: 1.68
@@ -469,6 +484,7 @@ MonoBehaviour:
   - {fileID: -4603236591850304529}
   - {fileID: -8707916388980792751}
   - {fileID: 1633806203395118713}
+  groups: []
   test: 7.09
   customProperty: 
   customProperty2: 
@@ -485,6 +501,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 950, y: 730.00006}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -501,7 +518,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 991.69666, y: 697.6576}
+  position: {x: 1014, y: 604.3334}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -519,6 +537,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1280.667, y: -483.66675}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -536,6 +555,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1112.6667, y: 637.3334}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -553,6 +573,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1236.6667, y: 751.3334}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -570,6 +591,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1545.4288, y: 531.36176}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -587,6 +609,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 928.2285, y: -837.4656}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -604,6 +627,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -66.50375, y: 4.972275}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -621,6 +645,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1438.6667, y: 700.00006}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -657,6 +682,7 @@ MonoBehaviour:
   m_Name: BetterExample
   m_EditorClassIdentifier: 
   position: {x: -97.77156, y: -196.5995}
+  n: 
   test: []
   test2: []
   anotheRTest: 24.94
@@ -673,7 +699,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 277.046, y: -91.28879}
+  position: {x: 284.73486, y: -91.28879}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -691,6 +718,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 111.5414, y: -91.28879}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -708,6 +736,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1267.3334, y: 670.00006}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -725,6 +754,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 190, y: 564.3334}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -742,6 +772,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 677.3334, y: 710.00006}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -759,6 +790,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1744.667, y: 604.3334}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -795,6 +827,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1112.6667, y: 734.1478}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -812,6 +845,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -258.06824, y: -196.5995}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -829,6 +863,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1140.6667, y: 644.00006}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -865,6 +900,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 91.568344, y: 82.12817}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -882,6 +918,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 912.6667, y: 704.6667}
+  n: 
   test: []
   test2: []
   anotheRTest: 0
@@ -899,6 +936,7 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 456.62964, y: -196.5995}
+  n: 
   test: []
   test2: []
   anotheRTest: 0

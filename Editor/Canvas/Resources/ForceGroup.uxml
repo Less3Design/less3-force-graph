@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/less3-force-graph/Editor/Canvas/Resources/ForceGroup.uss?fileID=7433441132597879392&amp;guid=e9ef54e3afa1b8249818735b8917d4f9&amp;type=3#ForceGroup" />
+    <ui:VisualElement name="Border" class="NodeBorder" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start; flex-shrink: 0;">
+        <ui:VisualElement name="NodeContainer" picking-mode="Ignore" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; position: relative; height: 24px; top: -28px;">
+            <ui:Label text="NodeGroupLabel" name="Label" picking-mode="Ignore" style="-unity-font-style: bold; -unity-text-align: lower-left; font-size: 12px; text-overflow: ellipsis; overflow: hidden;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

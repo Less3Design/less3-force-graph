@@ -27,7 +27,7 @@ namespace Less3.ForceGraph.Editor
             graph.nodes.Add(newNode);
             return newNode;
         }
-        
+
         public static ForceNode DuplicateNode(this ForceGraph graph, ForceNode node)
         {
             var newNode = ScriptableObject.Instantiate(node);
@@ -82,6 +82,57 @@ namespace Less3.ForceGraph.Editor
             }
             graph.connections.Remove(connection);
             ScriptableObject.DestroyImmediate(connection, true);
+        }
+
+        public static ForceGroup CreateGroup(this ForceGraph graph, Type type)
+        {
+            var group = (ForceGroup)ScriptableObject.CreateInstance(type);
+            group.name = type.Name;
+            AssetDatabase.AddObjectToAsset(group, graph);
+            group.SetGraph(graph);
+            graph.groups.Add(group);
+            return group;
+        }
+
+        public static void AddNodeToGroup(this ForceGraph graph, ForceNode node, ForceGroup group)
+        {
+            if (group == null || node == null)
+            {
+                return;
+            }
+
+            RemoveNodeFromGroups(graph, node);
+            if (group.nodes.Contains(node) == false)
+            {
+                group.nodes.Add(node);
+            }
+        }
+
+        /// <summary>
+        /// Remove the node from any groups it is in.
+        /// </summary>
+        public static void RemoveNodeFromGroups(this ForceGraph graph, ForceNode node)
+        {
+            foreach (var group in graph.groups)
+            {
+                if (group.nodes.Contains(node))
+                {
+                    group.nodes.Remove(node);
+                }
+            }
+        }
+
+        public static void IsNodeInAGroup(this ForceGraph graph, ForceNode node, out ForceGroup group)
+        {
+            group = null;
+            foreach (var g in graph.groups)
+            {
+                if (g.nodes.Contains(node))
+                {
+                    group = g;
+                    return;
+                }
+            }
         }
     }
 }

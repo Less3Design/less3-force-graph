@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Less3.ForceGraph;
 using Less3.ForceGraph.Editor;
 using UnityEditor;
@@ -9,12 +10,136 @@ using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+// ? There are a bunch of types below that describe nodes, connections, etc.
+//   These types are used by the UI to render and manage the graph as it exists *in the ui only*
+//   The UI acts independently, and sends messages out that our .assets react to and apply changes.
+//   - AKA you could create a graph with totally custom classes. No SO's. The UI will still work.
+//   - You could render a generic linked list to a graph if you wanted to for some reason.
+
+// ? These base classes are just to make passing the object around easier in certain situations.
+// Otherwise some classes need tons of generic types to be passed around.
+public abstract class ForceCanvasGroupBase
+{
+    protected readonly Vector2 EMPTY_GROUP_SIZE = new Vector2(100, 100);
+    protected readonly Vector2 FILLED_GROUP_PADDING = new Vector2(16, 16);
+    public VisualElement element;
+    public Vector2 position;
+    public Label label;
+
+    public abstract void UpdateShape();
+
+    public bool PositionIsWithinBounds(Vector2 pos)
+    {
+        Rect bounds = element.worldBound;
+        return pos.x >= bounds.xMin && pos.x <= bounds.xMax && pos.y >= bounds.yMin && pos.y <= bounds.yMax;
+    }
+
+    public void SetPosition(Vector2 newPos)
+    {
+        this.position = newPos;
+    }
+
+    public abstract void AddNode(ForceCanvasNodeElementBase node);
+    public abstract void RemoveNode(ForceCanvasNodeElementBase node);
+
+    public void SetHoveredWithNode(bool hovered)
+    {
+        if (hovered)
+        {
+            element.Q("Border").AddToClassList("HoveredWithNode");
+        }
+        else
+        {
+            element.Q("Border").RemoveFromClassList("HoveredWithNode");
+        }
+    }
+}
+
+public class ForceCanvasGroupElement<G, N> : ForceCanvasGroupBase
+{
+    public G data;
+    public List<ForceCanvasNodeElement<N>> nodes = new List<ForceCanvasNodeElement<N>>();
+
+    public ForceCanvasGroupElement(G data, VisualElement element, Vector2 position)
+    {
+        this.data = data;
+        this.element = element;
+        SetPosition(position);
+
+        label = element.Q<Label>("Label");
+        if (data == null)
+        {
+            label.text = "Group";
+        }
+        else
+        {
+            if (data is IForceNodeTitle title)
+                label.text = title.NodeTitle;
+            else
+                label.text = data.ToString();
+        }
+    }
+
+    /// <summary>
+    /// When the data on the object has changed. Most likely to change the label
+    /// </summary>
+    public void UpdateContent()
+    {
+        if (label == null || data == null)
+            return;
+        if (data is IForceNodeTitle title)
+            label.text = title.NodeTitle;
+        else
+            label.text = data.ToString();
+    }
+
+    public override void UpdateShape()
+    {
+        Rect rect;
+
+        if (nodes.Count == 0)
+        {
+            rect = new Rect(position, EMPTY_GROUP_SIZE);
+        }
+        else
+        {
+            rect = new Rect(nodes[0].element.localBound);
+            for (int i = 1; i < nodes.Count; i++)
+            {
+                ForceCanvasNodeElement<N> node = nodes[i];
+                if (node == null || node.element == null)
+                    continue;
+                rect = rect.Encapsulate(node.element.localBound);
+            }
+            // add padding
+            rect.xMin -= FILLED_GROUP_PADDING.x;
+            rect.xMax += FILLED_GROUP_PADDING.x;
+            rect.yMin -= FILLED_GROUP_PADDING.y;
+            rect.yMax += FILLED_GROUP_PADDING.y;
+        }
+        element.style.left = rect.x;
+        element.style.top = rect.y;
+        element.style.width = rect.width;
+        element.style.height = rect.height;
+    }
+
+    public override void AddNode(ForceCanvasNodeElementBase node)
+    {
+        nodes.Add((ForceCanvasNodeElement<N>)node);
+    }
+
+    public override void RemoveNode(ForceCanvasNodeElementBase node)
+    {
+        nodes.Remove((ForceCanvasNodeElement<N>)node);
+    }
+}
+
 public abstract class ForceCanvasNodeElementBase
 {
     public VisualElement element;
-    public float mass = 10f;
-    public Vector2 force;
     public Vector2 position { get; protected set; }
+
+    public Rect bounds => element.worldBound;
 
     public void SetPosition(Vector2 newPos)
     {
@@ -73,7 +198,7 @@ public class ForceCanvasNodeElement<T> : ForceCanvasNodeElementBase
 
     public void UpdateContent()
     {
-        data = data;
+        data = data;// cheeky way to trigger the setter and update the UI.
     }
 }
 
@@ -147,11 +272,14 @@ public static class ForceDirectedCanvasSettings
 
 
 /// <summary>
-/// A canvas that uses "Force directed drawing" to position nodes. T is type of node data, U is type of connection data.
+/// A canvas that uses "Force directed drawing" to position nodes. N is type of node data, C is type of connection data. G is type of group data.
+/// All types must be classes.
 /// </summary>
-public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGeneric where T : class where U : class
+public class ForceDirectedCanvas<N, C, G> : VisualElement, IForceDirectedCanvasGeneric where N : class where C : class where G : class
 {
     private const string NODE_UXML = "ForceNode";
+    private const string GROUP_UXML = "ForceGroup";
+
     private static VisualTreeAsset _nodeUXML;
     public VisualTreeAsset nodeUXML
     {
@@ -162,8 +290,18 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
             return _nodeUXML;
         }
     }
+    private static VisualTreeAsset _groupUXML;
+    public VisualTreeAsset groupUXML
+    {
+        get
+        {
+            if (_groupUXML == null)
+                _groupUXML = Resources.Load<VisualTreeAsset>(GROUP_UXML);
+            return _groupUXML;
+        }
+    }
 
-    public new class UxmlFactory : UxmlFactory<ForceDirectedCanvas<T, U>, UxmlTraits> { }
+    public new class UxmlFactory : UxmlFactory<ForceDirectedCanvas<N, C, G>, UxmlTraits> { }
 
     public ForceDirectedCanvas()
     {
@@ -207,13 +345,26 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
                 var menu = new GenericDropdownMenu();
 
                 menu.AddDisabledItem("Add Node", false);
-                foreach (var entry in PossibleNodeTypes)
+                foreach ((string name, Type nodeType) in PossibleNodeTypes)
                 {
-                    menu.AddItem($"{entry.Item1}", false, () =>
+                    menu.AddItem($"{name}", false, () =>
                     {
-                        AddNodeInternal(entry.Item2, nodesContainer.WorldToLocal(mousePos));
+                        AddNullNodeInternal(nodeType, nodesContainer.WorldToLocal(mousePos));
                     });
                 }
+                if (PossibleGroupTypes.Count > 0)
+                {
+                    menu.AddSeparator("");
+                    menu.AddDisabledItem("Add Group", false);
+                    foreach ((string name, Type groupType) in PossibleGroupTypes)
+                    {
+                        menu.AddItem($"{name}", false, () =>
+                        {
+                            AddNullGroupInternal(groupType, nodesContainer.WorldToLocal(mousePos));
+                        });
+                    }
+                }
+
                 menu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero), this, false);
             },
             OnMiddleDrag = (delta) =>
@@ -232,6 +383,15 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
                 dragBox.transform.position = _leftDragPos;
             },
         });
+
+        groupsContainer = new VisualElement();
+        groupsContainer.pickingMode = PickingMode.Ignore;
+        groupsContainer.name = "GroupsContainer";
+        groupsContainer.style.position = Position.Absolute;
+        groupsContainer.style.left = Length.Percent(50);
+        groupsContainer.style.top = Length.Percent(50);
+        groupsContainer.style.bottom = 0;
+        translationContainer.Add(groupsContainer);
 
         connectionsContainer = new VisualElement();
         connectionsContainer.pickingMode = PickingMode.Ignore;
@@ -271,20 +431,25 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         translationContainer.Add(nodesContainer);
     }
 
-    public List<ForceCanvasNodeElement<T>> nodes { get; private set; } = new List<ForceCanvasNodeElement<T>>();
-    private List<ForceCanvasConnection<T, U>> connections = new List<ForceCanvasConnection<T, U>>();
+    public List<ForceCanvasNodeElement<N>> nodes { get; private set; } = new List<ForceCanvasNodeElement<N>>();
+
+    public List<ForceCanvasConnection<N, C>> connections = new List<ForceCanvasConnection<N, C>>();
+
+    public List<ForceCanvasGroupElement<G, N>> groups = new List<ForceCanvasGroupElement<G, N>>();
+
     private List<VisualElement> connectionLines = new List<VisualElement>();
 
-    public ForceCanvasNodeElement<T> selectedNode { get; private set; }
-    public ForceCanvasConnection<T, U> selectedConnection { get; private set; }
+    public ForceCanvasNodeElement<N> selectedNode { get; private set; }
+    public ForceCanvasConnection<N, C> selectedConnection { get; private set; }
 
     private VisualElement bg;
     private VisualElement dragBox;
     private VisualElement translationContainer;
     private VisualElement nodesContainer;
     private VisualElement connectionsContainer;
+    private VisualElement groupsContainer;
     private VisualElement effectsContainer;
-    private ForceCanvasNodeElement<T> newConnectionFromNode;
+    private ForceCanvasNodeElement<N> newConnectionFromNode;
     private Type newConnectionType;
     private VisualElement newConnectionLine;
     private ForceCanvasNodeElementBase hoveredNode;
@@ -296,36 +461,84 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
 
     // * Events & funcs
     public Action OnSelectionChanged;
-    public Func<T, T, Type, bool> ConnectionValidator;
+    public Func<N, N, Type, bool> ConnectionValidator;
     /// <summary>
     /// A connection was created by interacting with the node canvas. This likely requires an asset to be created. 2nd param is the specific type of the connection (U)
     /// </summary>
-    public Action<ForceCanvasConnection<T, U>, Type> OnConnectionCreatedInternally;
-    public Action<ForceCanvasNodeElement<T>, Type> OnNodeCreatedInternally;
-    public Action<ForceCanvasNodeElement<T>> OnNodeDeletedInternally;
-    public Action<ForceCanvasNodeElement<T>> OnNodeDuplicatedInternally;
-    public Action<ForceCanvasConnection<T, U>> OnConnectionDeletedInternally;
+    public Action<ForceCanvasConnection<N, C>, Type> OnConnectionCreatedInternally;
+    public Action<ForceCanvasNodeElement<N>, Type> OnNodeCreatedInternally;
+    public Action<ForceCanvasGroupElement<G, N>, Type> OnGroupCreatedInternally;
+    public Action<N, G> OnNodeAddedToGroupInternally;
+    public Action<N, G> OnNodeRemovedFromGroupInternally;
+    public Action<ForceCanvasNodeElement<N>> OnNodeDeletedInternally;
+    public Action<ForceCanvasNodeElement<N>> OnNodeDuplicatedInternally;
+    public Action<ForceCanvasConnection<N, C>> OnConnectionDeletedInternally;
 
     //* Public Settings
     public Dictionary<Type, List<(string, Type)>> PossibleConnectionTypes = new Dictionary<Type, List<(string, Type)>>();
     public List<(string, Type)> PossibleNodeTypes = new List<(string, Type)>();
+    public List<(string, Type)> PossibleGroupTypes = new List<(string, Type)>();
 
-    private void AddNodeInternal(Type type, Vector2 pos)
+    private void AddNullNodeInternal(Type type, Vector2 pos)
     {
-        var node = InitNodeExternal(null, pos);//TODO: get position from mouse
+        var node = InitNodeExternal(null, pos);
         OnNodeCreatedInternally?.Invoke(node, type);
+    }
+
+    private void AddNullGroupInternal(Type type, Vector2 pos)
+    {
+        var group = InitGroupExternal(null, pos);
+        OnGroupCreatedInternally?.Invoke(group, type);
+    }
+
+    public ForceCanvasGroupElement<G, N> InitGroupExternal(G data, Vector2 pos, List<N> nodesInGroup = null)
+    {
+        VisualElement ui = groupUXML.Instantiate();
+        ui.style.position = Position.Absolute;
+        groupsContainer.Add(ui);
+        var group = new ForceCanvasGroupElement<G, N>(data, ui, pos);
+        groups.Add(group);
+        ui.AddManipulator(new ForceDirectedCanvasScrollManipulator(translationContainer));
+        ui.AddManipulator(new GroupManipulator(
+            group,
+            this,
+            (ForceCanvasGroupBase g) =>
+            {
+                // left click
+            },
+            (ForceCanvasGroupBase g) =>
+            {
+                // right click
+            }
+        ));
+
+        if (nodesInGroup != null)
+        {
+            foreach (N node in nodesInGroup)
+            {
+                ForceCanvasNodeElement<N> canvasNode = nodes.Find(n => n.data.Equals(node));
+                if (canvasNode != null)
+                {
+                    group.AddNode(canvasNode);
+                }
+            }
+        }
+
+        group.UpdateContent();
+        group.UpdateShape();
+        return group;
     }
 
     /// <summary>
     /// Create a node on the canvas. Usually called externally when initializing the graph, or when the external data source has a new node.
     /// </summary>
     /// <param name="data"></param>
-    public ForceCanvasNodeElement<T> InitNodeExternal(T data, Vector2 startPosition)
+    public ForceCanvasNodeElement<N> InitNodeExternal(N data, Vector2 startPosition)
     {
         VisualElement ui = nodeUXML.Instantiate();
         ui.style.position = Position.Absolute;
         nodesContainer.Add(ui);
-        var node = new ForceCanvasNodeElement<T>(data, ui, startPosition);
+        var node = new ForceCanvasNodeElement<N>(data, ui, startPosition);
         nodes.Add(node);
         ui.AddManipulator(new ForceDirectedCanvasScrollManipulator(translationContainer));
         ui.AddManipulator(new ForceNodeDragManipulator(
@@ -335,17 +548,17 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
             {
                 if (newConnectionFromNode != null && newConnectionFromNode != n)
                 {
-                    AddConnectionInternal(newConnectionFromNode, (ForceCanvasNodeElement<T>)n, newConnectionType);
+                    AddConnectionInternal(newConnectionFromNode, (ForceCanvasNodeElement<N>)n, newConnectionType);
                     newConnectionFromNode.element.Q("Border").RemoveFromClassList("CreatingConnection");
                     newConnectionFromNode = null;
                 }
-                var castNode = n as ForceCanvasNodeElement<T>;
+                var castNode = n as ForceCanvasNodeElement<N>;
                 SelectNode(castNode);
             },
             // * Node right click menu
             righClickAction: (n) =>
                 {
-                    var castNode = n as ForceCanvasNodeElement<T>;
+                    var castNode = n as ForceCanvasNodeElement<N>;
                     var nodeType = castNode.data.GetType();
                     var menu = new GenericDropdownMenu();
 
@@ -382,7 +595,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         return node;
     }
 
-    private void DeleteNodeInternal(ForceCanvasNodeElement<T> node)
+    private void DeleteNodeInternal(ForceCanvasNodeElement<N> node)
     {
         //find connections with node
         var connectionsToDelete = connections.FindAll(c => c.from == node || c.to == node);
@@ -395,12 +608,12 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         OnNodeDeletedInternally?.Invoke(node);
     }
 
-    private void DuplicateNodeInternal(ForceCanvasNodeElement<T> node)
+    private void DuplicateNodeInternal(ForceCanvasNodeElement<N> node)
     {
         OnNodeDuplicatedInternally?.Invoke(node);
     }
 
-    private void DeleteConnectionInternal(ForceCanvasConnection<T, U> connection)
+    private void DeleteConnectionInternal(ForceCanvasConnection<N, C> connection)
     {
         int index = connections.IndexOf(connection);
         connections.Remove(connection);
@@ -409,7 +622,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         OnConnectionDeletedInternally?.Invoke(connection);
     }
 
-    private void AddConnectionInternal(ForceCanvasNodeElement<T> from, ForceCanvasNodeElement<T> to, Type type)
+    private void AddConnectionInternal(ForceCanvasNodeElement<N> from, ForceCanvasNodeElement<N> to, Type type)
     {
         if (ConnectionValidator != null && !ConnectionValidator(from.data, to.data, type))
             return;
@@ -418,19 +631,19 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         OnConnectionCreatedInternally?.Invoke(connection, type);
     }
 
-    public void InitConnectionExternal(T from, T to, U data)
+    public void InitConnectionExternal(N from, N to, C data)
     {
         var connection = AddConnection(from, to);
         connection.data = data;
     }
 
-    private ForceCanvasConnection<T, U> AddConnection(T data1, T data2)
+    private ForceCanvasConnection<N, C> AddConnection(N data1, N data2)
     {
-        ForceCanvasNodeElement<T> node1 = nodes.Find(n => n.data.Equals(data1));
-        ForceCanvasNodeElement<T> node2 = nodes.Find(n => n.data.Equals(data2));
+        ForceCanvasNodeElement<N> node1 = nodes.Find(n => n.data.Equals(data1));
+        ForceCanvasNodeElement<N> node2 = nodes.Find(n => n.data.Equals(data2));
         if (node1 == null || node2 == null)
             return null;
-        ForceCanvasConnection<T, U> connection = new ForceCanvasConnection<T, U>
+        ForceCanvasConnection<N, C> connection = new ForceCanvasConnection<N, C>
         {
             from = node1,
             to = node2,
@@ -446,11 +659,33 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
     {
         DrawConnections();
         DrawNewConnection();
+        DrawGroups();
 
         selectedNode?.UpdateContent();
 
         Vector3 desiredScale = Vector3.one * EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM);
         translationContainer.transform.scale = desiredScale;
+    }
+
+    private void DrawGroups()
+    {
+        foreach (var group in groups)
+        {
+            if (group.element == null)
+            {
+                group.element = groupUXML.Instantiate();
+                group.element.style.position = Position.Absolute;
+                group.element.style.backgroundColor = Color.gray;
+                group.element.AddToClassList("GroupElement");
+                group.label = new Label(group.data.ToString());
+                group.label.AddToClassList("GroupLabel");
+                group.element.Add(group.label);
+                nodesContainer.Add(group.element);
+            }
+
+            group.UpdateShape();
+            group.UpdateContent();
+        }
     }
 
     private void DrawConnections()
@@ -527,7 +762,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         newConnectionLine.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(pos2.y - pos1.y, pos2.x - pos1.x) * Mathf.Rad2Deg);
     }
 
-    private void AddConnectionLine(ForceCanvasConnection<T, U> connection)
+    private void AddConnectionLine(ForceCanvasConnection<N, C> connection)
     {
         var line = new VisualElement();
         line.style.position = Position.Absolute;
@@ -586,14 +821,14 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         translationContainer.transform.scale = Vector3.Lerp(translationContainer.transform.scale, new Vector3(scale, scale, 1f), .09f);
     }
 
-    public void TrySelectData(T data)
+    public void TrySelectData(N data)
     {
         var node = nodes.Find(n => n.data.Equals(data));
         if (node != null)
             SelectNode(node);
     }
 
-    private void SelectNode(ForceCanvasNodeElement<T> node)
+    private void SelectNode(ForceCanvasNodeElement<N> node)
     {
         ClearSelection(false);
         selectedNode = node;
@@ -602,7 +837,7 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         OnSelectionChanged?.Invoke();
     }
 
-    private void SelectConnection(ForceCanvasConnection<T, U> connection)
+    private void SelectConnection(ForceCanvasConnection<N, C> connection)
     {
         ClearSelection(false);
         selectedConnection = connection;
@@ -666,6 +901,20 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
         }
         return snapPos;
     }
+
+    public bool TryGetGroupAtPosition(Vector2 pos, out ForceCanvasGroupBase group)
+    {
+        group = null;
+        foreach (var g in groups)
+        {
+            if (g.element.localBound.Contains(pos))
+            {
+                group = g;
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 // because we have lots of generic stuff going on. Its very hard to call a method on the canvas without knowing the types.
@@ -673,4 +922,5 @@ public class ForceDirectedCanvas<T, U> : VisualElement, IForceDirectedCanvasGene
 public interface IForceDirectedCanvasGeneric
 {
     public Vector2 TryGetNodeSnapPosition(Vector2 pos, ForceCanvasNodeElementBase ignore);
+    public bool TryGetGroupAtPosition(Vector2 pos, out ForceCanvasGroupBase group);
 }

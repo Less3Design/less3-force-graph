@@ -8,10 +8,12 @@ using UnityEngine.UIElements;
 public class ForceNodeDragManipulator : PointerManipulator
 {
     private bool _enabled;// track if an event started inside the root
+    private ForceCanvasGroupBase _hoveredGroup;
 
     private Vector2 _targetStartPosition { get; set; }
     private Vector3 _pointerStartPosition { get; set; }
     private ForceCanvasNodeElementBase _node;
+
     private Action<ForceCanvasNodeElementBase> _leftClickAction;
     private Action<ForceCanvasNodeElementBase> _rightClickAction;
 
@@ -87,6 +89,25 @@ public class ForceNodeDragManipulator : PointerManipulator
                 newPos = _canvas.TryGetNodeSnapPosition(newPos, _node);
             }
             _node.SetPosition(newPos);
+
+            // look for groups hover
+            if (_canvas.TryGetGroupAtPosition(newPos, out var group))
+            {
+                if (_hoveredGroup != group && _hoveredGroup != null)
+                {
+                    _hoveredGroup.SetHoveredWithNode(false);
+                }
+                _hoveredGroup = group;
+                _hoveredGroup.SetHoveredWithNode(true);
+            }
+            else
+            {
+                if (_hoveredGroup != null)
+                {
+                    _hoveredGroup.SetHoveredWithNode(false);
+                    _hoveredGroup = null;
+                }
+            }
         }
     }
 
@@ -97,6 +118,13 @@ public class ForceNodeDragManipulator : PointerManipulator
             _enabled = false;
             target.ReleasePointer(evt.pointerId);
             _node.element.Q("Border").RemoveFromClassList("Pressed");
+
+            if (_hoveredGroup != null)
+            {
+                _hoveredGroup.SetHoveredWithNode(false);
+                _hoveredGroup.AddNode(_node);
+                _hoveredGroup = null;
+            }
         }
     }
 

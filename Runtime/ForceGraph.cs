@@ -11,10 +11,11 @@ namespace Less3.ForceGraph
     {
         public List<ForceNode> nodes = new List<ForceNode>();
         public List<ForceConnection> connections = new List<ForceConnection>();
+        public List<ForceGroup> groups = new List<ForceGroup>();
 
         private void OnEnable()
         {
-            //Validation. 
+            //Validation. This excists because Nodes didnt have a graph reference before. It should be unnecessary for new graphs.
             foreach (ForceNode n in nodes)
             {
                 if (n.graph == null)
@@ -26,10 +27,35 @@ namespace Less3.ForceGraph
 #endif
                 }
             }
+
+            foreach (ForceGroup g in groups)
+            {
+                if (g.graph == null)
+                {
+                    g.SetGraph(this);
+#if UNITY_EDITOR
+
+                    UnityEditor.EditorUtility.SetDirty(g);
+                    UnityEditor.EditorUtility.SetDirty(this);
+#endif
+                }
+            }
         }
 
+
+        public abstract List<(string, Type)> GraphNodeTypes();
+        public abstract List<(string, Type)> GraphGroupTypes();
         /// <summary>
-        /// Determine if a connection can be made between two nodes. By default this just simply checks if a connection already exists between the two nodes.
+        /// Returns a dictionary that lists all the connection types that can be made from a node type
+        /// Dict<{NodeType, List<(ConnectionName, ConnectionType)>}>
+        /// Used to populate right click menu on nodes.
+        /// </summary>
+        public abstract Dictionary<Type, List<(string, Type)>> GraphConnectionTypes();
+
+        /// <summary>
+        /// Determine if a connection can be made between two nodes.
+        /// By default this just simply checks if a connection already exists between the two nodes.
+        /// Each graph type should probably override this with custom rules.
         /// </summary>
         public virtual bool ValidateConnectionRequest(ForceNode from, ForceNode to, Type connectionType)
         {
@@ -48,14 +74,10 @@ namespace Less3.ForceGraph
             return true;
         }
 
-        public abstract List<(string, Type)> GraphNodeTypes();
-        /// <summary>
-        /// Returns a dictionary that lists all the connection types that can be made from a node type
-        /// Dict<{NodeType, List<(ConnectionName, ConnectionType)>}>
-        /// </summary>
-        public abstract Dictionary<Type, List<(string, Type)>> GraphConnectionTypes();
+        // ***********************
+        // *  Utility Functions  *
+        // ***********************
 
-        // * Utility Functions
         public List<ForceConnection> GetNodeConnections(ForceNode node)
         {
             List<ForceConnection> foundConnections = new List<ForceConnection>();

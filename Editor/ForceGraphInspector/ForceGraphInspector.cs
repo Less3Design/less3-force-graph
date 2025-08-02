@@ -87,9 +87,8 @@ namespace Less3.ForceGraph.Editor
         private Label typeNameLabel;
         private Object scriptTypeObjectRef;
 
-        private ForceDirectedCanvas<ForceNode, ForceConnection> forceDirectedCanvas;
+        private ForceDirectedCanvas<ForceNode, ForceConnection, ForceGroup> forceDirectedCanvas;
         private ToolbarBreadcrumbs breadcrumbs;
-
 
 
         [OnOpenAsset(1)]
@@ -124,15 +123,25 @@ namespace Less3.ForceGraph.Editor
             inspectorLayeredUXML.CloneTree(inspector);
 
 
-            forceDirectedCanvas = new ForceDirectedCanvas<ForceNode, ForceConnection>();
+            forceDirectedCanvas = new ForceDirectedCanvas<ForceNode, ForceConnection, ForceGroup>();
             inspector.Q("GraphOrigin").Add(forceDirectedCanvas);
 
             forceDirectedCanvas.OnSelectionChanged += OnSelectionChanged;
+
+            // ? The graph UI creates UI elements, but has no concept of how to create the backing data.
+            //   Here we are taking "create new object requests" and filling in correct data (creating new SO's)
+            forceDirectedCanvas.OnGroupCreatedInternally += (group, type) =>
+            {
+                var asset = (target as ForceGraph).CreateGroup(type);
+                group.data = asset;
+            };
             forceDirectedCanvas.OnNodeCreatedInternally += (node, type) =>
             {
                 var asset = (target as ForceGraph).CreateNode(type);
                 node.data = asset;
             };
+
+            // ? Same as above, but for deletion and duplication etc
             forceDirectedCanvas.OnNodeDeletedInternally += (node) =>
             {
                 (target as ForceGraph).DeleteNode(node.data);
@@ -155,6 +164,7 @@ namespace Less3.ForceGraph.Editor
             forceDirectedCanvas.ConnectionValidator = target.ValidateConnectionRequest;
             forceDirectedCanvas.PossibleConnectionTypes = (target as ForceGraph).GraphConnectionTypes();
             forceDirectedCanvas.PossibleNodeTypes = (target as ForceGraph).GraphNodeTypes();
+            forceDirectedCanvas.PossibleGroupTypes = (target as ForceGraph).GraphGroupTypes();
 
             breadcrumbs = inspector.Q<ToolbarBreadcrumbs>("Breadcrumbs");
             breadcrumbs.PushItem("<b>" + target.name, () => GotoGraph());
@@ -253,6 +263,11 @@ namespace Less3.ForceGraph.Editor
                 forceDirectedCanvas.InitConnectionExternal(connection.from, connection.to, connection);
             }
 
+            foreach (var group in (target as ForceGraph).groups)
+            {
+                forceDirectedCanvas.InitGroupExternal(group, group.position, group.nodes);
+            }
+
             if (EditorPrefs.GetBool(FIT_TO_SCREEN_SETTINGS_KEY, true))
             {
                 // Cause small graphs to zoom in, and large graphs to zoom out when opening if fit is enabled .
@@ -348,8 +363,10 @@ namespace Less3.ForceGraph.Editor
         {
             if (forceDirectedCanvas != null)
             {
-                // 4 steps per tick on fast forward. That might be excessive for slow machines. 2 or 3 are still useful
                 forceDirectedCanvas.Update();
+
+                // TODO: This is reacting to node position changes:
+                // This should be a built in feature of the canvas with a callback like add/delete etc.
 
                 foreach (var node in forceDirectedCanvas.nodes)
                 {
@@ -357,6 +374,13 @@ namespace Less3.ForceGraph.Editor
                     if (Mathf.Approximately(node.data.position.x, node.position.x) && Mathf.Approximately(node.data.position.y, node.position.y))
                         continue;
                     node.data.position = node.position;
+                }
+
+                foreach (var group in forceDirectedCanvas.groups)
+                {
+                    if (Mathf.Approximately(group.data.position.x, group.position.x) && Mathf.Approximately(group.data.position.y, group.position.y))
+                        continue;
+                    group.data.position = group.position;
                 }
 
                 if (inspectorOverlay != null && inspectorOverlay.panel != null)
