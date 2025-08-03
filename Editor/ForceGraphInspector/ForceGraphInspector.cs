@@ -260,8 +260,11 @@ namespace Less3.ForceGraph.Editor
                     breadcrumbs.PushItem(name, () =>
                     {
                         // new list up to index i
-                        List<ForceGraph> subStack = new List<ForceGraph>(graphStack);
-                        subStack.RemoveRange(i + 1, subStack.Count - (i + 1));
+                        List<ForceGraph> subStack = new List<ForceGraph>();
+                        for (int j = 0; j <= i; j++)
+                        {
+                            subStack.Add(graphStack[j]);
+                        }
                         OpenGraphStack(subStack);
                     });
                 }
