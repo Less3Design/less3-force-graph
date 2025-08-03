@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Less3.ForceGraph;
-using System.Diagnostics;
 
-public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle
+public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNodeEditorDoubleClick
 {
 
     public string n;
@@ -17,4 +16,9 @@ public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle
 
     public float anotheRTest;
     public float otherTest;
+
+    public void EditorOnNodeDoubleClick()
+    {
+        Debug.Log($"Double clicked on node: {n}");
+    }
 }

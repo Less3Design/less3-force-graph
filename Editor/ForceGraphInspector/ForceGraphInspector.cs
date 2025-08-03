@@ -90,6 +90,8 @@ namespace Less3.ForceGraph.Editor
         private LCanvas<ForceNode, ForceConnection, ForceGroup> forceDirectedCanvas;
         private ToolbarBreadcrumbs breadcrumbs;
 
+        private List<ForceGraph> graphStack = new List<ForceGraph>();
+
 
         [OnOpenAsset(1)]
         public static bool DoubleClickAsset(int instanceID, int line)
@@ -97,20 +99,43 @@ namespace Less3.ForceGraph.Editor
             Object obj = EditorUtility.InstanceIDToObject(instanceID);
             if (obj is ForceGraph forceGraph)
             {
-                OpenInspector(forceGraph);
+                OpenGraphNew(forceGraph);
                 return true; // we handled the open
             }
             return false; // we did not handle the open
         }
 
-        public static void OpenInspector(ForceGraph graph)
+        // Opens the graph as a new stack
+        public static void OpenGraphNew(ForceGraph graph)
         {
             var window = GetWindow<ForceGraphInspector>();
-            window.InitGUI(graph);//
+            window.InitGUI(new List<ForceGraph> { graph });
         }
 
-        public void InitGUI(ForceGraph graph)
+        // Opens the graph, adding it to the top of the stack
+        public static void OpenGraphOnStack(ForceGraph graph)
         {
+            var window = GetWindow<ForceGraphInspector>();
+            if (window.graphStack.Count > 0 && window.graphStack[window.graphStack.Count - 1] == graph)
+            {
+                // already on top of stack
+                return;
+            }
+            window.graphStack.Add(graph);
+            window.InitGUI(window.graphStack);
+        }
+
+        public static void OpenGraphStack(List<ForceGraph> graphStack)
+        {
+            var window = GetWindow<ForceGraphInspector>();
+            window.InitGUI(graphStack);
+        }
+
+        public void InitGUI(List<ForceGraph> newGraphStack)
+        {
+            graphStack = new List<ForceGraph>(newGraphStack);
+            ForceGraph graph = graphStack[graphStack.Count - 1];
+
             target = graph;
             titleContent = new GUIContent(target.name, windowIcon);
             if (inspector != null)
@@ -187,7 +212,29 @@ namespace Less3.ForceGraph.Editor
             forceDirectedCanvas.PossibleGroupTypes = (target as ForceGraph).GraphGroupTypes();
 
             breadcrumbs = inspector.Q<ToolbarBreadcrumbs>("Breadcrumbs");
-            breadcrumbs.PushItem("<b>" + target.name, () => InspectGraph());
+            for (int i = 0; i < graphStack.Count; i++)
+            {
+                ForceGraph g = graphStack[i];
+                if (g == null)
+                    continue;
+                string name = g.name;
+                if (i == graphStack.Count - 1)
+                {
+                    name = "<b>" + name + "</b>";
+                    breadcrumbs.PushItem(name, () =>
+                    {
+                        // do nothing, we are already on this graph
+                    });
+                }
+                else
+                {
+                    breadcrumbs.PushItem(name, () =>
+                    {
+                        var subStack = graphStack.GetRange(0, i + 1);
+                        OpenGraphStack(subStack);
+                    });
+                }
+            }
 
             inspector.Q<Label>("Typename").text = target.GetType().Name;
             typeNameLabel = inspector.Q<Label>("Typename");
@@ -303,7 +350,7 @@ namespace Less3.ForceGraph.Editor
             EditorApplication.update += Update;//
             if (wasInit)
             {
-                InitGUI(target);
+                OpenGraphNew(target);
                 wasInit = false;
             }
         }

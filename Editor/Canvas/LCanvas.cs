@@ -314,6 +314,23 @@ namespace Less3.ForceGraph.Editor
             var node = new LCanvasNode<N>(data, ui, startPosition);
             nodes.Add(node);
             ui.AddManipulator(new ForceDirectedCanvasScrollManipulator(translationContainer));
+
+            // Double click
+            var doubleClickable = new Clickable(() =>
+            {
+                if (data is ILNodeEditorDoubleClick doubleClick)
+                {
+                    doubleClick.EditorOnNodeDoubleClick();
+                }
+            });
+            doubleClickable.activators.Clear();
+            doubleClickable.activators.Add(new ManipulatorActivationFilter()
+            {
+                button = MouseButton.LeftMouse,
+                clickCount = 2// makes this check for double clicks
+            });
+            ui.AddManipulator(doubleClickable);
+
             ui.AddManipulator(new ForceNodeDragManipulator<N, C, G>(
                 node,
                 this,

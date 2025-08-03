@@ -37,6 +37,14 @@ namespace Less3.ForceGraph
         public float NodeScale { get; }
     }
 
+    public interface ILNodeEditorDoubleClick
+    {
+        /// <summary>
+        /// Called when the node is double clicked in the editor canvas.
+        /// </summary>
+        void EditorOnNodeDoubleClick();
+    }
+
     /// <summary>
     /// Set the color of a connection in the force graph editor canvas
     /// </summary>
