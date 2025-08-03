@@ -243,6 +243,7 @@ namespace Less3.ForceGraph.Editor
             breadcrumbs = inspector.Q<ToolbarBreadcrumbs>("Breadcrumbs");
             for (int i = 0; i < graphStack.Count; i++)
             {
+                int index = i;
                 ForceGraph g = graphStack[i];
                 if (g == null)
                     continue;
@@ -260,12 +261,7 @@ namespace Less3.ForceGraph.Editor
                     breadcrumbs.PushItem(name, () =>
                     {
                         // new list up to index i
-                        List<ForceGraph> subStack = new List<ForceGraph>();
-                        for (int j = 0; j <= i; j++)
-                        {
-                            subStack.Add(graphStack[j]);
-                        }
-                        OpenGraphStack(subStack);
+                        OpenGraphStack(graphStack.GetRange(0, index + 1));
                     });
                 }
             }
