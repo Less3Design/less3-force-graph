@@ -102,6 +102,7 @@ namespace Less3.ForceGraph.Editor
         private LCanvas<ForceNode, ForceConnection, ForceGroup> forceDirectedCanvas;
         private ToolbarBreadcrumbs breadcrumbs;
 
+        [SerializeField]
         private List<ForceGraph> graphStack = new List<ForceGraph>();
 
         [OnOpenAsset(1)]
@@ -383,7 +384,7 @@ namespace Less3.ForceGraph.Editor
             EditorApplication.update += Update;//
             if (wasInit)
             {
-                OpenGraphNew(target);
+                OpenGraphStack(graphStack);
                 wasInit = false;
             }
         }
