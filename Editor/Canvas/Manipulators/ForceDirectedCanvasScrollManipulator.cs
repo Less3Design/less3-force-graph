@@ -38,11 +38,11 @@ namespace Less3.ForceGraph.Editor
                 Vector3 mp = evt.mousePosition;
                 Vector3 b = _translationContainer.WorldToLocal(mp);
 
-                float zoom = EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM);
+                float zoom = EditorPrefs.GetFloat(LCanvasPrefs.ZOOM_KEY, LCanvasPrefs.DEFAULT_ZOOM);
                 zoom += delta * -.08f * zoom;
-                zoom = Mathf.Clamp(zoom, ForceDirectedCanvasSettings.ZOOM_RANGE.x, ForceDirectedCanvasSettings.ZOOM_RANGE.y);
-                EditorPrefs.SetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, zoom);
-                Vector3 desiredScale = Vector3.one * EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM);
+                zoom = Mathf.Clamp(zoom, LCanvasPrefs.ZOOM_RANGE.x, LCanvasPrefs.ZOOM_RANGE.y);
+                EditorPrefs.SetFloat(LCanvasPrefs.ZOOM_KEY, zoom);
+                Vector3 desiredScale = Vector3.one * EditorPrefs.GetFloat(LCanvasPrefs.ZOOM_KEY, LCanvasPrefs.DEFAULT_ZOOM);
                 _translationContainer.transform.scale = desiredScale;
                 Vector3 a = _translationContainer.WorldToLocal(mp);
 

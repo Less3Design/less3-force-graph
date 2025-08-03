@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Less3.ForceGraph
 {
-    public abstract class ForceGroup : ScriptableObject
+    public abstract class ForceGroup : ScriptableObject 
     {
         /// <summary>
         /// Position only used if the group is empty. Otherwise position/scale is derived from the nodes.

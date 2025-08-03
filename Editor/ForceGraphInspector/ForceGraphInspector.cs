@@ -87,7 +87,7 @@ namespace Less3.ForceGraph.Editor
         private Label typeNameLabel;
         private Object scriptTypeObjectRef;
 
-        private ForceDirectedCanvas<ForceNode, ForceConnection, ForceGroup> forceDirectedCanvas;
+        private LCanvas<ForceNode, ForceConnection, ForceGroup> forceDirectedCanvas;
         private ToolbarBreadcrumbs breadcrumbs;
 
 
@@ -123,7 +123,7 @@ namespace Less3.ForceGraph.Editor
             inspectorLayeredUXML.CloneTree(inspector);
 
 
-            forceDirectedCanvas = new ForceDirectedCanvas<ForceNode, ForceConnection, ForceGroup>();
+            forceDirectedCanvas = new LCanvas<ForceNode, ForceConnection, ForceGroup>();
             inspector.Q("GraphOrigin").Add(forceDirectedCanvas);
 
             forceDirectedCanvas.OnSelectionChanged += OnSelectionChanged;
@@ -135,6 +135,26 @@ namespace Less3.ForceGraph.Editor
                 var asset = (target as ForceGraph).CreateGroup(type);
                 group.data = asset;
             };
+
+            forceDirectedCanvas.OnNodeAddedToGroupInternally += (node, group) =>
+            {
+                (target as ForceGraph).AddNodeToGroup(node, group);
+            };
+
+            forceDirectedCanvas.OnNodeRemovedFromGroupInternally += (node, group) =>
+            {
+                if (group == null || node == null)
+                {
+                    return;
+                }
+                // TODO maybe don't do from all. Arguably a bug
+                (target as ForceGraph).RemoveNodeFromAllGroups(node);
+            };
+            forceDirectedCanvas.OnGroupDeletedInternally += (group) =>
+            {
+                (target as ForceGraph).DeleteGroup(group.data);
+            };
+
             forceDirectedCanvas.OnNodeCreatedInternally += (node, type) =>
             {
                 var asset = (target as ForceGraph).CreateNode(type);
@@ -167,7 +187,7 @@ namespace Less3.ForceGraph.Editor
             forceDirectedCanvas.PossibleGroupTypes = (target as ForceGraph).GraphGroupTypes();
 
             breadcrumbs = inspector.Q<ToolbarBreadcrumbs>("Breadcrumbs");
-            breadcrumbs.PushItem("<b>" + target.name, () => GotoGraph());
+            breadcrumbs.PushItem("<b>" + target.name, () => InspectGraph());
 
             inspector.Q<Label>("Typename").text = target.GetType().Name;
             typeNameLabel = inspector.Q<Label>("Typename");
@@ -220,15 +240,15 @@ namespace Less3.ForceGraph.Editor
             };
 
             var snapButton = inspector.Q<Button>("Snap");
-            if (EditorPrefs.GetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, true))
+            if (EditorPrefs.GetBool(LCanvasPrefs.SNAP_SETTINGS_KEY, true))
                 snapButton.AddToClassList("ToggleButtonEnabled");
             else
                 snapButton.RemoveFromClassList("ToggleButtonEnabled");
 
             snapButton.clicked += () =>
             {
-                EditorPrefs.SetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, !EditorPrefs.GetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, true));
-                bool snap = EditorPrefs.GetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, true);
+                EditorPrefs.SetBool(LCanvasPrefs.SNAP_SETTINGS_KEY, !EditorPrefs.GetBool(LCanvasPrefs.SNAP_SETTINGS_KEY, true));
+                bool snap = EditorPrefs.GetBool(LCanvasPrefs.SNAP_SETTINGS_KEY, true);
                 if (snap)
                     snapButton.AddToClassList("ToggleButtonEnabled");
                 else
@@ -303,56 +323,40 @@ namespace Less3.ForceGraph.Editor
         {
             if (forceDirectedCanvas.selectedNode != null)
             {
-                GotoNode(forceDirectedCanvas.selectedNode.data);
+                InspectObject(forceDirectedCanvas.selectedNode.data);
             }
             else if (forceDirectedCanvas.selectedConnection != null)
             {
-                GotoConnection(forceDirectedCanvas.selectedConnection.data);
+                InspectObject(forceDirectedCanvas.selectedConnection.data);
+            }
+            else if (forceDirectedCanvas.selectedGroup != null)
+            {
+                InspectObject(forceDirectedCanvas.selectedGroup.data);
             }
             else
             {
-                GotoGraph();
+                InspectGraph();
             }
         }
 
-        private void GotoGraph()
+        // ? I don't remember why inspect graph is slightly different. I think its not needed anymore. SHould try removing:
+        private void InspectGraph()
         {
             graphInspectorRoot.style.display = DisplayStyle.Flex;
             selectionInspectorRoot.style.display = DisplayStyle.None;
 
-            breadcrumbs.Clear();
-            breadcrumbs.PushItem("<b>" + target.name, () => forceDirectedCanvas.ClearSelection());
             typeNameLabel.text = target.GetType().Name;
             var so = new SerializedObject(target);
             inspectorLabel.text = target.GetType().Name;
             scriptTypeObjectRef = so.FindProperty("m_Script").objectReferenceValue;
         }
 
-        private void GotoNode(ForceNode node)
+        private void InspectObject(Object connection)
         {
             selectionInspectorRoot.Clear();
-            selectionInspectorRoot.Add(new InspectorElement(forceDirectedCanvas.selectedNode.data));
+            selectionInspectorRoot.Add(new InspectorElement(connection));
             graphInspectorRoot.style.display = DisplayStyle.None;
             selectionInspectorRoot.style.display = DisplayStyle.Flex;
-            breadcrumbs.Clear();
-            //breadcrumbs.PushItem(target.name, () => forceDirectedCanvas.ClearSelection());
-            breadcrumbs.PushItem("<b>" + node.name, () => { });
-            typeNameLabel.text = node.GetType().Name;
-            var so = new SerializedObject(node);
-            inspectorLabel.text = node.GetType().Name;
-            scriptTypeObjectRef = so.FindProperty("m_Script").objectReferenceValue;
-        }
-
-        private void GotoConnection(ForceConnection connection)
-        {
-            selectionInspectorRoot.Clear();
-            selectionInspectorRoot.Add(new InspectorElement(forceDirectedCanvas.selectedConnection.data));
-            graphInspectorRoot.style.display = DisplayStyle.None;
-            selectionInspectorRoot.style.display = DisplayStyle.Flex;
-            breadcrumbs.Clear();
-            //breadcrumbs.PushItem(target.name, () => forceDirectedCanvas.ClearSelection());
-            //breadcrumbs.PushItem(connection.from.name, () => { forceDirectedCanvas.TrySelectData(connection.from); });
-            breadcrumbs.PushItem("<b>" + connection.name, () => { });
             typeNameLabel.text = connection.GetType().Name;
             var so = new SerializedObject(connection);
             inspectorLabel.text = connection.GetType().Name;

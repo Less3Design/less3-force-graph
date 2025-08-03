@@ -1,27 +1,30 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Less3.ForceGraph.Editor
 {
-    public class GroupManipulator : PointerManipulator
+    public class LGroupManipulator<N, C, G> : PointerManipulator where N : class where C : class where G : class
     {
         private bool _enabled;// track if an event started inside the root
         private Vector2 _targetStartPosition { get; set; }
         private Vector3 _pointerStartPosition { get; set; }
 
-        private ForceCanvasGroupBase _group;
-        private IForceDirectedCanvasGeneric _canvas;
+        private LCanvasGroup<G, N> _group;
+        private LCanvas<N, C, G> _canvas;
 
-        private Action<ForceCanvasGroupBase> _leftClickAction;
-        private Action<ForceCanvasGroupBase> _rightClickAction;
+        private Dictionary<LCanvasNode<N>, Vector2> _nodesStartPositions = new Dictionary<LCanvasNode<N>, Vector2>();
 
-        public GroupManipulator(
-            ForceCanvasGroupBase node,
-            IForceDirectedCanvasGeneric c,
-            Action<ForceCanvasGroupBase> leftClickAction,
-            Action<ForceCanvasGroupBase> rightClickAction)
+        private Action<LCanvasGroup<G, N>> _leftClickAction;
+        private Action<LCanvasGroup<G, N>> _rightClickAction;
+
+        public LGroupManipulator(
+            LCanvasGroup<G, N> node,
+            LCanvas<N, C, G> c,
+            Action<LCanvasGroup<G, N>> leftClickAction,
+            Action<LCanvasGroup<G, N>> rightClickAction)
         {
             _group = node;
             _canvas = c;
@@ -47,9 +50,16 @@ namespace Less3.ForceGraph.Editor
         {
             _targetStartPosition = _group.position;
             _pointerStartPosition = evt.position;
+
+            _nodesStartPositions.Clear();
+            foreach (var node in _group.nodes)
+            {
+                _nodesStartPositions[node] = node.position;
+            }
+
             if (evt.button == (int)MouseButton.RightMouse)
             {
-                //_rightClickAction?.Invoke(_node);
+                _rightClickAction?.Invoke(_group);
                 return;
             }
             if (evt.button == (int)MouseButton.LeftMouse)
@@ -58,7 +68,7 @@ namespace Less3.ForceGraph.Editor
                 PointerCaptureHelper.CapturePointer(target, evt.pointerId);
                 //_node.element.Q("Border").AddToClassList("Pressed");
 
-                //_leftClickAction?.Invoke(_node);
+                _leftClickAction?.Invoke(_group);
                 return;
             }
         }
@@ -68,14 +78,17 @@ namespace Less3.ForceGraph.Editor
             if (_enabled && target.HasPointerCapture(evt.pointerId))
             {
                 Vector3 pointerDelta = evt.position - _pointerStartPosition;
-                pointerDelta = pointerDelta * (1f / EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM));
+                pointerDelta = pointerDelta * (1f / EditorPrefs.GetFloat(LCanvasPrefs.ZOOM_KEY, LCanvasPrefs.DEFAULT_ZOOM));
                 Vector2 newPos = new Vector2(_targetStartPosition.x + pointerDelta.x, _targetStartPosition.y + pointerDelta.y);
-
-                if (EditorPrefs.GetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, true))
-                {
-                    //newPos = _canvas.TryGetNodeSnapPosition(newPos, _node);
-                }
                 _group.SetPosition(newPos);
+
+                for (int i = 0; i < _group.nodes.Count; i++)
+                {
+                    LCanvasNode<N> node = _group.nodes[i];
+                    Vector2 startPos = _nodesStartPositions[node];
+                    Vector2 nodePosition = new Vector2(startPos.x + pointerDelta.x, startPos.y + pointerDelta.y);
+                    node.SetPosition(nodePosition);
+                }
             }
         }
 

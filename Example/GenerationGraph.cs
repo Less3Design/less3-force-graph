@@ -34,7 +34,9 @@ public class GenerationGraph : ForceGraph
     {
         return new Dictionary<Type, List<(string, Type)>>
         {
+            // The generation node...
             {typeof(GenerationNode), new List<(string,Type)>() {
+                // Can be connected with these types
                 ("Gen Connection", typeof(GenerationConnection))
             }}
         };

@@ -5,136 +5,148 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ForceNodeDragManipulator : PointerManipulator
+namespace Less3.ForceGraph.Editor
 {
-    private bool _enabled;// track if an event started inside the root
-    private ForceCanvasGroupBase _hoveredGroup;
-
-    private Vector2 _targetStartPosition { get; set; }
-    private Vector3 _pointerStartPosition { get; set; }
-    private ForceCanvasNodeElementBase _node;
-
-    private Action<ForceCanvasNodeElementBase> _leftClickAction;
-    private Action<ForceCanvasNodeElementBase> _rightClickAction;
-
-    private Action<ForceCanvasNodeElementBase> _enterAction;
-    private Action<ForceCanvasNodeElementBase> _exitAction;
-
-    private IForceDirectedCanvasGeneric _canvas;
-
-    public ForceNodeDragManipulator(
-        ForceCanvasNodeElementBase node,
-        IForceDirectedCanvasGeneric c,
-        Action<ForceCanvasNodeElementBase> leftClickAction,
-        Action<ForceCanvasNodeElementBase> righClickAction,
-        Action<ForceCanvasNodeElementBase> enterAction,
-        Action<ForceCanvasNodeElementBase> exitAction)
+    // N = Node type, C = Connection type, G = Group type
+    public class ForceNodeDragManipulator<N, C, G> : PointerManipulator where N : class where C : class where G : class
     {
-        _node = node;
-        _canvas = c;
-        _leftClickAction = leftClickAction;
-        _rightClickAction = righClickAction;
-        _enterAction = enterAction;
-        _exitAction = exitAction;
-    }
+        private bool _enabled;// track if an event started inside the root
+        private LCanvasGroup<G, N> _hoveredGroup;
 
-    protected override void RegisterCallbacksOnTarget()
-    {
-        target.RegisterCallback<PointerDownEvent>(PointerDownHandler);
-        target.RegisterCallback<PointerMoveEvent>(PointerMoveHandler);
-        target.RegisterCallback<PointerUpEvent>(PointerUpHandler);
-        target.RegisterCallback<PointerEnterEvent>(PointerEnterHandler);
-        target.RegisterCallback<PointerOutEvent>(PointerOutHandler);
-    }
+        private Vector2 _targetStartPosition { get; set; }
+        private Vector3 _pointerStartPosition { get; set; }
+        private LCanvasNode<N> _node;
 
-    protected override void UnregisterCallbacksFromTarget()
-    {
-        target.UnregisterCallback<PointerDownEvent>(PointerDownHandler);
-        target.UnregisterCallback<PointerMoveEvent>(PointerMoveHandler);
-        target.UnregisterCallback<PointerUpEvent>(PointerUpHandler);
-        target.UnregisterCallback<PointerEnterEvent>(PointerEnterHandler);
-        target.UnregisterCallback<PointerOutEvent>(PointerOutHandler);
-    }
+        private Action<LCanvasNode<N>> _leftClickAction;
+        private Action<LCanvasNode<N>> _rightClickAction;
 
-    private void PointerDownHandler(PointerDownEvent evt)
-    {
-        _targetStartPosition = target.transform.position;
-        _pointerStartPosition = evt.position;
-        if (evt.button == (int)MouseButton.RightMouse)
+        private Action<LCanvasNode<N>> _enterAction;
+        private Action<LCanvasNode<N>> _exitAction;
+
+        private LCanvas<N, C, G> _canvas;
+
+        public ForceNodeDragManipulator(
+            LCanvasNode<N> node,
+            LCanvas<N, C, G> c,
+            Action<LCanvasNode<N>> leftClickAction,
+            Action<LCanvasNode<N>> rightClickAction,
+            Action<LCanvasNode<N>> enterAction,
+            Action<LCanvasNode<N>> exitAction)
         {
-            _rightClickAction?.Invoke(_node);
-            return;
+            _node = node;
+            _canvas = c;
+            _leftClickAction = leftClickAction;
+            _rightClickAction = rightClickAction;
+            _enterAction = enterAction;
+            _exitAction = exitAction;
         }
-        if (evt.button == (int)MouseButton.LeftMouse)
-        {
-            _enabled = true;
-            PointerCaptureHelper.CapturePointer(target, evt.pointerId);
-            _node.element.Q("Border").AddToClassList("Pressed");
 
-            _leftClickAction?.Invoke(_node);
-            return;
+        protected override void RegisterCallbacksOnTarget()
+        {
+            target.RegisterCallback<PointerDownEvent>(PointerDownHandler);
+            target.RegisterCallback<PointerMoveEvent>(PointerMoveHandler);
+            target.RegisterCallback<PointerUpEvent>(PointerUpHandler);
+            target.RegisterCallback<PointerEnterEvent>(PointerEnterHandler);
+            target.RegisterCallback<PointerOutEvent>(PointerOutHandler);
         }
-    }
 
-    private void PointerMoveHandler(PointerMoveEvent evt)
-    {
-        if (_enabled && target.HasPointerCapture(evt.pointerId))
+        protected override void UnregisterCallbacksFromTarget()
         {
-            Vector3 pointerDelta = evt.position - _pointerStartPosition;
-            pointerDelta = pointerDelta * (1f / EditorPrefs.GetFloat(ForceDirectedCanvasSettings.ZOOM_KEY, ForceDirectedCanvasSettings.DEFAULT_ZOOM));
-            Vector2 newPos = new Vector2(_targetStartPosition.x + pointerDelta.x, _targetStartPosition.y + pointerDelta.y);
+            target.UnregisterCallback<PointerDownEvent>(PointerDownHandler);
+            target.UnregisterCallback<PointerMoveEvent>(PointerMoveHandler);
+            target.UnregisterCallback<PointerUpEvent>(PointerUpHandler);
+            target.UnregisterCallback<PointerEnterEvent>(PointerEnterHandler);
+            target.UnregisterCallback<PointerOutEvent>(PointerOutHandler);
+        }
 
-            if (EditorPrefs.GetBool(ForceDirectedCanvasSettings.SNAP_SETTINGS_KEY, true))
+        private void PointerDownHandler(PointerDownEvent evt)
+        {
+            _targetStartPosition = target.transform.position;
+            _pointerStartPosition = evt.position;
+            if (evt.button == (int)MouseButton.RightMouse)
             {
-                newPos = _canvas.TryGetNodeSnapPosition(newPos, _node);
+                _rightClickAction?.Invoke(_node);
+                return;
             }
-            _node.SetPosition(newPos);
-
-            // look for groups hover
-            if (_canvas.TryGetGroupAtPosition(newPos, out var group))
+            if (evt.button == (int)MouseButton.LeftMouse)
             {
-                if (_hoveredGroup != group && _hoveredGroup != null)
+                _enabled = true;
+                PointerCaptureHelper.CapturePointer(target, evt.pointerId);
+                _node.element.Q("Border").AddToClassList("Pressed");
+
+                _leftClickAction?.Invoke(_node);
+                return;
+            }
+        }
+
+        private void PointerMoveHandler(PointerMoveEvent evt)
+        {
+            if (_enabled && target.HasPointerCapture(evt.pointerId))
+            {
+                Vector3 pointerDelta = evt.position - _pointerStartPosition;
+                pointerDelta = pointerDelta * (1f / EditorPrefs.GetFloat(LCanvasPrefs.ZOOM_KEY, LCanvasPrefs.DEFAULT_ZOOM));
+                Vector2 newPos = new Vector2(_targetStartPosition.x + pointerDelta.x, _targetStartPosition.y + pointerDelta.y);
+
+                if (EditorPrefs.GetBool(LCanvasPrefs.SNAP_SETTINGS_KEY, true))
                 {
-                    _hoveredGroup.SetHoveredWithNode(false);
+                    newPos = _canvas.TryGetNodeSnapPosition(newPos, _node);
                 }
-                _hoveredGroup = group;
-                _hoveredGroup.SetHoveredWithNode(true);
+                _node.SetPosition(newPos);
+
+                // look for groups hover
+                if (_canvas.TryGetGroupNodeIsIn(_node, out var groupNodeIsIn))
+                {
+                    if (_hoveredGroup != null)
+                    {
+                        _hoveredGroup.SetHoveredWithNode(false);
+                        _hoveredGroup = null;
+                    }
+                }
+                else if (_canvas.TryGetGroupAtPosition(newPos, out var group))
+                {
+                    if (_hoveredGroup != group && _hoveredGroup != null)
+                    {
+                        _hoveredGroup.SetHoveredWithNode(false);
+                    }
+                    _hoveredGroup = group;
+                    _hoveredGroup.SetHoveredWithNode(true);
+                }
+                else
+                {
+                    if (_hoveredGroup != null)
+                    {
+                        _hoveredGroup.SetHoveredWithNode(false);
+                        _hoveredGroup = null;
+                    }
+                }
             }
-            else
+        }
+
+        private void PointerUpHandler(PointerUpEvent evt)
+        {
+            if (_enabled && target.HasPointerCapture(evt.pointerId))
             {
+                _enabled = false;
+                target.ReleasePointer(evt.pointerId);
+                _node.element.Q("Border").RemoveFromClassList("Pressed");
+
                 if (_hoveredGroup != null)
                 {
                     _hoveredGroup.SetHoveredWithNode(false);
+                    _canvas.AddNodeToGroupInternal(_node, _hoveredGroup);
                     _hoveredGroup = null;
                 }
             }
         }
-    }
 
-    private void PointerUpHandler(PointerUpEvent evt)
-    {
-        if (_enabled && target.HasPointerCapture(evt.pointerId))
+        private void PointerEnterHandler(PointerEnterEvent evt)
         {
-            _enabled = false;
-            target.ReleasePointer(evt.pointerId);
-            _node.element.Q("Border").RemoveFromClassList("Pressed");
-
-            if (_hoveredGroup != null)
-            {
-                _hoveredGroup.SetHoveredWithNode(false);
-                _hoveredGroup.AddNode(_node);
-                _hoveredGroup = null;
-            }
+            _enterAction.Invoke(_node);
         }
-    }
 
-    private void PointerEnterHandler(PointerEnterEvent evt)
-    {
-        _enterAction.Invoke(_node);
-    }
-
-    private void PointerOutHandler(PointerOutEvent evt)
-    {
-        _exitAction.Invoke(_node);
+        private void PointerOutHandler(PointerOutEvent evt)
+        {
+            _exitAction.Invoke(_node);
+        }
     }
 }

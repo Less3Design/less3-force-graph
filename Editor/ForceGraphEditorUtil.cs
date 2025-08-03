@@ -101,7 +101,7 @@ namespace Less3.ForceGraph.Editor
                 return;
             }
 
-            RemoveNodeFromGroups(graph, node);
+            RemoveNodeFromAllGroups(graph, node);
             if (group.nodes.Contains(node) == false)
             {
                 group.nodes.Add(node);
@@ -111,7 +111,7 @@ namespace Less3.ForceGraph.Editor
         /// <summary>
         /// Remove the node from any groups it is in.
         /// </summary>
-        public static void RemoveNodeFromGroups(this ForceGraph graph, ForceNode node)
+        public static void RemoveNodeFromAllGroups(this ForceGraph graph, ForceNode node)
         {
             foreach (var group in graph.groups)
             {
@@ -120,6 +120,20 @@ namespace Less3.ForceGraph.Editor
                     group.nodes.Remove(node);
                 }
             }
+        }
+
+        /// <summary>
+        ///  Currently assuming that group relationship is one way. Nodes should not know about their groups without querying the graph.
+        /// </summary>
+        public static void DeleteGroup(this ForceGraph graph, ForceGroup group)
+        {
+            if (graph.groups.Contains(group) == false)
+            {
+                Debug.LogError("Cannot delete group that is not in the graph");
+                return;
+            }
+            graph.groups.Remove(group);
+            ScriptableObject.DestroyImmediate(group, true);
         }
 
         public static void IsNodeInAGroup(this ForceGraph graph, ForceNode node, out ForceGroup group)

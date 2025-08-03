@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7728546763442393652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: 161.39932, y: 10.317827}
+  n: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7f282eb163eec448cf3d8006c1f0d3, type: 3}
+  m_Name: GenerationGraph 1
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 5864797276400953533}
+  - {fileID: -7728546763442393652}
+  connections: []
+  groups:
+  - {fileID: 2117786404738919583}
+  test: 0
+  customProperty: 
+  customProperty2: 
+--- !u!114 &2117786404738919583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f8f4bb81ab2db42860de9dddd0d7b6, type: 3}
+  m_Name: GenerationGroup
+  m_EditorClassIdentifier: 
+  position: {x: -56.010674, y: -86.96389}
+  graph: {fileID: 11400000}
+  nodes:
+  - {fileID: 5864797276400953533}
+  - {fileID: -7728546763442393652}
+  thisIsAGroupProperty: 0
+--- !u!114 &5864797276400953533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: -2.2109375, y: -67.80229}
+  n: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
