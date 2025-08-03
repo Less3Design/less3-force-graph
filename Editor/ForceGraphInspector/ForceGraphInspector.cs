@@ -99,9 +99,6 @@ namespace Less3.ForceGraph.Editor
         public VisualElement graphHeightSetter;
         public VisualElement selectionInspectorRoot;
 
-        private Label typeNameLabel;
-        private Object scriptTypeObjectRef;
-
         private LCanvas<ForceNode, ForceConnection, ForceGroup> forceDirectedCanvas;
         private ToolbarBreadcrumbs breadcrumbs;
 
@@ -262,20 +259,23 @@ namespace Less3.ForceGraph.Editor
                 {
                     breadcrumbs.PushItem(name, () =>
                     {
-                        var subStack = graphStack.GetRange(0, i + 1);
+                        var subStack = graphStack.GetRange(0, i);
                         OpenGraphStack(subStack);
                     });
                 }
             }
 
             inspector.Q<Label>("Typename").text = target.GetType().Name;
-            typeNameLabel = inspector.Q<Label>("Typename");
+            Label typeNameLabel = inspector.Q<Label>("Typename");
+            typeNameLabel.text = target.GetType().Name;
 
             var openScriptElement = inspector.Q("OpenScript");
             openScriptElement.AddManipulator(new Clickable(() =>
             {
-                if (scriptTypeObjectRef != null)
-                    AssetDatabase.OpenAsset(scriptTypeObjectRef);
+                var so = new SerializedObject(target);
+                var scriptRef = so.FindProperty("m_Script").objectReferenceValue;
+                if (scriptRef != null)
+                    AssetDatabase.OpenAsset(scriptRef);
             }));
 
             graphInspectorRoot = inspector.Q("GraphInspector");
@@ -424,10 +424,8 @@ namespace Less3.ForceGraph.Editor
             graphInspectorRoot.style.display = DisplayStyle.Flex;
             selectionInspectorRoot.style.display = DisplayStyle.None;
 
-            typeNameLabel.text = target.GetType().Name;
             var so = new SerializedObject(target);
             inspectorLabel.text = target.GetType().Name;
-            scriptTypeObjectRef = so.FindProperty("m_Script").objectReferenceValue;
         }
 
         private void InspectObject(Object connection)
@@ -436,10 +434,8 @@ namespace Less3.ForceGraph.Editor
             selectionInspectorRoot.Add(new InspectorElement(connection));
             graphInspectorRoot.style.display = DisplayStyle.None;
             selectionInspectorRoot.style.display = DisplayStyle.Flex;
-            typeNameLabel.text = connection.GetType().Name;
             var so = new SerializedObject(connection);
             inspectorLabel.text = connection.GetType().Name;
-            scriptTypeObjectRef = so.FindProperty("m_Script").objectReferenceValue;
         }
 
         private void Update()
