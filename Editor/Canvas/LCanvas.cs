@@ -225,6 +225,7 @@ namespace Less3.ForceGraph.Editor
         public Action<LCanvasNode<N>> OnNodeDeletedInternally;
         public Action<LCanvasNode<N>> OnNodeDuplicatedInternally;
         public Action<LCanvasConnection<N, C>> OnConnectionDeletedInternally;
+        public Action<N> OnNodeDoubleClickedInternally;
 
         //* Public Settings
         public Dictionary<Type, List<(string, Type)>> PossibleConnectionTypes = new Dictionary<Type, List<(string, Type)>>();
@@ -322,6 +323,7 @@ namespace Less3.ForceGraph.Editor
                 {
                     doubleClick.EditorOnNodeDoubleClick();
                 }
+                OnNodeDoubleClickedInternally?.Invoke(data);
             });
             doubleClickable.activators.Clear();
             doubleClickable.activators.Add(new ManipulatorActivationFilter()

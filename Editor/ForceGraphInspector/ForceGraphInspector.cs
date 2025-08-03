@@ -50,6 +50,19 @@ namespace Less3.ForceGraph.Editor
         }
     }
 
+    [CustomEditor(typeof(ForceGroup), true)]
+    public class ForceGroupParametersEditorBase : UnityEditor.Editor
+    {
+        private readonly string[] EXCLUDED_PROPERTIES = new string[] { "m_Script", "position", "nodes" };
+
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+            DrawPropertiesExcluding(serializedObject, EXCLUDED_PROPERTIES);
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
+
     public class ForceGraphInspector : EditorWindow
     {
         public static readonly float DEFAULT_GRAPH_HEIGHT = 400f;
@@ -63,6 +76,8 @@ namespace Less3.ForceGraph.Editor
 
         public static readonly string OVERLAY_X_SETTINGS_KEY = "ForceGraphInspectorOverlayX";
         public static readonly string OVERLAY_Y_SETTINGS_KEY = "ForceGraphInspectorOverlayY";
+
+        public static System.Action<ForceNode> OnNodeDoubleClicked;
 
         [SerializeField]
         private ForceGraph target;
@@ -91,7 +106,6 @@ namespace Less3.ForceGraph.Editor
         private ToolbarBreadcrumbs breadcrumbs;
 
         private List<ForceGraph> graphStack = new List<ForceGraph>();
-
 
         [OnOpenAsset(1)]
         public static bool DoubleClickAsset(int instanceID, int line)
@@ -217,6 +231,11 @@ namespace Less3.ForceGraph.Editor
             forceDirectedCanvas.OnConnectionDeletedInternally += (connection) =>
             {
                 (target as ForceGraph).DeleteConnection(connection.data);
+            };
+
+            forceDirectedCanvas.OnNodeDoubleClickedInternally += (node) =>
+            {
+                OnNodeDoubleClicked?.Invoke(node);
             };
 
             forceDirectedCanvas.ConnectionValidator = target.ValidateConnectionRequest;
