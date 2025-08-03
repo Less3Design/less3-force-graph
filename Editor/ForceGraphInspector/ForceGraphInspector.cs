@@ -105,6 +105,19 @@ namespace Less3.ForceGraph.Editor
             return false; // we did not handle the open
         }
 
+        // Try to go up (down?) one level of the stack. like a back button.
+        public static void TryReverseStack()
+        {
+            var window = GetWindow<ForceGraphInspector>();
+            if (window.graphStack.Count <= 1)
+            {
+                return;
+            }
+
+            window.graphStack.RemoveAt(window.graphStack.Count - 1);
+            OpenGraphStack(window.graphStack);
+        }
+
         // Opens the graph as a new stack
         public static void OpenGraphNew(ForceGraph graph)
         {
