@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Less3.ForceGraph;
 
-public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNodeEditorDoubleClick
+public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNodeEditorDoubleClick, IForceNodeSurTitle
 {
 
     public string n;
-    public string NodeTitle => n;
+    public string NodeTitle => string.IsNullOrEmpty(n) ? "Generation Node" : n;
+    public string NodeSurTitle => string.IsNullOrEmpty(n) ? "Generation Node" : n;
+    
     public string NodeIcon => ForceNodeIcons.Data;
     public Color NodeBackgroundColor => Color.green;
     public Color NodeLabelColor => Color.black;

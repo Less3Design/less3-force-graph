@@ -30,6 +30,17 @@ namespace Less3.ForceGraph.Editor
                     else
                         element.Q<Label>("Label").text = value.ToString();
 
+                    Label surTitleLabel = element.Q<Label>("SurLabel");
+                    if (_data is IForceNodeSurTitle surTitle && !string.IsNullOrEmpty(surTitle.NodeSurTitle))
+                    {
+                        surTitleLabel.text = surTitle.NodeSurTitle;
+                        surTitleLabel.style.display = DisplayStyle.Flex;
+                    }
+                    else
+                    {
+                        surTitleLabel.style.display = DisplayStyle.None;
+                    }
+
                     var icon = element.Q<VisualElement>("Icon");
                     if (_data is IForceNodeStyle style)
                     {

@@ -21,6 +21,11 @@ namespace Less3.ForceGraph
         public string NodeTitle { get; }
     }
 
+    public interface IForceNodeSurTitle
+    {
+        public string NodeSurTitle { get; }
+    }
+
     /// <summary>
     /// Set the icon that appears on the node in the editor canvas. Icon is pulled from resources by name
     /// </summary>
