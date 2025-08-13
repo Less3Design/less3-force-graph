@@ -130,5 +130,35 @@ namespace Less3.ForceGraph
             }
             return foundNodes;
         }
+
+        public List<T> GetGroupsOfType<T>() where T : ForceGroup
+        {
+            List<T> foundGroups = new List<T>();
+            foreach (ForceGroup group in groups)
+            {
+                if (group is T)
+                {
+                    foundGroups.Add(group as T);
+                }
+            }
+            return foundGroups;
+        }
+
+        /// <summary>
+        /// If the node is part of a group, returns that group.
+        /// </summary>
+        public bool TryGetNodeGroup(ForceNode node, out ForceGroup group)
+        {
+            group = null;
+            foreach (ForceGroup g in groups)
+            {
+                if (g.nodes.Contains(node))
+                {
+                    group = g;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
