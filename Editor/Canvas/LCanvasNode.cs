@@ -46,6 +46,7 @@ namespace Less3.ForceGraph.Editor
                     {
                         element.Q("NodeContainer").style.backgroundColor = style.NodeBackgroundColor;
                         element.Q<Label>("Label").style.color = style.NodeLabelColor;
+                        surTitleLabel.style.color = style.NodeLabelColor;
                         icon.style.unityBackgroundImageTintColor = style.NodeLabelColor;
                     }
                     if (_data is IForceNodeScale scale)
