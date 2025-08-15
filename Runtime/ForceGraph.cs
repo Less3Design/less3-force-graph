@@ -16,23 +16,40 @@ namespace Less3.ForceGraph
         private void OnEnable()
         {
             //Validation. This excists because Nodes didnt have a graph reference before. It should be unnecessary for new graphs.
-            foreach (ForceNode n in nodes)
+            for (int i = nodes.Count - 1; i >= 0; i--)
             {
+                ForceNode n = nodes[i];
+                if (n == null)
+                {
+                    nodes.RemoveAt(i);
+                    UnityEditor.EditorUtility.SetDirty(this);
+                    continue;
+                }
                 if (n.graph == null)
                 {
                     n.SetGraph(this);
-#if UNITY_EDITOR
-                    UnityEditor.EditorUtility.SetDirty(n);
-                    UnityEditor.EditorUtility.SetDirty(this);
-#endif
                 }
+#if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(n);
+                UnityEditor.EditorUtility.SetDirty(this);
+#endif
             }
 
-            foreach (ForceGroup g in groups)
+            for (int i = groups.Count - 1; i >= 0; i--)
             {
+                ForceGroup g = groups[i];
+                if (g == null)
+                {
+                    groups.RemoveAt(i);
+#if UNITY_EDITOR
+                    UnityEditor.EditorUtility.SetDirty(this);
+#endif
+                    continue;
+                }
                 if (g.graph == null)
                 {
                     g.SetGraph(this);
+
 #if UNITY_EDITOR
 
                     UnityEditor.EditorUtility.SetDirty(g);
@@ -41,7 +58,6 @@ namespace Less3.ForceGraph
                 }
             }
         }
-
 
         public abstract List<(string, Type)> GraphNodeTypes();
         public abstract List<(string, Type)> GraphGroupTypes();
@@ -181,7 +197,7 @@ namespace Less3.ForceGraph
             return downstreamNodes;
         }
 
-        public List<T> GetDownstreamNodes<T>(ForceNode node, ForceNode upstreamNode = null) where T: ForceNode
+        public List<T> GetDownstreamNodes<T>(ForceNode node, ForceNode upstreamNode = null) where T : ForceNode
         {
             List<T> downstreamNodes = new List<T>();
             foreach (ForceConnection connection in GetNodeConnections(node))
