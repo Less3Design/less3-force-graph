@@ -160,5 +160,25 @@ namespace Less3.ForceGraph
             }
             return false;
         }
+
+        /// <summary>
+        /// Returns all nodes that are not the `upstreamNode` and are connected to the `node`.
+        /// </summary>
+        public List<ForceNode> GetDownstreamNodes(ForceNode node, ForceNode upstreamNode = null)
+        {
+            List<ForceNode> downstreamNodes = new List<ForceNode>();
+            foreach (ForceConnection connection in GetNodeConnections(node))
+            {
+                if (connection.from == node && connection.to != upstreamNode)
+                {
+                    downstreamNodes.Add(connection.to);
+                }
+                else if (connection.to == node && connection.from != upstreamNode)
+                {
+                    downstreamNodes.Add(connection.from);
+                }
+            }
+            return downstreamNodes;
+        }
     }
 }
