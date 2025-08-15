@@ -180,5 +180,22 @@ namespace Less3.ForceGraph
             }
             return downstreamNodes;
         }
+
+        public List<T> GetDownstreamNodes<T>(ForceNode node, ForceNode upstreamNode = null) where T: ForceNode
+        {
+            List<T> downstreamNodes = new List<T>();
+            foreach (ForceConnection connection in GetNodeConnections(node))
+            {
+                if (connection.from == node && connection.to != upstreamNode && connection.to is T castedTo)
+                {
+                    downstreamNodes.Add(castedTo);
+                }
+                else if (connection.to == node && connection.from != upstreamNode && connection.from is T castedFrom)
+                {
+                    downstreamNodes.Add(castedFrom);
+                }
+            }
+            return downstreamNodes;
+        }
     }
 }
