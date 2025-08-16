@@ -147,6 +147,24 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 1.31
   otherTest: -10.35
+--- !u!114 &-4930051367653463285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
+  n: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
 --- !u!114 &-4603236591850304529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,6 +490,7 @@ MonoBehaviour:
   - {fileID: -7938551542313691158}
   - {fileID: 2292619238628371593}
   - {fileID: -6574642644589201943}
+  - {fileID: -4930051367653463285}
   connections:
   - {fileID: -5249549159799665585}
   - {fileID: -1094281507883388005}

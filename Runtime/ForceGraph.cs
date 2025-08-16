@@ -90,6 +90,15 @@ namespace Less3.ForceGraph
             return true;
         }
 
+        public virtual Type AutoConnnectionRequest(ForceNode from, ForceNode to)
+        {
+            if (GraphConnectionTypes().TryGetValue(from.GetType(), out var connectionTypes) && connectionTypes.Count > 0)
+            {
+                return connectionTypes[0].Item2;
+            }
+            return null;
+        }
+
         // ***********************
         // *  Utility Functions  *
         // ***********************

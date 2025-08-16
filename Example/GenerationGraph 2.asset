@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2859377486889603935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: 19.044277, y: 77.86388}
+  n: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7f282eb163eec448cf3d8006c1f0d3, type: 3}
+  m_Name: GenerationGraph 2
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 7662320043914292689}
+  - {fileID: -2859377486889603935}
+  connections:
+  - {fileID: 3513305455012571151}
+  groups: []
+  test: 0
+  customProperty: 
+  customProperty2: 
+--- !u!114 &3513305455012571151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: 7662320043914292689}
+  to: {fileID: -2859377486889603935}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
+  otherTest: 0
+--- !u!114 &7662320043914292689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: -189.8661, y: 102.67911}
+  n: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0

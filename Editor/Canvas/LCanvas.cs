@@ -200,7 +200,7 @@ namespace Less3.ForceGraph.Editor
         private VisualElement groupsContainer;
         private VisualElement effectsContainer;
 
-        private LCanvasNode<N> newConnectionFromNode;// used for creating connections
+        public LCanvasNode<N> newConnectionFromNode;// used for creating connections
         private Type newConnectionType;
         private VisualElement newConnectionLine;
         private LCanvasNode<N> hoveredNode;// used for creating connections
@@ -213,6 +213,7 @@ namespace Less3.ForceGraph.Editor
         // * Events & funcs
         public Action OnSelectionChanged;
         public Func<N, N, Type, bool> ConnectionValidator;
+        public Func<N, N, Type> AutoConnectionValidator;
         /// <summary>
         /// A connection was created by interacting with the node canvas. This likely requires an asset to be created. 2nd param is the specific type of the connection (U)
         /// </summary>
@@ -315,6 +316,12 @@ namespace Less3.ForceGraph.Editor
             var node = new LCanvasNode<N>(data, ui, startPosition);
             nodes.Add(node);
             ui.AddManipulator(new ForceDirectedCanvasScrollManipulator(translationContainer));
+
+            // handles auto-connection
+            ui.Q("DragHandle").AddManipulator(new ForceNodeAutoConnectionDragManipulator<N, C, G>(
+                node,
+                this
+            ));
 
             // Double click
             var doubleClickable = new Clickable(() =>
@@ -463,6 +470,18 @@ namespace Less3.ForceGraph.Editor
             connection.data = data;
         }
 
+        public void TryCreateAutoConnection(LCanvasNode<N> from, LCanvasNode<N> to)
+        {
+            if (from == null || to == null)
+                return;
+
+            Type autoType = AutoConnectionValidator.Invoke(from.data, to.data);
+            if (autoType != null)
+            {
+                AddConnectionInternal(from, to, autoType);
+            }
+        }
+
         private LCanvasConnection<N, C> AddConnection(N data1, N data2)
         {
             LCanvasNode<N> node1 = nodes.Find(n => n.data.Equals(data1));
@@ -567,6 +586,7 @@ namespace Less3.ForceGraph.Editor
                 newConnectionLine.RemoveFromClassList("NewConnectionLineAnim");
                 return;
             }
+
             newConnectionLine.style.display = DisplayStyle.Flex;
             newConnectionLine.AddToClassList("NewConnectionLineAnim");
             Vector2 offset = newConnectionFromNode.element.layout.size;
@@ -768,6 +788,16 @@ namespace Less3.ForceGraph.Editor
                 }
             }
             return false;
+        }
+
+        public bool ElementIsNode(VisualElement element, out LCanvasNode<N> node)
+        {
+            node = null;
+            if (element == null)
+                return false;
+
+            node = nodes.Find(n => n.element == element);
+            return node != null;
         }
     }
 }

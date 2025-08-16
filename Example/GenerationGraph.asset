@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: -432.8778, y: -390.49377}
-  graph: {fileID: 11400000}
   nodes: []
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &-8238532959086904552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,9 +84,9 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: 1087.7235, y: -476.39606}
-  graph: {fileID: 11400000}
   nodes: []
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &-7791613150867007980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,9 +138,9 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: -716.5372, y: -421.7193}
-  graph: {fileID: 11400000}
   nodes: []
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &-5503942700286159250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,9 +154,9 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: -451.45807, y: -345.77933}
-  graph: {fileID: 11400000}
   nodes: []
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &-5122450363880873928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,11 +189,11 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: -101.4748, y: 249.7915}
-  graph: {fileID: 11400000}
   nodes:
   - {fileID: -609153122583443109}
   - {fileID: -7974778915047149351}
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &-4503981814605024680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,9 +244,9 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: -509.23758, y: -235.96301}
-  graph: {fileID: 11400000}
   nodes: []
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &-1804140115593522896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,9 +278,9 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: 1358.9744, y: 392.88058}
-  graph: {fileID: 11400000}
   nodes: []
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &-609153122583443109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,12 +363,12 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: -1069.5243, y: 166.02834}
-  graph: {fileID: 11400000}
   nodes:
   - {fileID: 5507432553419820466}
   - {fileID: 6294829712187377700}
   - {fileID: 7335315945449610998}
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &526023969519204550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,13 +382,13 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: 141.04996, y: 8.976065}
-  graph: {fileID: 11400000}
   nodes:
   - {fileID: 2333718456099165384}
   - {fileID: -1804140115593522896}
   - {fileID: 3630693665571489619}
   - {fileID: 8819969996278975762}
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &1983734727207165413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,11 +456,11 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: 100.12942, y: -201.50616}
-  graph: {fileID: 11400000}
   nodes:
   - {fileID: -4189263229092164754}
   - {fileID: -8094831134761789705}
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &4331432168678554607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,10 +493,10 @@ MonoBehaviour:
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
   position: {x: -302.36752, y: -243.36176}
-  graph: {fileID: 11400000}
   nodes:
   - {fileID: 1983734727207165413}
   thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &4764124583627036588
 MonoBehaviour:
   m_ObjectHideFlags: 0

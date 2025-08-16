@@ -3,11 +3,15 @@
     <ui:VisualElement name="Border" class="NodeBorder" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
         <ui:VisualElement name="NodeContainer" picking-mode="Ignore" class="NodeContainer" style="flex-grow: 0; flex-direction: row; align-items: center; justify-content: space-around; flex-shrink: 1; align-self: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 6px; padding-bottom: 4px; padding-left: 6px; background-color: rgb(60, 60, 60);">
             <ui:VisualElement name="Icon" picking-mode="Ignore" class="Icon" style="flex-grow: 0; width: 14px; height: 14px; margin-right: 4px; background-image: none;" />
-            <ui:VisualElement style="flex-grow: 1;">
+            <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1;">
                 <ui:Label text="Label" name="SurLabel" picking-mode="Ignore" style="-unity-font-style: italic; opacity: 0.5; font-size: 10px;" />
                 <ui:Label text="Label" name="Label" picking-mode="Ignore" style="-unity-font-style: bold;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Pin" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/less3-force-graph/Editor/Textures/Icon_Pin.png?fileID=2800000&amp;guid=7c492a240c1494446929ffa06d1450a8&amp;type=3#Icon_Pin&quot;); width: 16px; height: 16px; position: absolute; left: -6px; top: -6px; -unity-background-image-tint-color: rgb(127, 214, 253); border-left-color: rgb(33, 33, 33); border-right-color: rgb(33, 33, 33); border-top-color: rgb(33, 33, 33); border-bottom-color: rgb(33, 33, 33); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; display: none;" />
+        <ui:VisualElement name="DragHandle" class="DragHandle" style="flex-grow: 0; background-image: none; width: 16px; height: 16px; position: absolute; left: auto; top: -6px; -unity-background-image-tint-color: rgb(33, 33, 33); border-left-color: rgb(33, 33, 33); border-right-color: rgb(33, 33, 33); border-top-color: rgb(33, 33, 33); border-bottom-color: rgb(33, 33, 33); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; right: -6px; background-color: rgb(33, 33, 33); align-items: center; justify-content: space-around; flex-shrink: 0;">
+            <ui:VisualElement name="DragGraphic" picking-mode="Ignore" class="DragHandleHoverIndicator" style="flex-grow: 0; width: 4px; height: 4px; background-color: rgb(253, 109, 64); flex-shrink: 0; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-bottom-left-radius: 12px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; position: absolute; left: 6px; bottom: 6px;" />
+            <ui:VisualElement name="hitslop" style="flex-grow: 1; position: absolute; top: -4px; left: -6px; right: -4px; bottom: -4px;" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

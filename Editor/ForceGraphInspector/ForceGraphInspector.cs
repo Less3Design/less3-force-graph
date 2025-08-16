@@ -237,6 +237,7 @@ namespace Less3.ForceGraph.Editor
             };
 
             forceDirectedCanvas.ConnectionValidator = target.ValidateConnectionRequest;
+            forceDirectedCanvas.AutoConnectionValidator = target.AutoConnnectionRequest;
             forceDirectedCanvas.PossibleConnectionTypes = (target as ForceGraph).GraphConnectionTypes();
             forceDirectedCanvas.PossibleNodeTypes = (target as ForceGraph).GraphNodeTypes();
             forceDirectedCanvas.PossibleGroupTypes = (target as ForceGraph).GraphGroupTypes();
