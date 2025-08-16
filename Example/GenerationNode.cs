@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Less3.ForceGraph;
 
-public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNodeEditorDoubleClick, IForceNodeSurTitle
+public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNodeEditorDoubleClick, IForceNodeSurTitle, IForceNodeBadges
 {
 
     public string n;
@@ -16,8 +16,11 @@ public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNode
     public List<string> test = new List<string>();
     public List<GameObject> test2 = new List<GameObject>();
 
+    public NodeBadges NodeBadges => showABadge;
+
     public float anotheRTest;
     public float otherTest;
+    public NodeBadges showABadge;
 
     public void EditorOnNodeDoubleClick()
     {

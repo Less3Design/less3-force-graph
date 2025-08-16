@@ -42,6 +42,21 @@ namespace Less3.ForceGraph
         public float NodeScale { get; }
     }
 
+    public interface IForceNodeBadges
+    {
+        public NodeBadges NodeBadges { get; }
+    }
+
+    [System.Flags]
+    public enum NodeBadges
+    {
+        None = 0,
+        Tip = 1 << 0, // A green-ish square
+        Info = 1 << 1, // A white circle
+        Warning = 1 << 2, // A yellow triangle
+        Error = 1 << 3, // A red octagon
+    }
+
     public interface ILNodeEditorDoubleClick
     {
         /// <summary>

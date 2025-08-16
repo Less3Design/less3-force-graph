@@ -41,6 +41,20 @@ namespace Less3.ForceGraph.Editor
                         surTitleLabel.style.display = DisplayStyle.None;
                     }
 
+                    // Badges
+                    if (_data is IForceNodeBadges badges)
+                    {
+                        element.Q<VisualElement>("Badges").style.display = badges.NodeBadges != NodeBadges.None ? DisplayStyle.Flex : DisplayStyle.None;
+                        element.Q<VisualElement>("tip").style.display = (badges.NodeBadges & NodeBadges.Tip) != 0 ? DisplayStyle.Flex : DisplayStyle.None;
+                        element.Q<VisualElement>("info").style.display = (badges.NodeBadges & NodeBadges.Info) != 0 ? DisplayStyle.Flex : DisplayStyle.None;
+                        element.Q<VisualElement>("warning").style.display = (badges.NodeBadges & NodeBadges.Warning) != 0 ? DisplayStyle.Flex : DisplayStyle.None;
+                        element.Q<VisualElement>("error").style.display = (badges.NodeBadges & NodeBadges.Error) != 0 ? DisplayStyle.Flex : DisplayStyle.None;
+                    }
+                    else
+                    {
+                        element.Q<VisualElement>("Badges").style.display = DisplayStyle.None;
+                    }
+
                     var icon = element.Q<VisualElement>("Icon");
                     if (_data is IForceNodeStyle style)
                     {

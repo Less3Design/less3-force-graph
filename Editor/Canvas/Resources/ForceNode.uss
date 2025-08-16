@@ -156,3 +156,7 @@
 .CreatingConnection:hover .DragHandle {
     scale: 0 0;
 }
+
+.Badge {
+    margin-right: -8px;
+}
