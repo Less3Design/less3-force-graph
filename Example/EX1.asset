@@ -18,7 +18,7 @@ MonoBehaviour:
   test2: []
   anotheRTest: 2.02
   otherTest: 0
-  showABadge: 0
+  showABadge: 8
 --- !u!114 &-8912062899600972576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -299.22363, y: 45.66681}
+  position: {x: -396.84564, y: 0.7851753}
   n: 
   test: []
   test2: []
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -282.22058, y: 334.0652}
+  position: {x: -283.37085, y: 194.88539}
   n: 
   test: []
   test2: []
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -434.9239, y: -257.95947}
+  position: {x: -555.29407, y: -213.11566}
   n: 
   test: []
   test2: []
@@ -298,9 +298,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6f8f4bb81ab2db42860de9dddd0d7b6, type: 3}
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
-  position: {x: -292.27756, y: 172.57808}
+  position: {x: -359.3049, y: 179.3431}
   nodes:
   - {fileID: -8736068460713383702}
+  - {fileID: 2092861304240887723}
+  - {fileID: -4425164021417615068}
   thisIsAGroupProperty: 0
   labelField: New Group
 --- !u!114 &-2080630262113494343
@@ -334,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 33.390522, y: -251.0063}
+  position: {x: -36.671288, y: -346.6144}
   n: 
   test:
   - 
@@ -342,7 +344,7 @@ MonoBehaviour:
   - {fileID: 0}
   anotheRTest: 9.41
   otherTest: 4.4406967
-  showABadge: 0
+  showABadge: 8
 --- !u!114 &-1181776030647119234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,13 +511,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -131.11746, y: -237.4572}
+  position: {x: -76.83673, y: -237.4572}
   n: asdfasdf
   test: []
   test2: []
   anotheRTest: 0
   otherTest: 0
-  showABadge: 1
+  showABadge: 0
 --- !u!114 &221517513684958608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,7 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -98.642166, y: -408.84433}
+  position: {x: -36.671288, y: -463.139}
   n: My Node
   test: []
   test2: []
@@ -604,7 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -131.11746, y: 74.324814}
+  position: {x: -168.56627, y: 207.59706}
   n: 
   test: []
   test2: []
@@ -756,7 +758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -200.97943, y: -486.43338}
+  position: {x: -154.25954, y: -526.5271}
   n: My Node
   test: []
   test2: []
@@ -810,7 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -260.1076, y: -414.24457}
+  position: {x: -269.7728, y: -463.139}
   n: My Node
   test: []
   test2: []

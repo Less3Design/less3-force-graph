@@ -134,14 +134,6 @@ namespace Less3.ForceGraph.Editor
                 },
             });
 
-            groupsContainer = new VisualElement();
-            groupsContainer.pickingMode = PickingMode.Ignore;
-            groupsContainer.name = "GroupsContainer";
-            groupsContainer.style.position = Position.Absolute;
-            groupsContainer.style.left = Length.Percent(50);
-            groupsContainer.style.top = Length.Percent(50);
-            groupsContainer.style.bottom = 0;
-            translationContainer.Add(groupsContainer);
 
             connectionsContainer = new VisualElement();
             connectionsContainer.pickingMode = PickingMode.Ignore;
@@ -151,6 +143,15 @@ namespace Less3.ForceGraph.Editor
             connectionsContainer.style.top = Length.Percent(50);
             connectionsContainer.style.bottom = 0;
             translationContainer.Add(connectionsContainer);
+
+            groupsContainer = new VisualElement();
+            groupsContainer.pickingMode = PickingMode.Ignore;
+            groupsContainer.name = "GroupsContainer";
+            groupsContainer.style.position = Position.Absolute;
+            groupsContainer.style.left = Length.Percent(50);
+            groupsContainer.style.top = Length.Percent(50);
+            groupsContainer.style.bottom = 0;
+            translationContainer.Add(groupsContainer);
 
             effectsContainer = new VisualElement();
             effectsContainer.pickingMode = PickingMode.Ignore;
