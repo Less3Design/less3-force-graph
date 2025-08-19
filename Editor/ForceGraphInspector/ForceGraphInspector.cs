@@ -24,45 +24,6 @@ namespace Less3.ForceGraph.Editor
         }
     }
 
-    [CustomEditor(typeof(ForceNode), true)]
-    public class ForceNodeParametersEditorBase : UnityEditor.Editor
-    {
-        private readonly string[] EXCLUDED_PROPERTIES = new string[] { "m_Script", "position" };
-
-        public override void OnInspectorGUI()
-        {
-            serializedObject.Update();
-            DrawPropertiesExcluding(serializedObject, EXCLUDED_PROPERTIES);
-            serializedObject.ApplyModifiedProperties();
-        }
-    }
-
-    [CustomEditor(typeof(ForceConnection), true)]
-    public class ForceConnectionParametersEditorBase : UnityEditor.Editor
-    {
-        private readonly string[] EXCLUDED_PROPERTIES = new string[] { "m_Script", "from", "to" };
-
-        public override void OnInspectorGUI()
-        {
-            serializedObject.Update();
-            DrawPropertiesExcluding(serializedObject, EXCLUDED_PROPERTIES);
-            serializedObject.ApplyModifiedProperties();
-        }
-    }
-
-    [CustomEditor(typeof(ForceGroup), true)]
-    public class ForceGroupParametersEditorBase : UnityEditor.Editor
-    {
-        private readonly string[] EXCLUDED_PROPERTIES = new string[] { "m_Script", "position", "nodes" };
-
-        public override void OnInspectorGUI()
-        {
-            serializedObject.Update();
-            DrawPropertiesExcluding(serializedObject, EXCLUDED_PROPERTIES);
-            serializedObject.ApplyModifiedProperties();
-        }
-    }
-
     public class ForceGraphInspector : EditorWindow
     {
         public static readonly float DEFAULT_GRAPH_HEIGHT = 400f;

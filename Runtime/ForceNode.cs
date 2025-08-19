@@ -9,7 +9,9 @@ namespace Less3.ForceGraph
         /// <summary>
         /// The position of the node in the graph.
         /// </summary>
+        [HideInInspector]
         public Vector2 position;
+        [HideInInspector]
         public ForceGraph graph { get; private set; }
 
         public void SetGraph(ForceGraph graph)
