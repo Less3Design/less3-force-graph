@@ -26,7 +26,17 @@ namespace Less3.ForceGraph.Editor
                 if (_data != null)
                 {
                     if (_data is IForceNodeTitle title)
-                        element.Q<Label>("Label").text = title.NodeTitle;
+                    {
+                        if (string.IsNullOrEmpty(title.NodeTitle))
+                        {
+                            element.Q<Label>("Label").style.display = DisplayStyle.None;
+                        }
+                        else
+                        {
+                            element.Q<Label>("Label").style.display = DisplayStyle.Flex;
+                            element.Q<Label>("Label").text = title.NodeTitle;
+                        }
+                    }
                     else
                         element.Q<Label>("Label").text = value.ToString();
 
@@ -39,6 +49,24 @@ namespace Less3.ForceGraph.Editor
                     else
                     {
                         surTitleLabel.style.display = DisplayStyle.None;
+                    }
+
+                    Label subTitleLabel = element.Q<Label>("SubLabel");
+                    if (_data is IForceNodeSubTitle subTitle && !string.IsNullOrEmpty(subTitle.NodeSubTitle))
+                    {
+                        subTitleLabel.text = subTitle.NodeSubTitle;
+                        subTitleLabel.style.display = DisplayStyle.Flex;
+
+                        if (_data is IForceNodeStyle style2)
+                        {
+                            // set colors
+                            subTitleLabel.style.color = style2.NodeBackgroundColor;
+                            subTitleLabel.style.backgroundColor = style2.NodeLabelColor;
+                        }
+                    }
+                    else
+                    {
+                        subTitleLabel.style.display = DisplayStyle.None;
                     }
 
                     // Badges
