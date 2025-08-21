@@ -287,6 +287,13 @@ namespace Less3.ForceGraph.Editor
                     menu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero), this, false);
                 }
             ));
+            ui.AddManipulator(new ForceDirectedCanvasBGManipulator()
+            {
+                OnMiddleDrag = (delta) =>
+                {
+                    translationContainer.transform.position += new Vector3(delta.x, delta.y, 0);
+                },
+            });
 
             if (nodesInGroup != null)
             {
