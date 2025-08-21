@@ -22,7 +22,9 @@ namespace Less3.ForceGraph
                 if (n == null)
                 {
                     nodes.RemoveAt(i);
+#if UNITY_EDITOR
                     UnityEditor.EditorUtility.SetDirty(this);
+#endif
                     continue;
                 }
                 if (n.graph == null)
