@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Less3.ForceGraph;
 
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Test")]
 public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNodeEditorDoubleClick, IForceNodeSurTitle, IForceNodeSubTitle, IForceNodeBadges
 {
     public string surTitle;

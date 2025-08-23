@@ -19,6 +19,27 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+--- !u!114 &-9087206873431628429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: -109.54473, y: -283.32388}
+  surTitle: 
+  title: 
+  subTitle: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
+  showABadge: 0
 --- !u!114 &-9073820272699686482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32,7 +53,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -1320.857, y: -1328.1072}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -70,7 +93,30 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -789.13715, y: -16.108152}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
+  showABadge: 0
+--- !u!114 &-7757837140139763345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: 33.666687, y: -16.108152}
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -89,7 +135,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 497.4572, y: -91.28879}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -108,7 +156,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1608.6667, y: 388.66666}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -127,7 +177,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -7.4719753, y: 237.71077}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -165,7 +217,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -185, y: 137}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -241,7 +295,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 938.6667, y: 610.66675}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -260,7 +316,9 @@ MonoBehaviour:
   m_Name: CoolNode
   m_EditorClassIdentifier: 
   position: {x: 277.046, y: -271.40546}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 2.47
@@ -279,7 +337,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1018, y: 768}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -315,7 +375,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 950, y: 551.3334}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -353,7 +415,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1054, y: 461.41064}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -372,7 +436,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -498.65384, y: 324.3595}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -391,7 +457,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 111.5414, y: -16.108152}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -410,7 +478,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1054, y: -70.333374}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -448,7 +518,9 @@ MonoBehaviour:
   m_Name: Example
   m_EditorClassIdentifier: 
   position: {x: 277.046, y: -196.5995}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 24.04
@@ -467,7 +539,9 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   position: {x: -97.77156, y: -91.28879}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 1.68
@@ -524,6 +598,14 @@ MonoBehaviour:
   - {fileID: 2292619238628371593}
   - {fileID: -6574642644589201943}
   - {fileID: -4930051367653463285}
+  - {fileID: 5454412937676295233}
+  - {fileID: -7757837140139763345}
+  - {fileID: 2859296306328432471}
+  - {fileID: 8665000491733196496}
+  - {fileID: 1319106503520961988}
+  - {fileID: 5118295465196975701}
+  - {fileID: 6652963524948580949}
+  - {fileID: -9087206873431628429}
   connections:
   - {fileID: -5249549159799665585}
   - {fileID: -1094281507883388005}
@@ -536,9 +618,11 @@ MonoBehaviour:
   - {fileID: -4603236591850304529}
   - {fileID: -8707916388980792751}
   - {fileID: 1633806203395118713}
+  - {fileID: 317143999075360345}
   groups:
   - {fileID: -2727969975864918430}
   - {fileID: 1712588853083548037}
+  - {fileID: 834724362828811627}
   test: 7.09
   customProperty: sdfg
   customProperty2: sdfgsdfg
@@ -555,12 +639,33 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 950, y: 730.00006}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
   otherTest: 0
   showABadge: 0
+--- !u!114 &317143999075360345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: -7757837140139763345}
+  to: {fileID: -7757837140139763345}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
+  otherTest: 0
 --- !u!114 &405246087092936077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,7 +679,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1140.6667, y: 551.3334}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -593,7 +700,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1280.667, y: -483.66675}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -612,7 +721,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1112.6667, y: 637.3334}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -631,7 +742,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1236.6667, y: 751.3334}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -650,12 +763,30 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1545.4288, y: 531.36176}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
   otherTest: 0
   showABadge: 0
+--- !u!114 &834724362828811627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f8f4bb81ab2db42860de9dddd0d7b6, type: 3}
+  m_Name: GenerationGroup
+  m_EditorClassIdentifier: 
+  position: {x: 289.24405, y: 183.925}
+  nodes: []
+  thisIsAGroupProperty: 0
+  labelField: New Group
 --- !u!114 &967946570398967220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,7 +800,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 928.2285, y: -837.4656}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -688,7 +821,30 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -66.50375, y: 4.972275}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
+  showABadge: 0
+--- !u!114 &1319106503520961988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: -64.45616, y: -34.65754}
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -707,7 +863,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1438.6667, y: 700.00006}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -762,7 +920,9 @@ MonoBehaviour:
   m_Name: BetterExample
   m_EditorClassIdentifier: 
   position: {x: -97.77156, y: -196.5995}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 24.94
@@ -781,7 +941,30 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 284.73486, y: -91.28879}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
+  showABadge: 0
+--- !u!114 &2859296306328432471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: 50.33333, y: 26.833359}
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -800,7 +983,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 111.5414, y: -91.28879}
-  n: VHS
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -819,7 +1004,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1267.3334, y: 670.00006}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -838,7 +1025,51 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 190, y: 564.3334}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
+  showABadge: 0
+--- !u!114 &5118295465196975701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: 278.13083, y: 118.83322}
+  surTitle: 
+  title: 
+  subTitle: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
+  showABadge: 0
+--- !u!114 &5454412937676295233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: -1231.3481, y: 228.41077}
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -857,7 +1088,30 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 677.3334, y: 710.00006}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
+  showABadge: 0
+--- !u!114 &6652963524948580949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: 470.231, y: 179.95598}
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -876,7 +1130,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1744.667, y: 604.3334}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -914,7 +1170,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 1112.6667, y: 734.1478}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -933,7 +1191,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: -258.06824, y: -196.5995}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -952,7 +1212,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 858.50867, y: 509.72546}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -990,7 +1252,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 165.33865, y: 104.56212}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -1009,7 +1273,30 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 912.6667, y: 704.6667}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
+  test: []
+  test2: []
+  anotheRTest: 0
+  otherTest: 0
+  showABadge: 0
+--- !u!114 &8665000491733196496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
+  m_Name: GenerationNode
+  m_EditorClassIdentifier: 
+  position: {x: 72.33333, y: -141.49998}
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0
@@ -1028,7 +1315,9 @@ MonoBehaviour:
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
   position: {x: 456.62964, y: -196.5995}
-  n: 
+  surTitle: 
+  title: 
+  subTitle: 
   test: []
   test2: []
   anotheRTest: 0

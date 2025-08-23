@@ -134,7 +134,7 @@ namespace Less3.ForceGraph.Editor
             inspectorLayeredUXML.CloneTree(inspector);
 
 
-            forceDirectedCanvas = new LCanvas<ForceNode, ForceConnection, ForceGroup>();
+            forceDirectedCanvas = new LCanvas<ForceNode, ForceConnection, ForceGroup>(target.GetType());
             inspector.Q("GraphOrigin").Add(forceDirectedCanvas);
 
             forceDirectedCanvas.OnSelectionChanged += OnSelectionChanged;

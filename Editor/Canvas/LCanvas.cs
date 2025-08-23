@@ -51,11 +51,10 @@ namespace Less3.ForceGraph.Editor
             }
         }
 
-        public new class UxmlFactory : UxmlFactory<LCanvas<N, C, G>, UxmlTraits> { }
-
-        public LCanvas()
+        public LCanvas(Type graphType)
         {
             this.style.flexGrow = 1;
+            this.graphType = graphType;
 
             translationContainer = new VisualElement();
             translationContainer.name = "TranslationContainer";
@@ -94,14 +93,14 @@ namespace Less3.ForceGraph.Editor
                     ClearSelection();
                     var menu = new GenericDropdownMenu();
 
-                    menu.AddDisabledItem("Add Node", false);
-                    foreach ((string name, Type nodeType) in PossibleNodeTypes)
+                    menu.AddItem("Add Node", false, () =>
                     {
-                        menu.AddItem($"{name}", false, () =>
+                        LCanvasAddNodeWindow.OpenForCanvas(graphType, (Type nodeType) =>
                         {
                             AddNullNodeInternal(nodeType, nodesContainer.WorldToLocal(mousePos));
                         });
-                    }
+                    });
+
                     if (PossibleGroupTypes.Count > 0)
                     {
                         menu.AddSeparator("");
@@ -181,6 +180,8 @@ namespace Less3.ForceGraph.Editor
             nodesContainer.style.top = Length.Percent(50);
             translationContainer.Add(nodesContainer);
         }
+
+        public Type graphType { get; private set; }
 
         public List<LCanvasNode<N>> nodes { get; private set; } = new List<LCanvasNode<N>>();
         public List<LCanvasConnection<N, C>> connections = new List<LCanvasConnection<N, C>>();

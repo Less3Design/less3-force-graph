@@ -1,0 +1,22 @@
+.Container {
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgb(36, 36, 36);
+    border-right-color: rgb(36, 36, 36);
+    border-top-color: rgb(36, 36, 36);
+    border-bottom-color: rgb(36, 36, 36);
+}
+
+.TopSection {
+    background-color: rgb(48, 48, 48);
+}
+
+.ListItem {
+    -unity-text-align: middle-left;
+}
+
+.unity-tree-view__item-content {
+    justify-content: space-around;
+}

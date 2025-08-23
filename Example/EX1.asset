@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -431.90448, y: 21.385056}
+  position: {x: -453.19238, y: 42.672955}
   surTitle: 
   title: 
   subTitle: 
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -227.60834, y: -105.64218}
+  position: {x: -114.029724, y: -28.817688}
   surTitle: 
   title: 
   subTitle: 
@@ -198,7 +198,7 @@ MonoBehaviour:
   test2: []
   anotheRTest: 0
   otherTest: 0
-  showABadge: -1
+  showABadge: 0
 --- !u!114 &-4689221819860414196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -315.81775, y: 225.08824}
+  position: {x: -337.10565, y: 246.37614}
   surTitle: 
   title: 
   subTitle: 
@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6f8f4bb81ab2db42860de9dddd0d7b6, type: 3}
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
-  position: {x: -327.72888, y: 250.89201}
+  position: {x: -349.01678, y: 272.17993}
   nodes:
   - {fileID: -8736068460713383702}
   - {fileID: 2092861304240887723}
@@ -388,7 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 14.454449, y: -58.210598}
+  position: {x: 28.877182, y: -74.81769}
   surTitle: 
   title: Part 1
   subTitle: GenerationNode
@@ -591,7 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 62.910706, y: -238.92053}
+  position: {x: -77.568375, y: -227.21396}
   surTitle: 
   title: 
   subTitle: 
@@ -690,7 +690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -170.50604, y: 152.73259}
+  position: {x: -191.79391, y: 174.0205}
   surTitle: 
   title: 
   subTitle: 
