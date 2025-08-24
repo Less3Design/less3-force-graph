@@ -64,7 +64,7 @@ namespace Less3.ForceGraph.Editor
         private ToolbarBreadcrumbs breadcrumbs;
 
         [SerializeField]
-        private List<ForceGraph> graphStack = new List<ForceGraph>();
+        private List<ForceGraph> graphStack = new List<ForceGraph>();//
 
         [OnOpenAsset(1)]
         public static bool DoubleClickAsset(int instanceID, int line)
@@ -346,8 +346,7 @@ namespace Less3.ForceGraph.Editor
             EditorApplication.update += Update;//
             if (wasInit)
             {
-                OpenGraphStack(graphStack);
-                wasInit = false;
+                InitGUI(graphStack);
             }
         }
 
