@@ -52,7 +52,7 @@ namespace Less3.ForceGraph.Editor
                 Vector2 newPos = new Vector2(_targetStartPosition.x + pointerDelta.x, _targetStartPosition.y + pointerDelta.y);
 
                 // clamp to panel
-                newPos.x = Mathf.Clamp(newPos.x, 0, target.panel.visualTree.worldBound.width - _root.layout.width - 32);
+                newPos.x = Mathf.Clamp(newPos.x, 0, target.panel.visualTree.worldBound.width - _root.layout.width - 24);
                 newPos.y = Mathf.Clamp(newPos.y, 0, target.panel.visualTree.worldBound.height - _root.layout.height - 48);
 
                 EditorPrefs.SetFloat(ForceGraphInspector.OVERLAY_X_SETTINGS_KEY, newPos.x);

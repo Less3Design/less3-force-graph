@@ -429,8 +429,8 @@ namespace Less3.ForceGraph.Editor
                 {
                     // validate overlay position and prefs
                     Vector2 newPos = new Vector2(EditorPrefs.GetFloat(OVERLAY_X_SETTINGS_KEY, 0), EditorPrefs.GetFloat(OVERLAY_Y_SETTINGS_KEY, 0));
-                    newPos.x = Mathf.Clamp(newPos.x, 0, inspectorOverlay.panel.visualTree.worldBound.width - inspectorOverlay.layout.width - 32);
-                    newPos.y = Mathf.Clamp(newPos.y, 0, inspectorOverlay.panel.visualTree.worldBound.height - inspectorOverlay.layout.height - 32);
+                    newPos.x = Mathf.Clamp(newPos.x, 0, inspectorOverlay.panel.visualTree.worldBound.width - inspectorOverlay.layout.width - 24 );
+                    newPos.y = Mathf.Clamp(newPos.y, 0, inspectorOverlay.panel.visualTree.worldBound.height - inspectorOverlay.layout.height - 48);
                     EditorPrefs.SetFloat("ForceGraphInspectorOverlayManipulatorX", newPos.x);
                     EditorPrefs.SetFloat("ForceGraphInspectorOverlayManipulatorY", newPos.y);
                     inspectorOverlay.transform.position = newPos;
