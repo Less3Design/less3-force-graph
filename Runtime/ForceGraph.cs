@@ -73,7 +73,6 @@ namespace Less3.ForceGraph
         /// <summary>
         /// Determine if a connection can be made between two nodes.
         /// By default this just simply checks if a connection already exists between the two nodes.
-        /// Each graph type should probably override this with custom rules.
         /// </summary>
         public virtual bool ValidateConnectionRequest(ForceNode from, ForceNode to, Type connectionType)
         {

@@ -484,6 +484,11 @@ namespace Less3.ForceGraph.Editor
             if (from == null || to == null)
                 return;
 
+            if (from == to)
+            {
+                return;
+            }
+
             Type autoType = AutoConnectionValidator.Invoke(from.data, to.data);
             if (autoType != null)
             {
