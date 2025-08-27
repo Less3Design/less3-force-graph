@@ -96,8 +96,13 @@ namespace Less3.ForceGraph
         {
             if (GraphConnectionTypes().TryGetValue(from.GetType(), out var connectionTypes) && connectionTypes.Count > 0)
             {
-                return connectionTypes[0].Item2;
+                Type t = connectionTypes[0].Item2;
+                if (ValidateConnectionRequest(from, to, t))
+                {
+                    return t;
+                }
             }
+
             return null;
         }
 
