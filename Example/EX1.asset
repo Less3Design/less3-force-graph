@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -114.029724, y: -28.817688}
+  position: {x: -202.69638, y: -76.15102}
   surTitle: 
   title: 
   subTitle: 
@@ -388,8 +388,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 28.877182, y: -74.81769}
-  surTitle: 
+  position: {x: 77.157486, y: -138.30774}
+  surTitle: asdfasdfasdfasdfasdfasdf
   title: Part 1
   subTitle: GenerationNode
   test: []
@@ -848,7 +848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -154.25954, y: -526.5271}
+  position: {x: -166.59286, y: -508.5271}
   surTitle: 
   title: 
   subTitle: 

@@ -1,12 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Less3.ForceGraph.Editor
 {
+
+
     public class LCanvasNode<N>
     {
         public VisualElement element;
         public Vector2 position { get; protected set; }
+
+        // we dynamically create tags.
+        // Update can get called often, so we don't want to constantly create/destroy them.
+        private List<Label> _tagPool = new List<Label>();
 
         public Rect bounds => element.worldBound;
 
@@ -51,22 +58,34 @@ namespace Less3.ForceGraph.Editor
                         surTitleLabel.style.display = DisplayStyle.None;
                     }
 
-                    Label subTitleLabel = element.Q<Label>("SubLabel");
-                    if (_data is IForceNodeSubTitle subTitle && !string.IsNullOrEmpty(subTitle.NodeSubTitle))
-                    {
-                        subTitleLabel.text = subTitle.NodeSubTitle;
-                        subTitleLabel.style.display = DisplayStyle.Flex;
+                    VisualElement tagContainer = element.Q<VisualElement>("tags");
 
-                        if (_data is IForceNodeStyle style2)
-                        {
-                            // set colors
-                            subTitleLabel.style.color = style2.NodeBackgroundColor;
-                            subTitleLabel.style.backgroundColor = style2.NodeLabelColor;
-                        }
-                    }
-                    else
+                    if (_data is ILCanvasTags subTitle)
                     {
-                        subTitleLabel.style.display = DisplayStyle.None;
+                        int c = 0;
+                        foreach (var tag in subTitle.NodeTags)
+                        {
+                            Label l;
+                            if (c < _tagPool.Count)
+                            {
+                                l = _tagPool[c];
+                                l.style.display = DisplayStyle.Flex;
+                            }
+                            else
+                            {
+                                l = new Label();
+                                l.AddToClassList("Tag");
+                                tagContainer.Add(l);
+                                _tagPool.Add(l);
+                            }
+                            l.text = tag.text;
+                            l.tooltip = tag.tooltip;
+                            c++;
+                        }
+                        for (int i = c; i < _tagPool.Count; i++)
+                        {
+                            _tagPool[i].style.display = DisplayStyle.None;
+                        }
                     }
 
                     // Badges

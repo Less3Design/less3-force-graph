@@ -5,7 +5,7 @@ using Less3.ForceGraph;
 
 [LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode")]
 [LCreateNodeMenu(typeof(GenerationGraph), "Test")]
-public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNodeEditorDoubleClick, IForceNodeSurTitle, IForceNodeSubTitle, IForceNodeBadges
+public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNodeEditorDoubleClick, IForceNodeSurTitle, ILCanvasTags, IForceNodeBadges
 {
     public string surTitle;
     public string title;
@@ -13,7 +13,26 @@ public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNode
 
     public string NodeTitle => title;
     public string NodeSurTitle => surTitle;
-    public string NodeSubTitle => subTitle;
+    public List<LCanvasNodeTag> NodeTags
+    {
+        get
+        {
+            List<LCanvasNodeTag> tags = new List<LCanvasNodeTag>();
+            if (!string.IsNullOrEmpty(subTitle))
+            {
+                tags.Add(new LCanvasNodeTag() { text = subTitle, tooltip = "This is a subtitle" });
+            }
+            if (test != null && test.Count > 0)
+            {
+                tags.Add(new LCanvasNodeTag() { text = $"Strings: {test.Count}", tooltip = "This is a list of strings" });
+            }
+            if (test2 != null && test2.Count > 0)
+            {
+                tags.Add(new LCanvasNodeTag() { text = $"GameObjects: {test2.Count}", tooltip = "This is a list of GameObjects" });
+            }
+            return tags;
+        }
+    }
 
     public string NodeIcon => ForceNodeIcons.Data;
     public Color NodeBackgroundColor => Color.green;

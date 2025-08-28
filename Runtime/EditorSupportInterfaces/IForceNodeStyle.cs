@@ -26,9 +26,15 @@ namespace Less3.ForceGraph
         public string NodeSurTitle { get; }
     }
 
-    public interface IForceNodeSubTitle
+    public struct LCanvasNodeTag
     {
-        public string NodeSubTitle { get; }
+        public string text;
+        public string tooltip;
+    }
+
+    public interface ILCanvasTags
+    {
+        public List<LCanvasNodeTag> NodeTags { get; }
     }
 
     /// <summary>
