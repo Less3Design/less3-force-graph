@@ -1,6 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/less3-force-graph/Editor/Canvas/Resources/CreateNodePanelUSS.uss?fileID=7433441132597879392&amp;guid=1bbc28b679103ad458391daff44f4577&amp;type=3#CreateNodePanelUSS" />
-    <engine:VisualElement name="Container" class="Container" style="flex-grow: 1; flex-shrink: 0;">
+    <engine:VisualElement name="Container" class="Container" style="flex-grow: 1; flex-shrink: 0; height: 100%;">
         <engine:VisualElement name="Top" class="TopSection" style="flex-grow: 0; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px;">
             <engine:Label text="Add Node" style="-unity-font-style: bold; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px;" />
             <engine:TextField name="search" placeholder-text="Search..." style="margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px;" />
