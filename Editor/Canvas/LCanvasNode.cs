@@ -114,10 +114,18 @@ namespace Less3.ForceGraph.Editor
                     {
                         element.transform.scale = new Vector3(scale.NodeScale, scale.NodeScale, 1f);
                     }
-                    if (_data is IForceNodeIcon iconData)
+                    if (_data is IForceNodeIcon iconData && !string.IsNullOrEmpty(iconData.NodeIcon))
                     {
-                        icon.style.display = DisplayStyle.Flex;
-                        icon.style.backgroundImage = Resources.Load<Texture2D>(iconData.NodeIcon);
+                        Texture2D tex = Resources.Load<Texture2D>(iconData.NodeIcon);
+                        if (tex == null)
+                        {
+                            icon.style.display = DisplayStyle.None;
+                        }
+                        else
+                        {
+                            icon.style.display = DisplayStyle.Flex;
+                            icon.style.backgroundImage = Resources.Load<Texture2D>(iconData.NodeIcon);
+                        }
                     }
                     else
                     {
