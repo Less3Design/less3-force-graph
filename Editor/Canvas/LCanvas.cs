@@ -521,6 +521,11 @@ namespace Less3.ForceGraph.Editor
             DrawGroups();
 
             selectedNode?.UpdateContent();
+            //update related connections
+            foreach (var connection in connections.Where(c => c.from == selectedNode || c.to == selectedNode))
+            {
+                connection.UpdateContent();
+            }
 
             Vector3 desiredScale = Vector3.one * EditorPrefs.GetFloat(LCanvasPrefs.ZOOM_KEY, LCanvasPrefs.DEFAULT_ZOOM);
             translationContainer.transform.scale = desiredScale;

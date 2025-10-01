@@ -16,6 +16,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 2.02
@@ -37,6 +38,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test:
   - 
   test2: []
@@ -78,6 +80,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 2.54
@@ -194,6 +197,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -215,6 +219,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -255,6 +260,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -276,6 +282,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -388,10 +395,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 77.157486, y: -138.30774}
+  position: {x: 97.23474, y: -59.48433}
   surTitle: asdfasdfasdfasdfasdfasdf
   title: Part 1
   subTitle: GenerationNode
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 1.59
@@ -413,6 +421,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: GenerationNode
+  dashConnections: 0
   test:
   - 
   test2:
@@ -455,6 +464,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -591,10 +601,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -77.568375, y: -227.21396}
+  position: {x: -94.23503, y: -174.21396}
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 1
   test: []
   test2: []
   anotheRTest: 0
@@ -635,6 +646,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -694,6 +706,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -753,6 +766,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -812,6 +826,7 @@ MonoBehaviour:
   surTitle: asdf
   title: asdf
   subTitle: asdf
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -852,6 +867,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -908,6 +924,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0

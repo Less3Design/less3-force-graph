@@ -42,7 +42,7 @@
 
 .Connection {
     transition-duration: 0s;
-    background-color: var(--unity-colors-default-text);
+    background-color: rgb(156, 156, 156);
 }
 
 .ConnectionSelected {
@@ -91,6 +91,9 @@
     border-right-color: rgb(22, 22, 22);
     border-top-color: rgb(22, 22, 22);
     border-bottom-color: rgb(22, 22, 22);
+    opacity: 0.7;
+    transition-property: opacity;
+    transition-duration: 0.35s;
 }
 
 .InspectorOverlayEdgeBackground {
@@ -117,17 +120,23 @@
 
 .Pin {
     background-color: rgba(0, 0, 0, 0);
-    background-image: url('project://database/Assets/Less3_ForceGraph/Editor/Textures/Pin_off.png?fileID=2800000&guid=9a13155f6a2c1934a8811584f5e66390&type=3#Pin_off');
+    background-image: url("project://database/Assets/less3-force-graph/Editor/Textures/Pin_off.png?fileID=2800000&guid=9a13155f6a2c1934a8811584f5e66390&type=3#Pin_off");
     -unity-background-image-tint-color: rgba(255, 255, 255, 0.3);
 }
 
 .PinOn {
-    background-image: url('project://database/Assets/Less3_ForceGraph/Editor/Textures/Pin_on.png?fileID=2800000&guid=2a261ef0d170a6e40a53e16747960f17&type=3#Pin_on');
+    background-image: url("project://database/Assets/less3-force-graph/Editor/Textures/Pin_on.png?fileID=2800000&guid=2a261ef0d170a6e40a53e16747960f17&type=3#Pin_on");
     -unity-background-image-tint-color: rgba(255, 255, 255, 0.7);
 }
 
 .PinOn:hover {
-    background-image: url('project://database/Assets/Less3_ForceGraph/Editor/Textures/Pin_on.png?fileID=2800000&guid=2a261ef0d170a6e40a53e16747960f17&type=3#Pin_on');
+    background-image: url("project://database/Assets/less3-force-graph/Editor/Textures/Pin_on.png?fileID=2800000&guid=2a261ef0d170a6e40a53e16747960f17&type=3#Pin_on");
     -unity-background-image-tint-color: rgba(255, 255, 255, 0.7);
     background-color: rgba(255, 255, 255, 0.15);
+}
+
+.InspectorOverlayBackground:hover {
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.05s;
 }

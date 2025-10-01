@@ -27,6 +27,7 @@ namespace Less3.ForceGraph.Editor
                         }
                         else
                         {
+                            _element.style.backgroundImage = null;
                             _element.style.backgroundColor = style.ConnectionColor;
                         }
                     }
@@ -53,6 +54,7 @@ namespace Less3.ForceGraph.Editor
                     }
                     else
                     {
+                        _element.style.backgroundImage = null;
                         _element.style.backgroundColor = style.ConnectionColor;
                     }
                 }
@@ -60,5 +62,10 @@ namespace Less3.ForceGraph.Editor
         }
         public LCanvasNode<N> from;
         public LCanvasNode<N> to;
+
+        public void UpdateContent()
+        {
+            data = data;
+        }
     }
 }

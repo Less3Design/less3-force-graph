@@ -4,12 +4,25 @@ using UnityEngine;
 using Less3.ForceGraph;
 
 [LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode2")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode3")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode4")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode5")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode6")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode7")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode8")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode9")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode10")]
+[LCreateNodeMenu(typeof(GenerationGraph), "Nodes/Example/GenNode11")]
+
 [LCreateNodeMenu(typeof(GenerationGraph), "Test")]
 public class GenerationNode : ForceNode, IForceNodeIcon, IForceNodeTitle, ILNodeEditorDoubleClick, IForceNodeSurTitle, ILCanvasTags, IForceNodeBadges
 {
     public string surTitle;
     public string title;
     public string subTitle;
+
+    public bool dashConnections;
 
     public string NodeTitle => title;
     public string NodeSurTitle => surTitle;
