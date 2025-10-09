@@ -33,43 +33,44 @@ namespace Less3.ForceGraph.Editor
 
         private void UpdateVisuals()
         {
-            if (_element != null && _data != null && _data is IForceConnectionStyle style)
+            // so messy
+            if (_element != null && _data != null)
             {
-                if (style.Dashed)
+                VisualElement arrow = _element.Q("DirArrow");
+                if (_data is IForceConnectionStyle style)
                 {
-                    _element.style.backgroundImage = Background.FromTexture2D(Resources.Load<Texture2D>(CONNECTION_DASH_TEXTURE));
-                    _element.style.unityBackgroundImageTintColor = style.ConnectionColor;
-                    _element.style.backgroundColor = Color.clear;
-                    _element.style.backgroundRepeat = new BackgroundRepeat(Repeat.Repeat, Repeat.Repeat);
-                    _element.style.backgroundSize = new BackgroundSize(Length.Auto(), Length.Auto());
-
-                    if (_data is IForceConnectionIsDirectional dir)
+                    arrow.style.unityBackgroundImageTintColor = style.ConnectionColor;
+                    if (style.Dashed)
                     {
-                        VisualElement arrow = _element.Q("DirArrow");
-                        arrow.style.display = dir.IsDirectional ? DisplayStyle.Flex : DisplayStyle.None;
-                        arrow.style.unityBackgroundImageTintColor = style.ConnectionColor;
+                        _element.style.backgroundImage = Background.FromTexture2D(Resources.Load<Texture2D>(CONNECTION_DASH_TEXTURE));
+                        _element.style.unityBackgroundImageTintColor = style.ConnectionColor;
+                        _element.style.backgroundColor = Color.clear;
+                        _element.style.backgroundRepeat = new BackgroundRepeat(Repeat.Repeat, Repeat.Repeat);
+                        _element.style.backgroundSize = new BackgroundSize(Length.Auto(), Length.Auto());
                     }
                     else
                     {
-                        _element.Q("DirArrow").style.display = DisplayStyle.None;
+                        _element.style.backgroundImage = null;
+                        _element.style.unityBackgroundImageTintColor = ForceConnection.defaultColor;
+                        _element.style.backgroundColor = style.ConnectionColor;
                     }
+
+                    arrow.style.unityBackgroundImageTintColor = _element.style.backgroundColor;
                 }
                 else
                 {
-                    _element.style.backgroundImage = null;
-                    _element.style.unityBackgroundImageTintColor = ForceConnection.defaultColor;
-                    _element.style.backgroundColor = style.ConnectionColor;
+                    _element.style.backgroundColor = ForceConnection.defaultColor;
+                    arrow.style.unityBackgroundImageTintColor = ForceConnection.defaultColor;
+                    _element.style.unityBackgroundImageTintColor = Color.clear;
+                }
 
-                    if (_data is IForceConnectionIsDirectional dir)
-                    {
-                        VisualElement arrow = _element.Q("DirArrow");
-                        arrow.style.display = dir.IsDirectional ? DisplayStyle.Flex : DisplayStyle.None;
-                        arrow.style.unityBackgroundImageTintColor = style.ConnectionColor;
-                    }
-                    else
-                    {
-                        _element.Q("DirArrow").style.display = DisplayStyle.None;
-                    }
+                if (_data is IForceConnectionIsDirectional directional)
+                {
+                    arrow.style.display = directional.IsDirectional ? DisplayStyle.Flex : DisplayStyle.None;
+                }
+                else
+                {
+                    arrow.style.display = DisplayStyle.None;
                 }
             }
         }
