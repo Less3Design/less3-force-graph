@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -202.69638, y: -76.15102}
+  position: {x: -203.02971, y: -100.81768}
   surTitle: 
   title: 
   subTitle: 
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 97.23474, y: -59.48433}
+  position: {x: 35.568054, y: 45.66681}
   surTitle: asdfasdfasdfasdfasdfasdf
   title: Part 1
   subTitle: GenerationNode
@@ -417,7 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -41.60411, y: -348.40817}
+  position: {x: -36.671288, y: -348.49127}
   surTitle: 
   title: 
   subTitle: GenerationNode
@@ -601,7 +601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -94.23503, y: -174.21396}
+  position: {x: 66.066216, y: -226.54916}
   surTitle: 
   title: 
   subTitle: 
@@ -702,7 +702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -191.79391, y: 174.0205}
+  position: {x: -156.88864, y: 68.37383}
   surTitle: 
   title: 
   subTitle: 

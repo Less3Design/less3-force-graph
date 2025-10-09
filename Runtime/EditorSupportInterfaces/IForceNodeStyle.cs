@@ -84,4 +84,9 @@ namespace Less3.ForceGraph
         public Color ConnectionColor { get; }
         public bool Dashed { get; }
     }
+
+    public interface IForceConnectionIsDirectional
+    {
+        public bool IsDirectional { get; }
+    }
 }

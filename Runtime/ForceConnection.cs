@@ -10,5 +10,7 @@ namespace Less3.ForceGraph
         public ForceNode from;
         [HideInInspector]
         public ForceNode to;
+
+        public static Color defaultColor = new Color(.7f, .7f, .7f, 1f);
     }
 }

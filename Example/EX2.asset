@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 33.666687, y: -16.108152}
+  position: {x: 44.666687, y: -57.441483}
   surTitle: 
   title: 
   subTitle: 
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 497.4572, y: -91.28879}
+  position: {x: 353.12387, y: -133.29831}
   surTitle: 
   title: 
   subTitle: 
@@ -227,6 +227,25 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+--- !u!114 &-6419965911815024101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: -6574642644589201943}
+  to: {fileID: 8665000491733196496}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
+  otherTest: 0
 --- !u!114 &-5471289110692619918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -7.4719753, y: 237.71077}
+  position: {x: -369.1023, y: 341.90933}
   surTitle: 
   title: 
   subTitle: 
@@ -381,7 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: CoolNode
   m_EditorClassIdentifier: 
-  position: {x: 277.046, y: -271.40546}
+  position: {x: 361.71265, y: -247.07213}
   surTitle: 
   title: 
   subTitle: 
@@ -631,7 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  position: {x: -97.77156, y: -91.28879}
+  position: {x: -292.10492, y: 173.36838}
   surTitle: 
   title: 
   subTitle: 
@@ -717,6 +736,9 @@ MonoBehaviour:
   - {fileID: -6425353353014453856}
   - {fileID: -7283939871786294000}
   - {fileID: -2125872656570890786}
+  - {fileID: -6419965911815024101}
+  - {fileID: 1446710253378887969}
+  - {fileID: 2174529084925649347}
   groups:
   - {fileID: -2727969975864918430}
   - {fileID: 1712588853083548037}
@@ -947,7 +969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -58.503754, y: -42.990868}
+  position: {x: -138.17044, y: -47.990868}
   surTitle: 
   title: 
   subTitle: 
@@ -979,6 +1001,25 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   showABadge: 0
+--- !u!114 &1446710253378887969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: 8665000491733196496}
+  to: {fileID: 6652963524948580949}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
+  otherTest: 0
 --- !u!114 &1633806203395118713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1010,7 +1051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6f8f4bb81ab2db42860de9dddd0d7b6, type: 3}
   m_Name: GenerationGroup
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 0}
+  position: {x: -361.6303, y: 104.19856}
   nodes:
   - {fileID: -5471289110692619918}
   thisIsAGroupProperty: 0
@@ -1027,7 +1068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: BetterExample
   m_EditorClassIdentifier: 
-  position: {x: -97.77156, y: -196.5995}
+  position: {x: 165.33865, y: -226.26616}
   surTitle: 
   title: 
   subTitle: 
@@ -1037,6 +1078,25 @@ MonoBehaviour:
   anotheRTest: 24.94
   otherTest: 0
   showABadge: 0
+--- !u!114 &2174529084925649347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: 1209119764526578283}
+  to: {fileID: -7757837140139763345}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
+  otherTest: 0
 --- !u!114 &2292619238628371593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1049,7 +1109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 284.73486, y: -91.28879}
+  position: {x: 213.94305, y: -133.29831}
   surTitle: 
   title: 
   subTitle: 
@@ -1093,7 +1153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 111.5414, y: -91.28879}
+  position: {x: 213.94305, y: 4.972275}
   surTitle: 
   title: 
   subTitle: 
@@ -1417,7 +1477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 72.33333, y: -141.49998}
+  position: {x: 361.71265, y: 51.80052}
   surTitle: 
   title: 
   subTitle: 

@@ -521,6 +521,8 @@ namespace Less3.ForceGraph.Editor
             DrawGroups();
 
             selectedNode?.UpdateContent();
+            selectedConnection?.UpdateContent();
+
             //update related connections
             foreach (var connection in connections.Where(c => c.from == selectedNode || c.to == selectedNode))
             {
@@ -566,10 +568,7 @@ namespace Less3.ForceGraph.Editor
                 var dist = (pos1 - pos2).magnitude;
                 connectionLine.transform.position = pos1;
                 connectionLine.style.height = 4f;
-                if (selectedConnection == connection)
-                    connectionLine.style.opacity = 1f;
-                else
-                    connectionLine.style.opacity = 0.7f;
+
                 connectionLine.style.width = dist;
 
                 if (float.IsNaN(pos1.x) || float.IsNaN(pos1.y) || float.IsNaN(pos2.x) || float.IsNaN(pos2.y))
@@ -632,18 +631,42 @@ namespace Less3.ForceGraph.Editor
             var line = new VisualElement();
             line.style.position = Position.Absolute;
             line.AddToClassList("Connection");
+            line.style.alignItems = Align.Center;
+            line.style.justifyContent = Justify.SpaceAround;
+            line.style.overflow = Overflow.Visible;
+            line.style.flexDirection = FlexDirection.Row;
 
             line.style.height = 4f;
             line.style.transformOrigin = new TransformOrigin(0, Length.Percent(50));
 
             // Make the line element easier to hover/click
             var hitslop = new VisualElement();
-            line.Add(hitslop);
             hitslop.style.position = Position.Absolute;
             hitslop.style.left = -6;
             hitslop.style.right = -6;
             hitslop.style.top = -6;
             hitslop.style.bottom = -6;
+            line.Add(hitslop);
+
+            var arrowsContainer = new VisualElement();
+            arrowsContainer.style.flexDirection = FlexDirection.Row;
+            arrowsContainer.style.alignItems = Align.Center;
+            arrowsContainer.style.justifyContent = Justify.SpaceAround;
+            arrowsContainer.style.flexShrink = 0;
+            arrowsContainer.style.flexGrow = 1f;
+            line.Add(arrowsContainer);
+
+            var dirArrow = new VisualElement();
+            dirArrow.name = "DirArrow";
+            dirArrow.AddToClassList("ConnectionDirectionContainer");
+            arrowsContainer.Add(dirArrow);
+
+            //arrowsContainer.Add(new VisualElement());
+
+            var dirArrow2 = new VisualElement();
+            dirArrow2.AddToClassList("ConnectionDirectionContainer");
+            //arrowsContainer.Add(dirArrow2);
+            //another
 
             connectionsContainer.Add(line);
             connectionLines.Add(line);
