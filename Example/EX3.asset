@@ -1582,7 +1582,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
-  directional: 0
+  directional: 1
 --- !u!114 &7280914302535429458
 MonoBehaviour:
   m_ObjectHideFlags: 0

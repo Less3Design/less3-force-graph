@@ -19,6 +19,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-7950720005037196067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,6 +36,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -56,6 +58,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -77,6 +80,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -98,6 +102,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -122,6 +127,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +194,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -212,6 +219,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &2492963079951989784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +272,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0
@@ -285,6 +294,7 @@ MonoBehaviour:
   surTitle: 
   title: 
   subTitle: 
+  dashConnections: 0
   test: []
   test2: []
   anotheRTest: 0

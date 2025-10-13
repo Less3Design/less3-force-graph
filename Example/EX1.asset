@@ -64,6 +64,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-8736068460713383702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +106,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-8109075698488979737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +126,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-7326531574452996462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +146,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-6145670996807471190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +166,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-5970073508288640032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,6 +186,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-5121067539429543758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +250,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-4425164021417615068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +314,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-4204428359655504285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +334,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-3924768331320190856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,6 +354,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-3780391768645270904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +374,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-2453786263990488092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,6 +459,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-1018487527272542118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +501,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-893034001049002945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,6 +521,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &-738490146732906060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,6 +541,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,6 +645,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &978767402658431635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,6 +687,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &1303816429551857671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -690,6 +707,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &2092861304240887723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,6 +749,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &2403608727128888632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -750,6 +769,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &2688399485772735655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,6 +811,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &3048206360515673170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -810,6 +831,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &3244842704816133467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -851,6 +873,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &3996431052411691868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -908,6 +931,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &7538855256677263172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -949,6 +973,7 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0
 --- !u!114 &9011902799714118812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -968,3 +993,4 @@ MonoBehaviour:
   customProperty2: 
   anotheRTest: 0
   otherTest: 0
+  directional: 0

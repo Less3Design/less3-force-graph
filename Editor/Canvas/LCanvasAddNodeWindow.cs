@@ -52,8 +52,6 @@ namespace Less3.ForceGraph.Editor
 
             treeView = rootVisualElement.Q<TreeView>("TreeView");
 
-
-
             treeView.makeItem = () =>
             {
                 var label = new Label();

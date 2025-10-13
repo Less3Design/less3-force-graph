@@ -1,3 +1,4 @@
+#if LESS3_EXAMPLES
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,3 +30,4 @@ public class GenerationConnection : ForceConnection, IForceConnectionStyle, IFor
         return false;
     }
 }
+#endif

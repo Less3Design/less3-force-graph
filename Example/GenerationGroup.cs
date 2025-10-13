@@ -1,3 +1,4 @@
+#if LESS3_EXAMPLES
 using Less3.ForceGraph;
 using UnityEngine;
 
@@ -11,3 +12,4 @@ public class GenerationGroup : ForceGroup, ILGroupLabel
         get => labelField;
     }
 }
+#endif
