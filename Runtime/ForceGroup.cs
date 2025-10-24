@@ -8,8 +8,10 @@ namespace Less3.ForceGraph
         /// <summary>
         /// Position only used if the group is empty. Otherwise position/scale is derived from the nodes.
         /// </summary>
+        [HideInInspector]
         public Vector2 position;
         public ForceGraph graph { get; private set; }
+        [HideInInspector]
         public List<ForceNode> nodes = new List<ForceNode>();
 
         public void SetGraph(ForceGraph graph)

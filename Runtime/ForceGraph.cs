@@ -9,8 +9,11 @@ namespace Less3.ForceGraph
 {
     public abstract class ForceGraph : ScriptableObject
     {
+        [HideInInspector]
         public List<ForceNode> nodes = new List<ForceNode>();
+        [HideInInspector]
         public List<ForceConnection> connections = new List<ForceConnection>();
+        [HideInInspector]
         public List<ForceGroup> groups = new List<ForceGroup>();
 
         private void OnEnable()
