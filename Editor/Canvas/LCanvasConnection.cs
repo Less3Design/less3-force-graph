@@ -28,6 +28,19 @@ namespace Less3.ForceGraph.Editor
             }
         }
 
+        private Label _label;
+        public Label label
+        {
+            get
+            {
+                if (_label == null && _element != null)
+                {
+                    _label = _element.Q<Label>("ConnectionLabel");
+                }
+                return _label;
+            }
+        }
+
         public LCanvasNode<N> from;
         public LCanvasNode<N> to;
 
@@ -72,7 +85,29 @@ namespace Less3.ForceGraph.Editor
                 {
                     arrow.style.display = DisplayStyle.None;
                 }
+
+                if (_data is IForceConnectionLabel labelData)
+                {
+                    if (string.IsNullOrEmpty(labelData.ConnectionLabel))
+                    {
+                        label.style.display = DisplayStyle.None;
+                    }
+                    else
+                    {
+                        label.style.display = DisplayStyle.Flex;
+                        label.text = labelData.ConnectionLabel;
+                    }
+                }
+                else
+                {
+                    label.style.display = DisplayStyle.None;
+                }
             }
+        }
+
+        public void UpdateRotation()
+        {
+            label.transform.rotation = Quaternion.Euler(0, 0, -element.transform.rotation.eulerAngles.z);
         }
 
         public void UpdateContent()

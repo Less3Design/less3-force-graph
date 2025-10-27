@@ -61,7 +61,7 @@ namespace Less3.ForceGraph.Editor
 
         private void PointerDownHandler(PointerDownEvent evt)
         {
-            _targetStartPosition = target.transform.position;
+            _targetStartPosition = _node.element.transform.position;
             _pointerStartPosition = evt.position;
             if (evt.button == (int)MouseButton.RightMouse)
             {

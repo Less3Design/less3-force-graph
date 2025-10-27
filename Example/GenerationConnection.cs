@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Less3.ForceGraph;
 
-public class GenerationConnection : ForceConnection, IForceConnectionStyle, IForceConnectionIsDirectional
+public class GenerationConnection : ForceConnection, IForceConnectionStyle, IForceConnectionIsDirectional, IForceConnectionLabel
 {
     public float test;
     public string customProperty;
@@ -12,7 +12,9 @@ public class GenerationConnection : ForceConnection, IForceConnectionStyle, IFor
     public float anotheRTest;
     public float otherTest;
     public bool directional;
+    public string conLable;
 
+    public string ConnectionLabel => conLable;
     public Color ConnectionColor => ForceConnection.defaultColor;
     public bool Dashed => DashFunc();
     public bool IsDirectional => directional;

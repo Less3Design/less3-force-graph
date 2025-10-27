@@ -75,6 +75,7 @@ namespace Less3.ForceGraph.Editor
                             {
                                 l = new Label();
                                 l.AddToClassList("Tag");
+                                l.pickingMode = PickingMode.Ignore;
                                 tagContainer.Add(l);
                                 _tagPool.Add(l);
                             }

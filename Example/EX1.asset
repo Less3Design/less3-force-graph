@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 194.26888, y: -251.0063}
+  position: {x: 269.29193, y: -264.2796}
   surTitle: 
   title: 
   subTitle: 
@@ -34,7 +34,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 194.26888, y: -408.84433}
+  position: {x: 169.26888, y: -397.84433}
   surTitle: 
   title: 
   subTitle: 
@@ -65,6 +65,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-8736068460713383702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,6 +108,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-8109075698488979737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,6 +129,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-7326531574452996462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +150,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-6145670996807471190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +171,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-5970073508288640032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +192,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-5121067539429543758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: -203.02971, y: -100.81768}
+  position: {x: -269.7728, y: -81.83408}
   surTitle: 
   title: 
   subTitle: 
@@ -251,6 +257,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-4425164021417615068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +322,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-4204428359655504285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +343,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-3924768331320190856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +364,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-3780391768645270904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,6 +385,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-2453786263990488092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,7 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 35.568054, y: 45.66681}
+  position: {x: 28.877182, y: 26.333466}
   surTitle: asdfasdfasdfasdfasdfasdf
   title: Part 1
   subTitle: GenerationNode
@@ -460,6 +471,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-1018487527272542118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,6 +514,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-893034001049002945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,6 +535,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &-738490146732906060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,6 +556,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,6 +613,7 @@ MonoBehaviour:
   - {fileID: -3924768331320190856}
   - {fileID: -7326531574452996462}
   - {fileID: -8125416660419948434}
+  - {fileID: 3650496078957286426}
   groups:
   - {fileID: 5106173775034197526}
   - {fileID: -2453786263990488092}
@@ -616,7 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81abd19744010e40829525deb18dd4d, type: 3}
   m_Name: GenerationNode
   m_EditorClassIdentifier: 
-  position: {x: 66.066216, y: -226.54916}
+  position: {x: 28.877182, y: -138.30774}
   surTitle: 
   title: 
   subTitle: 
@@ -646,6 +662,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &978767402658431635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,6 +705,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &1303816429551857671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,6 +726,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &2092861304240887723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -750,6 +769,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &2403608727128888632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -770,6 +790,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &2688399485772735655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,6 +833,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &3048206360515673170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -832,6 +854,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &3244842704816133467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -854,6 +877,27 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   showABadge: 0
+--- !u!114 &3650496078957286426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a8fbfb57f4a1f419c000eb651b2d49, type: 3}
+  m_Name: GenerationConnection
+  m_EditorClassIdentifier: 
+  from: {fileID: 3244842704816133467}
+  to: {fileID: -2080630262113494343}
+  test: 0
+  customProperty: 
+  customProperty2: 
+  anotheRTest: 0
+  otherTest: 0
+  directional: 0
+  conLable: 
 --- !u!114 &3654746635338262789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -874,6 +918,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &3996431052411691868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,6 +977,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &7538855256677263172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -974,6 +1020,7 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 
 --- !u!114 &9011902799714118812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -994,3 +1041,4 @@ MonoBehaviour:
   anotheRTest: 0
   otherTest: 0
   directional: 0
+  conLable: 

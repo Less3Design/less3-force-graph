@@ -89,4 +89,9 @@ namespace Less3.ForceGraph
     {
         public bool IsDirectional { get; }
     }
+
+    public interface IForceConnectionLabel
+    {
+        public string ConnectionLabel { get; }
+    }
 }
