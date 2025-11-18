@@ -122,7 +122,7 @@ namespace Less3.ForceGraph.Editor
             graphStack = new List<ForceGraph>(newGraphStack);
             ForceGraph graph = graphStack[graphStack.Count - 1];
 
-            if (target != graph)
+            if (target != null && target != graph)
             {
                 target.OnForceGraphRepaint -= ForceRepaint;
             }
@@ -358,6 +358,10 @@ namespace Less3.ForceGraph.Editor
         private void OnDisable()//
         {
             EditorApplication.update -= Update;
+            if (target != null)
+            {
+                target.OnForceGraphRepaint -= ForceRepaint;
+            }
             wasInit = true;
         }
 
