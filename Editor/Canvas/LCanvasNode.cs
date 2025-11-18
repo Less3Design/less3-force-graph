@@ -45,7 +45,9 @@ namespace Less3.ForceGraph.Editor
                         }
                     }
                     else
+                    {
                         element.Q<Label>("Label").text = value.ToString();
+                    }
 
                     Label surTitleLabel = element.Q<Label>("SurLabel");
                     if (_data is IForceNodeSurTitle surTitle && !string.IsNullOrEmpty(surTitle.NodeSurTitle))
@@ -111,10 +113,19 @@ namespace Less3.ForceGraph.Editor
                         surTitleLabel.style.color = style.NodeLabelColor;
                         icon.style.unityBackgroundImageTintColor = style.NodeLabelColor;
                     }
+                    else
+                    {
+                        element.Q("NodeContainer").style.backgroundColor = ForceNode.defaultBackgroundColor;
+                        element.Q<Label>("Label").style.color = ForceNode.defaultTextColor;
+                        surTitleLabel.style.color = ForceNode.defaultTextColor;
+                        icon.style.unityBackgroundImageTintColor = ForceNode.defaultTextColor;
+                    }
+
                     if (_data is IForceNodeScale scale)
                     {
                         element.transform.scale = new Vector3(scale.NodeScale, scale.NodeScale, 1f);
                     }
+
                     if (_data is IForceNodeIcon iconData && !string.IsNullOrEmpty(iconData.NodeIcon))
                     {
                         Texture2D tex = Resources.Load<Texture2D>(iconData.NodeIcon);
@@ -146,7 +157,7 @@ namespace Less3.ForceGraph.Editor
 
         public void UpdateContent()
         {
-            data = data;// cheeky way to trigger the setter and update the UI.
+            data = data;
         }
     }
 }

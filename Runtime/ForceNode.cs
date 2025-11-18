@@ -28,5 +28,8 @@ namespace Less3.ForceGraph
         {
             return name;
         }
+
+        public static Color defaultBackgroundColor = new Color(0.234f, .234f, .234f, 1f);
+        public static Color defaultTextColor = new Color(.82f, .82f, .82f, 1f);
     }
 }
