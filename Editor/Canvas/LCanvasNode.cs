@@ -4,8 +4,6 @@ using UnityEngine.UIElements;
 
 namespace Less3.ForceGraph.Editor
 {
-
-
     public class LCanvasNode<N>
     {
         public VisualElement element;

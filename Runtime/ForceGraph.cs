@@ -16,6 +16,8 @@ namespace Less3.ForceGraph
         [HideInInspector]
         public List<ForceGroup> groups = new List<ForceGroup>();
 
+        public Action OnForceGraphRepaint;
+
         private void OnEnable()
         {
             //Validation. This excists because Nodes didnt have a graph reference before. It should be unnecessary for new graphs.
@@ -230,6 +232,14 @@ namespace Less3.ForceGraph
                 }
             }
             return downstreamNodes;
+        }
+
+        /// <summary>
+        /// If the editor is open, forces all nodes and connections to repaint.
+        /// </summary>
+        public void ForceGraphRepaint()
+        {
+            OnForceGraphRepaint?.Invoke();
         }
     }
 }

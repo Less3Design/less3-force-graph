@@ -864,5 +864,18 @@ namespace Less3.ForceGraph.Editor
             node = nodes.Find(n => n.element == element);
             return node != null;
         }
+
+        //force update all nodes and connections
+        public void RepaintAllElements()
+        {
+            foreach (var node in nodes)
+            {
+                node.UpdateContent();
+            }
+            foreach (var connection in connections)
+            {
+                connection.UpdateContent();
+            }
+        }
     }
 }

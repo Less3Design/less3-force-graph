@@ -60,7 +60,7 @@ namespace Less3.ForceGraph.Editor
         public VisualElement graphHeightSetter;
         public VisualElement selectionInspectorRoot;
 
-        private LCanvas<ForceNode, ForceConnection, ForceGroup> forceDirectedCanvas;
+        private LCanvas<ForceNode, ForceConnection, ForceGroup> canvas;
         private ToolbarBreadcrumbs breadcrumbs;
 
         [SerializeField]
@@ -122,7 +122,13 @@ namespace Less3.ForceGraph.Editor
             graphStack = new List<ForceGraph>(newGraphStack);
             ForceGraph graph = graphStack[graphStack.Count - 1];
 
+            if (target != graph)
+            {
+                target.OnForceGraphRepaint -= ForceRepaint;
+            }
             target = graph;
+            target.OnForceGraphRepaint += ForceRepaint;
+
             titleContent = new GUIContent(target.name, windowIcon);
             if (inspector != null)
             {
@@ -133,26 +139,25 @@ namespace Less3.ForceGraph.Editor
             inspector.name = "$ForceGraphInspector";
             inspectorLayeredUXML.CloneTree(inspector);
 
+            canvas = new LCanvas<ForceNode, ForceConnection, ForceGroup>(target.GetType());
+            inspector.Q("GraphOrigin").Add(canvas);
 
-            forceDirectedCanvas = new LCanvas<ForceNode, ForceConnection, ForceGroup>(target.GetType());
-            inspector.Q("GraphOrigin").Add(forceDirectedCanvas);
-
-            forceDirectedCanvas.OnSelectionChanged += OnSelectionChanged;
+            canvas.OnSelectionChanged += OnSelectionChanged;
 
             // ? The graph UI creates UI elements, but has no concept of how to create the backing data.
             //   Here we are taking "create new object requests" and filling in correct data (creating new SO's)
-            forceDirectedCanvas.OnGroupCreatedInternally += (group, type) =>
+            canvas.OnGroupCreatedInternally += (group, type) =>
             {
                 var asset = (target as ForceGraph).CreateGroup(type);
                 group.data = asset;
             };
 
-            forceDirectedCanvas.OnNodeAddedToGroupInternally += (node, group) =>
+            canvas.OnNodeAddedToGroupInternally += (node, group) =>
             {
                 (target as ForceGraph).AddNodeToGroup(node, group);
             };
 
-            forceDirectedCanvas.OnNodeRemovedFromGroupInternally += (node, group) =>
+            canvas.OnNodeRemovedFromGroupInternally += (node, group) =>
             {
                 if (group == null || node == null)
                 {
@@ -161,47 +166,47 @@ namespace Less3.ForceGraph.Editor
                 // TODO maybe don't do from all. Arguably a bug
                 (target as ForceGraph).RemoveNodeFromAllGroups(node);
             };
-            forceDirectedCanvas.OnGroupDeletedInternally += (group) =>
+            canvas.OnGroupDeletedInternally += (group) =>
             {
                 (target as ForceGraph).DeleteGroup(group.data);
             };
 
-            forceDirectedCanvas.OnNodeCreatedInternally += (node, type) =>
+            canvas.OnNodeCreatedInternally += (node, type) =>
             {
                 var asset = (target as ForceGraph).CreateNode(type);
                 node.data = asset;
             };
 
             // ? Same as above, but for deletion and duplication etc
-            forceDirectedCanvas.OnNodeDeletedInternally += (node) =>
+            canvas.OnNodeDeletedInternally += (node) =>
             {
                 (target as ForceGraph).DeleteNode(node.data);
             };
-            forceDirectedCanvas.OnNodeDuplicatedInternally += (node) =>
+            canvas.OnNodeDuplicatedInternally += (node) =>
             {
                 var n = (target as ForceGraph).DuplicateNode(node.data);
-                forceDirectedCanvas.InitNodeExternal(n, n.position);
+                canvas.InitNodeExternal(n, n.position);
             };
-            forceDirectedCanvas.OnConnectionCreatedInternally += (connection, type) =>
+            canvas.OnConnectionCreatedInternally += (connection, type) =>
             {
                 var asset = (target as ForceGraph).CreateConnection(connection.from.data, connection.to.data, type);
                 connection.data = asset;
             };
-            forceDirectedCanvas.OnConnectionDeletedInternally += (connection) =>
+            canvas.OnConnectionDeletedInternally += (connection) =>
             {
                 (target as ForceGraph).DeleteConnection(connection.data);
             };
 
-            forceDirectedCanvas.OnNodeDoubleClickedInternally += (node) =>
+            canvas.OnNodeDoubleClickedInternally += (node) =>
             {
                 OnNodeDoubleClicked?.Invoke(node);
             };
 
-            forceDirectedCanvas.ConnectionValidator = target.ValidateConnectionRequest;
-            forceDirectedCanvas.AutoConnectionValidator = target.AutoConnnectionRequest;
-            forceDirectedCanvas.PossibleConnectionTypes = (target as ForceGraph).GraphConnectionTypes();
-            forceDirectedCanvas.PossibleNodeTypes = (target as ForceGraph).GraphNodeTypes();
-            forceDirectedCanvas.PossibleGroupTypes = (target as ForceGraph).GraphGroupTypes();
+            canvas.ConnectionValidator = target.ValidateConnectionRequest;
+            canvas.AutoConnectionValidator = target.AutoConnnectionRequest;
+            canvas.PossibleConnectionTypes = (target as ForceGraph).GraphConnectionTypes();
+            canvas.PossibleNodeTypes = (target as ForceGraph).GraphNodeTypes();
+            canvas.PossibleGroupTypes = (target as ForceGraph).GraphGroupTypes();
 
             breadcrumbs = inspector.Q<ToolbarBreadcrumbs>("Breadcrumbs");
             for (int i = 0; i < graphStack.Count; i++)
@@ -318,24 +323,24 @@ namespace Less3.ForceGraph.Editor
             {
                 if (node.position == Vector2.zero)
                     node.position = new Vector2(UnityEngine.Random.Range(-200, 200), UnityEngine.Random.Range(-200, 200));
-                forceDirectedCanvas.InitNodeExternal(node, node.position);
+                canvas.InitNodeExternal(node, node.position);
             }
 
             foreach (var connection in (target as ForceGraph).connections)
             {
-                forceDirectedCanvas.InitConnectionExternal(connection.from, connection.to, connection);
+                canvas.InitConnectionExternal(connection.from, connection.to, connection);
             }
 
             foreach (var group in (target as ForceGraph).groups)
             {
-                forceDirectedCanvas.InitGroupExternal(group, group.position, group.nodes);
+                canvas.InitGroupExternal(group, group.position, group.nodes);
             }
 
             if (EditorPrefs.GetBool(FIT_TO_SCREEN_SETTINGS_KEY, true))
             {
                 // Cause small graphs to zoom in, and large graphs to zoom out when opening if fit is enabled .
                 // Just makes it feel a bit more interesting when scrolling through graphs
-                forceDirectedCanvas.SetViewScale(.5f);
+                canvas.SetViewScale(.5f);
             }
 
             rootVisualElement.Add(inspector);
@@ -363,17 +368,17 @@ namespace Less3.ForceGraph.Editor
 
         private void OnSelectionChanged()
         {
-            if (forceDirectedCanvas.selectedNode != null)
+            if (canvas.selectedNode != null)
             {
-                InspectObject(forceDirectedCanvas.selectedNode.data);
+                InspectObject(canvas.selectedNode.data);
             }
-            else if (forceDirectedCanvas.selectedConnection != null)
+            else if (canvas.selectedConnection != null)
             {
-                InspectObject(forceDirectedCanvas.selectedConnection.data);
+                InspectObject(canvas.selectedConnection.data);
             }
-            else if (forceDirectedCanvas.selectedGroup != null)
+            else if (canvas.selectedGroup != null)
             {
-                InspectObject(forceDirectedCanvas.selectedGroup.data);
+                InspectObject(canvas.selectedGroup.data);
             }
             else
             {
@@ -403,14 +408,14 @@ namespace Less3.ForceGraph.Editor
 
         private void Update()
         {
-            if (forceDirectedCanvas != null)
+            if (canvas != null)
             {
-                forceDirectedCanvas.Update();
+                canvas.Update();
 
                 // TODO: This is reacting to node position changes:
                 // This should be a built in feature of the canvas with a callback like add/delete etc.
 
-                foreach (var node in forceDirectedCanvas.nodes)
+                foreach (var node in canvas.nodes)
                 {
                     // We ignore this to try and avoid unnecessary writes to the asset
                     if (Mathf.Approximately(node.data.position.x, node.position.x) && Mathf.Approximately(node.data.position.y, node.position.y))
@@ -418,7 +423,7 @@ namespace Less3.ForceGraph.Editor
                     node.data.position = node.position;
                 }
 
-                foreach (var group in forceDirectedCanvas.groups)
+                foreach (var group in canvas.groups)
                 {
                     if (Mathf.Approximately(group.data.position.x, group.position.x) && Mathf.Approximately(group.data.position.y, group.position.y))
                         continue;
@@ -429,13 +434,18 @@ namespace Less3.ForceGraph.Editor
                 {
                     // validate overlay position and prefs
                     Vector2 newPos = new Vector2(EditorPrefs.GetFloat(OVERLAY_X_SETTINGS_KEY, 0), EditorPrefs.GetFloat(OVERLAY_Y_SETTINGS_KEY, 0));
-                    newPos.x = Mathf.Clamp(newPos.x, 0, inspectorOverlay.panel.visualTree.worldBound.width - inspectorOverlay.layout.width - 24 );
+                    newPos.x = Mathf.Clamp(newPos.x, 0, inspectorOverlay.panel.visualTree.worldBound.width - inspectorOverlay.layout.width - 24);
                     newPos.y = Mathf.Clamp(newPos.y, 0, inspectorOverlay.panel.visualTree.worldBound.height - inspectorOverlay.layout.height - 48);
                     EditorPrefs.SetFloat("ForceGraphInspectorOverlayManipulatorX", newPos.x);
                     EditorPrefs.SetFloat("ForceGraphInspectorOverlayManipulatorY", newPos.y);
                     inspectorOverlay.transform.position = newPos;
                 }
             }
+        }
+
+        private void ForceRepaint()
+        {
+            canvas.RepaintAllElements();
         }
     }
 }
