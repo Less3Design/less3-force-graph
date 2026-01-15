@@ -16,7 +16,6 @@ namespace Less3.ForceGraph.Editor
             node.SetGraph(graph);
             graph.nodes.Add(node);
             EditorUtility.SetDirty(graph);
-            AssetDatabase.SaveAssetIfDirty(graph);
             return node;
         }
 
@@ -28,7 +27,6 @@ namespace Less3.ForceGraph.Editor
             newNode.SetGraph(graph);
             graph.nodes.Add(newNode);
             EditorUtility.SetDirty(graph);
-            AssetDatabase.SaveAssetIfDirty(graph);
             return newNode;
         }
 
@@ -41,7 +39,6 @@ namespace Less3.ForceGraph.Editor
             graph.nodes.Add(newNode);
             newNode.position = node.position + Vector2.up * 25f;
             EditorUtility.SetDirty(graph);
-            AssetDatabase.SaveAssetIfDirty(graph);
             return newNode;
         }
 
@@ -55,7 +52,6 @@ namespace Less3.ForceGraph.Editor
             graph.nodes.Remove(node);
             ScriptableObject.DestroyImmediate(node, true);
             EditorUtility.SetDirty(graph);
-            AssetDatabase.SaveAssetIfDirty(graph);
         }
 
         public static ForceConnection CreateConnection(this ForceGraph graph, ForceNode from, ForceNode to, Type type)
@@ -79,7 +75,6 @@ namespace Less3.ForceGraph.Editor
             AssetDatabase.AddObjectToAsset(newConnection, graph);
             graph.connections.Add(newConnection);
             EditorUtility.SetDirty(graph);
-            AssetDatabase.SaveAssetIfDirty(graph);
             return newConnection;
         }
 
@@ -93,7 +88,6 @@ namespace Less3.ForceGraph.Editor
             graph.connections.Remove(connection);
             ScriptableObject.DestroyImmediate(connection, true);
             EditorUtility.SetDirty(graph);
-            AssetDatabase.SaveAssetIfDirty(graph);
         }
 
         public static ForceGroup CreateGroup(this ForceGraph graph, Type type)
@@ -104,7 +98,6 @@ namespace Less3.ForceGraph.Editor
             group.SetGraph(graph);
             graph.groups.Add(group);
             EditorUtility.SetDirty(graph);
-            AssetDatabase.SaveAssetIfDirty(graph);
             return group;
         }
 
@@ -122,7 +115,6 @@ namespace Less3.ForceGraph.Editor
             }
 
             EditorUtility.SetDirty(group);
-            AssetDatabase.SaveAssetIfDirty(group);
         }
 
         /// <summary>
@@ -136,10 +128,8 @@ namespace Less3.ForceGraph.Editor
                 {
                     group.nodes.Remove(node);
                     EditorUtility.SetDirty(group);
-                    AssetDatabase.SaveAssetIfDirty(group);
                 }
             }
-            AssetDatabase.SaveAssetIfDirty(graph);
         }
 
         /// <summary>
@@ -155,7 +145,6 @@ namespace Less3.ForceGraph.Editor
             graph.groups.Remove(group);
             ScriptableObject.DestroyImmediate(group, true);
             EditorUtility.SetDirty(graph);
-            AssetDatabase.SaveAssetIfDirty(graph);
         }
 
         public static void IsNodeInAGroup(this ForceGraph graph, ForceNode node, out ForceGroup group)
