@@ -1,13 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 using UnityEditor.Callbacks;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Less3.ForceGraph.Editor
 {
+    /// <summary>
+    /// Detects when ForceGraph assets are reimported or deleted, and notifies open inspector windows.
+    /// </summary>
+    public class ForceGraphAssetPostprocessor : AssetPostprocessor
+    {
+        private static void OnPostprocessAllAssets(
+            string[] importedAssets,
+            string[] deletedAssets,
+            string[] movedAssets,
+            string[] movedFromAssetPaths)
+        {
+            ForceGraphInspector[] windows = Resources.FindObjectsOfTypeAll<ForceGraphInspector>();
+            foreach (ForceGraphInspector window in windows)
+            {
+                string targetPath = window.GetTargetAssetPath();
+                if (string.IsNullOrEmpty(targetPath))
+                    continue;
+
+                // Check if asset was deleted - close the window
+                if (System.Array.Exists(deletedAssets, path => path == targetPath))
+                {
+                    window.Close();
+                    continue;
+                }
+
+                // Check if asset was reimported - reload the window
+                if (System.Array.Exists(importedAssets, path => path == targetPath))
+                {
+                    window.ReloadFromAssetRefresh();
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// The inspector, specifically for the parameters of the graph object.
     /// We need this empty class otherwise we create an infinite loop of graph inspectors
@@ -424,7 +458,13 @@ namespace Less3.ForceGraph.Editor
                     // We ignore this to try and avoid unnecessary writes to the asset
                     if (Mathf.Approximately(node.data.position.x, node.position.x) && Mathf.Approximately(node.data.position.y, node.position.y))
                         continue;
+
                     node.data.position = node.position;
+                    // mark the graph dirty if we ever do a move op.
+                    if (!UnityEditor.EditorUtility.IsDirty(target))
+                    {
+                        UnityEditor.EditorUtility.SetDirty(target);
+                    }
                 }
 
                 foreach (var group in canvas.groups)
@@ -450,6 +490,21 @@ namespace Less3.ForceGraph.Editor
         private void ForceRepaint()
         {
             canvas.RepaintAllElements();
+        }
+
+        public string GetTargetAssetPath()
+        {
+            if (target == null)
+                return null;
+            return AssetDatabase.GetAssetPath(target);
+        }
+
+        public void ReloadFromAssetRefresh()
+        {
+            if (target != null && graphStack.Count > 0)
+            {
+                InitGUI(graphStack);
+            }
         }
     }
 }
