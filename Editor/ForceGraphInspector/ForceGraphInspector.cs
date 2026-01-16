@@ -236,6 +236,17 @@ namespace Less3.ForceGraph.Editor
                 OnNodeDoubleClicked?.Invoke(node);
             };
 
+            canvas.OnNodeDragEndInternally += (canvasNode, startPos) =>
+            {
+                var forceNode = canvasNode.data;
+                if (forceNode != null)
+                {
+                    Undo.RecordObject(forceNode, "Move Node");
+                    forceNode.position = canvasNode.position;
+                    EditorUtility.SetDirty(forceNode);
+                }
+            };
+
             canvas.ConnectionValidator = target.ValidateConnectionRequest;
             canvas.AutoConnectionValidator = target.AutoConnnectionRequest;
             canvas.PossibleConnectionTypes = (target as ForceGraph).GraphConnectionTypes();
@@ -383,6 +394,7 @@ namespace Less3.ForceGraph.Editor
         public void OnEnable()
         {
             EditorApplication.update += Update;//
+            Undo.undoRedoPerformed += OnUndoRedoPerformed;
             if (wasInit)
             {
                 InitGUI(graphStack);
@@ -392,11 +404,20 @@ namespace Less3.ForceGraph.Editor
         private void OnDisable()//
         {
             EditorApplication.update -= Update;
+            Undo.undoRedoPerformed -= OnUndoRedoPerformed;
             if (target != null)
             {
                 target.OnForceGraphRepaint -= ForceRepaint;
             }
             wasInit = true;
+        }
+
+        private void OnUndoRedoPerformed()
+        {
+            if (graphStack.Count > 0)
+            {
+                InitGUI(graphStack);
+            }
         }
 
         private void OnDestroy()
@@ -406,9 +427,13 @@ namespace Less3.ForceGraph.Editor
 
         private void OnSelectionChanged()
         {
-            if (canvas.selectedNode != null)
+            if (canvas.selectedNodes.Count > 1)
             {
-                InspectObject(canvas.selectedNode.data);
+                InspectMultipleNodes(canvas.selectedNodes);
+            }
+            else if (canvas.selectedNodes.Count == 1)
+            {
+                InspectObject(canvas.selectedNodes[0].data);
             }
             else if (canvas.selectedConnection != null)
             {
@@ -422,6 +447,32 @@ namespace Less3.ForceGraph.Editor
             {
                 InspectGraph();
             }
+        }
+
+        private void InspectMultipleNodes(List<LCanvasNode<ForceNode>> nodes)
+        {
+            selectionInspectorRoot.Clear();
+            graphInspectorRoot.style.display = DisplayStyle.None;
+            selectionInspectorRoot.style.display = DisplayStyle.Flex;
+
+            var container = new VisualElement();
+            container.style.paddingTop = 8;
+            container.style.paddingLeft = 8;
+            container.style.paddingRight = 8;
+
+            var countLabel = new Label($"{nodes.Count} nodes selected");
+            countLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+            countLabel.style.marginBottom = 8;
+            container.Add(countLabel);
+
+            foreach (var node in nodes)
+            {
+                var nodeLabel = new Label($"  - {node.data.name}");
+                container.Add(nodeLabel);
+            }
+
+            selectionInspectorRoot.Add(container);
+            inspectorLabel.text = "Multiple Selection";
         }
 
         // ? I don't remember why inspect graph is slightly different. I think its not needed anymore. SHould try removing:

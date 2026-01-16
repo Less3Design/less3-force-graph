@@ -195,3 +195,18 @@
 .ConnectionDirectionContainer {
     background-color: rgb(32, 32, 32);
 }
+
+.DragSelectHover {
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgba(56, 122, 190, 0.5);
+    border-right-color: rgba(56, 122, 190, 0.5);
+    border-top-color: rgba(56, 122, 190, 0.5);
+    border-bottom-color: rgba(56, 122, 190, 0.5);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}

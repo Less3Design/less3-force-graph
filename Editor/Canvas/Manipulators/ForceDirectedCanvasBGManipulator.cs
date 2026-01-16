@@ -6,6 +6,23 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 /// <summary>
+/// Container for modifier key states during events.
+/// </summary>
+public struct DragEventModifiers
+{
+    public bool shift;
+    public bool ctrl;
+    public bool alt;
+
+    public DragEventModifiers(bool shift, bool ctrl, bool alt)
+    {
+        this.shift = shift;
+        this.ctrl = ctrl;
+        this.alt = alt;
+    }
+}
+
+/// <summary>
 /// Handles mouse inputs on the bg of the canvas. This disables selection when clicked, and handles drag and zoom.
 /// </summary>
 public class ForceDirectedCanvasBGManipulator : PointerManipulator
@@ -18,9 +35,9 @@ public class ForceDirectedCanvasBGManipulator : PointerManipulator
     public Action OnLeftClick { get; set; }
     public Action<Vector2> OnRightClick { get; set; }
 
-    public Action<Vector2> OnLeftDragStart { get; set; }
-    public Action<Vector2> OnLeftDrag { get; set; }
-    public Action<Vector2> OnLeftDragEnd { get; set; }
+    public Action<Vector2, DragEventModifiers> OnLeftDragStart { get; set; }
+    public Action<Vector2, Vector2> OnLeftDrag { get; set; }  // (delta, currentPos)
+    public Action<Vector2, DragEventModifiers> OnLeftDragEnd { get; set; }
 
     public Action<Vector2> OnMiddleDrag { get; set; }
     private VisualElement _translationContainer;
@@ -58,7 +75,8 @@ public class ForceDirectedCanvasBGManipulator : PointerManipulator
             _isLeftDrag = evt.button == (int)MouseButton.LeftMouse;
             if (_isLeftDrag)
             {
-                OnLeftDragStart?.Invoke(evt.position);
+                var modifiers = new DragEventModifiers(evt.shiftKey, evt.ctrlKey, evt.altKey);
+                OnLeftDragStart?.Invoke(evt.position, modifiers);
             }
             return;
         }
@@ -70,7 +88,7 @@ public class ForceDirectedCanvasBGManipulator : PointerManipulator
         {
             if (_isLeftDrag)
             {
-                OnLeftDrag?.Invoke(evt.deltaPosition);
+                OnLeftDrag?.Invoke(evt.deltaPosition, evt.position);
             }
             else
             {
@@ -87,7 +105,8 @@ public class ForceDirectedCanvasBGManipulator : PointerManipulator
             target.ReleasePointer(evt.pointerId);
             if (_isLeftDrag)
             {
-                OnLeftDragEnd?.Invoke(evt.position);
+                var modifiers = new DragEventModifiers(evt.shiftKey, evt.ctrlKey, evt.altKey);
+                OnLeftDragEnd?.Invoke(evt.position, modifiers);
             }
         }
     }

@@ -10,8 +10,10 @@ namespace Less3.ForceGraph.Editor
     {
         public static ForceNode CreateNode(this ForceGraph graph, Type type)
         {
+            Undo.RecordObject(graph, "Create Node");
             var node = (ForceNode)ScriptableObject.CreateInstance(type);
             node.name = type.Name;
+            Undo.RegisterCreatedObjectUndo(node, "Create Node");
             AssetDatabase.AddObjectToAsset(node, graph);
             node.SetGraph(graph);
             graph.nodes.Add(node);
@@ -21,8 +23,10 @@ namespace Less3.ForceGraph.Editor
 
         public static T CreateNode<T>(this ForceGraph graph) where T : ForceNode
         {
+            Undo.RecordObject(graph, "Create Node");
             var newNode = ScriptableObject.CreateInstance<T>();
             newNode.name = typeof(T).Name;
+            Undo.RegisterCreatedObjectUndo(newNode, "Create Node");
             AssetDatabase.AddObjectToAsset(newNode, graph);
             newNode.SetGraph(graph);
             graph.nodes.Add(newNode);
@@ -32,8 +36,10 @@ namespace Less3.ForceGraph.Editor
 
         public static ForceNode DuplicateNode(this ForceGraph graph, ForceNode node)
         {
+            Undo.RecordObject(graph, "Duplicate Node");
             var newNode = ScriptableObject.Instantiate(node);
             newNode.name = node.name;
+            Undo.RegisterCreatedObjectUndo(newNode, "Duplicate Node");
             AssetDatabase.AddObjectToAsset(newNode, graph);
             newNode.SetGraph(graph);
             graph.nodes.Add(newNode);
@@ -49,8 +55,9 @@ namespace Less3.ForceGraph.Editor
                 Debug.LogError("Cannot delete node that is not in the graph");
                 return;
             }
+            Undo.RecordObject(graph, "Delete Node");
             graph.nodes.Remove(node);
-            ScriptableObject.DestroyImmediate(node, true);
+            Undo.DestroyObjectImmediate(node);
             EditorUtility.SetDirty(graph);
         }
 
@@ -68,10 +75,12 @@ namespace Less3.ForceGraph.Editor
 
             //TODO: validate if `type` is a child of ForceConnection
 
+            Undo.RecordObject(graph, "Create Connection");
             var newConnection = (ForceConnection)ScriptableObject.CreateInstance(type);
             newConnection.name = type.Name;
             newConnection.from = from;
             newConnection.to = to;
+            Undo.RegisterCreatedObjectUndo(newConnection, "Create Connection");
             AssetDatabase.AddObjectToAsset(newConnection, graph);
             graph.connections.Add(newConnection);
             EditorUtility.SetDirty(graph);
@@ -85,15 +94,18 @@ namespace Less3.ForceGraph.Editor
                 Debug.LogError("Cannot delete connection that is not in the graph");
                 return;
             }
+            Undo.RecordObject(graph, "Delete Connection");
             graph.connections.Remove(connection);
-            ScriptableObject.DestroyImmediate(connection, true);
+            Undo.DestroyObjectImmediate(connection);
             EditorUtility.SetDirty(graph);
         }
 
         public static ForceGroup CreateGroup(this ForceGraph graph, Type type)
         {
+            Undo.RecordObject(graph, "Create Group");
             var group = (ForceGroup)ScriptableObject.CreateInstance(type);
             group.name = type.Name;
+            Undo.RegisterCreatedObjectUndo(group, "Create Group");
             AssetDatabase.AddObjectToAsset(group, graph);
             group.SetGraph(graph);
             graph.groups.Add(group);
@@ -109,6 +121,7 @@ namespace Less3.ForceGraph.Editor
             }
 
             RemoveNodeFromAllGroups(graph, node);
+            Undo.RecordObject(group, "Add Node to Group");
             if (group.nodes.Contains(node) == false)
             {
                 group.nodes.Add(node);
@@ -126,6 +139,7 @@ namespace Less3.ForceGraph.Editor
             {
                 if (group.nodes.Contains(node))
                 {
+                    Undo.RecordObject(group, "Remove Node from Group");
                     group.nodes.Remove(node);
                     EditorUtility.SetDirty(group);
                 }
@@ -142,8 +156,9 @@ namespace Less3.ForceGraph.Editor
                 Debug.LogError("Cannot delete group that is not in the graph");
                 return;
             }
+            Undo.RecordObject(graph, "Delete Group");
             graph.groups.Remove(group);
-            ScriptableObject.DestroyImmediate(group, true);
+            Undo.DestroyObjectImmediate(group);
             EditorUtility.SetDirty(graph);
         }
 

@@ -41,6 +41,33 @@ namespace Less3.ForceGraph.Editor
             InitializeContainers();
             InitializeNewConnectionLine();
             InitializeBackgroundManipulators();
+            InitializeKeyboardHandling();
+        }
+
+        private void InitializeKeyboardHandling()
+        {
+            focusable = true;
+            RegisterCallback<KeyDownEvent>(evt =>
+            {
+                if (evt.keyCode == KeyCode.Delete || evt.keyCode == KeyCode.Backspace)
+                {
+                    DeleteSelectedNodes();
+                    evt.StopPropagation();
+                }
+            });
+        }
+
+        private void DeleteSelectedNodes()
+        {
+            if (selectedNodes.Count == 0) return;
+
+            var nodesToDelete = selectedNodes.ToList();
+            selectedNodes.Clear();
+            foreach (var node in nodesToDelete)
+            {
+                DeleteNodeInternal(node);
+            }
+            OnSelectionChanged?.Invoke();
         }
 
         private void InitializeContainers()
@@ -48,10 +75,15 @@ namespace Less3.ForceGraph.Editor
             translationContainer = CreateContainer("TranslationContainer", fullStretch: true);
 
             dragBox = CreateContainer("DragBox");
-            dragBox.style.backgroundColor = Color.red;
-            dragBox.style.width = 8f;
-            dragBox.style.height = 8f;
+            dragBox.style.backgroundColor = new Color(0.22f, 0.48f, 0.75f, 0.3f);
+            dragBox.style.borderTopWidth = dragBox.style.borderRightWidth =
+                dragBox.style.borderBottomWidth = dragBox.style.borderLeftWidth = 1;
+            dragBox.style.borderTopColor = dragBox.style.borderRightColor =
+                dragBox.style.borderBottomColor = dragBox.style.borderLeftColor = new Color(0.35f, 0.6f, 0.85f, 0.8f);
+            dragBox.style.width = 0f;
+            dragBox.style.height = 0f;
             dragBox.style.opacity = 0f;
+            dragBox.pickingMode = PickingMode.Ignore;
             translationContainer.Add(dragBox);
 
             bg = new VisualElement { name = "BG" };
@@ -91,18 +123,108 @@ namespace Less3.ForceGraph.Editor
                 OnLeftClick = () => ClearSelection(false),
                 OnRightClick = ShowBackgroundContextMenu,
                 OnMiddleDrag = delta => translationContainer.transform.position += new Vector3(delta.x, delta.y, 0),
-                OnLeftDragStart = pos =>
+                OnLeftDragStart = (pos, modifiers) =>
                 {
-                    _leftDragging = true;
-                    _leftDragStartPos = nodesContainer.WorldToLocal(pos);
-                    _leftDragPos = _leftDragStartPos;
+                    _isDragSelecting = true;
+                    _dragSelectStartPos = nodesContainer.WorldToLocal(pos);
+                    _dragSelectCurrentPos = _dragSelectStartPos;
+                    _dragSelectAdditive = modifiers.shift || modifiers.ctrl;
+
+                    // Clear selection if not additive
+                    if (!_dragSelectAdditive)
+                    {
+                        ClearSelection(false);
+                    }
+
+                    // Show drag box
+                    dragBox.style.opacity = 1f;
+                    UpdateDragBox();
                 },
-                OnLeftDrag = pos =>
+                OnLeftDrag = (delta, currentPos) =>
                 {
-                    _leftDragPos += pos;
-                    dragBox.transform.position = _leftDragPos;
+                    if (_isDragSelecting)
+                    {
+                        _dragSelectCurrentPos = nodesContainer.WorldToLocal(currentPos);
+                        UpdateDragBox();
+                        HighlightNodesInDragBox();
+                    }
+                },
+                OnLeftDragEnd = (pos, modifiers) =>
+                {
+                    if (_isDragSelecting)
+                    {
+                        _isDragSelecting = false;
+                        dragBox.style.opacity = 0f;
+
+                        // Clear highlights
+                        foreach (var node in nodes)
+                        {
+                            node.element.Q("Border").RemoveFromClassList("DragSelectHover");
+                        }
+
+                        // Select nodes in box
+                        SelectNodesInDragBox(_dragSelectAdditive);
+                    }
                 }
             });
+        }
+
+        private void UpdateDragBox()
+        {
+            float zoom = EditorPrefs.GetFloat(LCanvasPrefs.ZOOM_KEY, LCanvasPrefs.DEFAULT_ZOOM);
+            var rect = GetDragBoxRect();
+
+            dragBox.style.left = rect.x;
+            dragBox.style.top = rect.y;
+            dragBox.style.width = rect.width;
+            dragBox.style.height = rect.height;
+        }
+
+        private Rect GetDragBoxRect()
+        {
+            float minX = Mathf.Min(_dragSelectStartPos.x, _dragSelectCurrentPos.x);
+            float minY = Mathf.Min(_dragSelectStartPos.y, _dragSelectCurrentPos.y);
+            float maxX = Mathf.Max(_dragSelectStartPos.x, _dragSelectCurrentPos.x);
+            float maxY = Mathf.Max(_dragSelectStartPos.y, _dragSelectCurrentPos.y);
+
+            return new Rect(minX, minY, maxX - minX, maxY - minY);
+        }
+
+        private void HighlightNodesInDragBox()
+        {
+            var rect = GetDragBoxRect();
+            foreach (var node in nodes)
+            {
+                var border = node.element.Q("Border");
+                bool inBox = rect.Contains(node.position) ||
+                             rect.Contains(node.position + new Vector2(node.element.layout.width, node.element.layout.height));
+
+                if (inBox)
+                    border.AddToClassList("DragSelectHover");
+                else
+                    border.RemoveFromClassList("DragSelectHover");
+            }
+        }
+
+        private void SelectNodesInDragBox(bool additive)
+        {
+            var rect = GetDragBoxRect();
+            var nodesToSelect = new List<LCanvasNode<N>>();
+
+            foreach (var node in nodes)
+            {
+                // Check if node center is in the selection box
+                var nodeCenter = node.position + new Vector2(0, node.element.layout.height * 0.5f);
+                if (rect.Contains(node.position) || rect.Contains(nodeCenter))
+                {
+                    nodesToSelect.Add(node);
+                }
+            }
+
+            if (nodesToSelect.Count > 0)
+            {
+                SelectNodes(nodesToSelect, additive);
+            }
         }
 
         private void ShowBackgroundContextMenu(Vector2 mousePos)
@@ -166,7 +288,8 @@ namespace Less3.ForceGraph.Editor
         public List<LCanvasConnection<N, C>> connections = new();
         public List<LCanvasGroup<G, N>> groups = new();
 
-        public LCanvasNode<N> selectedNode { get; private set; }
+        public List<LCanvasNode<N>> selectedNodes { get; private set; } = new();
+        public LCanvasNode<N> selectedNode => selectedNodes.Count == 1 ? selectedNodes[0] : null;
         public LCanvasConnection<N, C> selectedConnection { get; private set; }
         public LCanvasGroup<G, N> selectedGroup { get; private set; }
         public LCanvasNode<N> newConnectionFromNode;
@@ -187,9 +310,10 @@ namespace Less3.ForceGraph.Editor
         #region Internal State
         private Type newConnectionType;
         private LCanvasNode<N> hoveredNode;
-        private bool _leftDragging;
-        private Vector2 _leftDragStartPos;
-        private Vector2 _leftDragPos;
+        private bool _isDragSelecting;
+        private Vector2 _dragSelectStartPos;
+        private Vector2 _dragSelectCurrentPos;
+        private bool _dragSelectAdditive;
         #endregion
 
         #region Events
@@ -206,6 +330,7 @@ namespace Less3.ForceGraph.Editor
         public Action<LCanvasNode<N>> OnNodeDuplicatedInternally;
         public Action<LCanvasConnection<N, C>> OnConnectionDeletedInternally;
         public Action<N> OnNodeDoubleClickedInternally;
+        public Action<LCanvasNode<N>, Vector2> OnNodeDragEndInternally;
         #endregion
 
         #region Configuration
@@ -332,7 +457,7 @@ namespace Less3.ForceGraph.Editor
             ui.Q("NodeContainer").AddManipulator(new ForceNodeDragManipulator<N, C, G>(
                 node,
                 this,
-                leftClickAction: (n) =>
+                leftClickAction: (n, shift, ctrl) =>
                 {
                     if (newConnectionFromNode != null && newConnectionFromNode != n)
                     {
@@ -341,7 +466,7 @@ namespace Less3.ForceGraph.Editor
                         newConnectionFromNode = null;
                     }
                     var castNode = n as LCanvasNode<N>;
-                    SelectNode(castNode);
+                    SelectNode(castNode, additive: shift || ctrl);
                 },
                 // * Node right click menu
                 rightClickAction: (n) =>
@@ -399,7 +524,11 @@ namespace Less3.ForceGraph.Editor
                     },
                 enterAction: (n) =>
                 { hoveredNode = n; },
-                exitAction: (n) => { if (hoveredNode == n) hoveredNode = null; }
+                exitAction: (n) => { if (hoveredNode == n) hoveredNode = null; },
+                dragEndAction: (n, startPos) =>
+                {
+                    OnNodeDragEndInternally?.Invoke(n, startPos);
+                }
                 )
             );
             return node;
@@ -492,10 +621,11 @@ namespace Less3.ForceGraph.Editor
             DrawNewConnection();
             DrawGroups();
 
-            selectedNode?.UpdateContent();
+            foreach (var node in selectedNodes)
+                node.UpdateContent();
             selectedConnection?.UpdateContent();
 
-            foreach (var connection in connections.Where(c => c.from == selectedNode || c.to == selectedNode))
+            foreach (var connection in connections.Where(c => selectedNodes.Contains(c.from) || selectedNodes.Contains(c.to)))
                 connection.UpdateContent();
 
             translationContainer.transform.scale = Vector3.one * EditorPrefs.GetFloat(LCanvasPrefs.ZOOM_KEY, LCanvasPrefs.DEFAULT_ZOOM);
@@ -668,13 +798,70 @@ namespace Less3.ForceGraph.Editor
                 SelectNode(node);
         }
 
-        private void SelectNode(LCanvasNode<N> node)
+        public void SelectNode(LCanvasNode<N> node, bool additive = false)
         {
-            ClearSelection(false);
-            selectedNode = node;
-            node.element.Q("Border").AddToClassList("Selected");
-            node.element.BringToFront();
+            if (additive)
+            {
+                // Toggle selection for additive mode
+                if (selectedNodes.Contains(node))
+                {
+                    DeselectNode(node);
+                    return;
+                }
+                // Clear non-node selections when adding nodes
+                ClearConnectionSelection();
+                ClearGroupSelection();
+            }
+            else
+            {
+                ClearSelection(false);
+            }
+
+            if (!selectedNodes.Contains(node))
+            {
+                selectedNodes.Add(node);
+                node.element.Q("Border").AddToClassList("Selected");
+                node.element.BringToFront();
+            }
             OnSelectionChanged?.Invoke();
+        }
+
+        public void SelectNodes(IEnumerable<LCanvasNode<N>> nodesToSelect, bool additive = false)
+        {
+            if (!additive)
+            {
+                ClearSelection(false);
+            }
+            else
+            {
+                ClearConnectionSelection();
+                ClearGroupSelection();
+            }
+
+            foreach (var node in nodesToSelect)
+            {
+                if (!selectedNodes.Contains(node))
+                {
+                    selectedNodes.Add(node);
+                    node.element.Q("Border").AddToClassList("Selected");
+                }
+            }
+            OnSelectionChanged?.Invoke();
+        }
+
+        public void DeselectNode(LCanvasNode<N> node)
+        {
+            if (selectedNodes.Contains(node))
+            {
+                selectedNodes.Remove(node);
+                node.element.Q("Border").RemoveFromClassList("Selected");
+                OnSelectionChanged?.Invoke();
+            }
+        }
+
+        public bool IsNodeSelected(LCanvasNode<N> node)
+        {
+            return selectedNodes.Contains(node);
         }
 
         private void SelectConnection(LCanvasConnection<N, C> connection)
@@ -695,28 +882,42 @@ namespace Less3.ForceGraph.Editor
             OnSelectionChanged?.Invoke();
         }
 
-        public void ClearSelection(bool notifySelectionChanged = true)
+        private void ClearConnectionSelection()
         {
-            if (selectedNode != null)
-            {
-                selectedNode.element.Q("Border").RemoveFromClassList("Selected");
-                selectedNode = null;
-            }
             if (selectedConnection != null)
             {
                 selectedConnection.element.RemoveFromClassList("ConnectionSelected");
                 selectedConnection = null;
             }
-            if (newConnectionFromNode != null)
-            {
-                newConnectionFromNode.element.Q("Border").RemoveFromClassList("CreatingConnection");
-                newConnectionFromNode = null;
-            }
+        }
+
+        private void ClearGroupSelection()
+        {
             if (selectedGroup != null)
             {
                 selectedGroup.element.Q("Border").RemoveFromClassList("Selected");
                 selectedGroup = null;
             }
+        }
+
+        public void ClearSelection(bool notifySelectionChanged = true)
+        {
+            foreach (var node in selectedNodes)
+            {
+                node.element.Q("Border").RemoveFromClassList("Selected");
+            }
+            selectedNodes.Clear();
+
+            ClearConnectionSelection();
+
+            if (newConnectionFromNode != null)
+            {
+                newConnectionFromNode.element.Q("Border").RemoveFromClassList("CreatingConnection");
+                newConnectionFromNode = null;
+            }
+
+            ClearGroupSelection();
+
             if (notifySelectionChanged)
                 OnSelectionChanged?.Invoke();
         }
