@@ -417,6 +417,11 @@ namespace Less3.ForceGraph.Editor
         {
             if (graphStack.Count > 0)
             {
+                if (target != null)
+                {
+                    EditorUtility.SetDirty(target);
+                    AssetDatabase.SaveAssets();
+                }
                 InitGUI(graphStack);
             }
         }

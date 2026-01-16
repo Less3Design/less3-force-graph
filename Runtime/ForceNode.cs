@@ -26,6 +26,10 @@ namespace Less3.ForceGraph
 
         override public string ToString()
         {
+            if (this == null)
+            {
+                return "null";
+            }
             return name;
         }
 
