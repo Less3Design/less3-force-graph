@@ -173,9 +173,13 @@ namespace Less3.ForceGraph.Editor
         {
             float zoom = EditorPrefs.GetFloat(LCanvasPrefs.ZOOM_KEY, LCanvasPrefs.DEFAULT_ZOOM);
             var rect = GetDragBoxRect();
+            
 
-            dragBox.style.left = rect.x;
-            dragBox.style.top = rect.y;
+            // Add window size offset to drag box position
+            float offsetX = this.resolvedStyle.width / 2;
+            float offsetY = this.resolvedStyle.height / 2;
+            dragBox.style.left = rect.x + offsetX;
+            dragBox.style.top = rect.y + offsetY;
             dragBox.style.width = rect.width;
             dragBox.style.height = rect.height;
         }
