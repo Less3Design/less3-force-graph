@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.UIElements;
@@ -465,14 +466,29 @@ namespace Less3.ForceGraph.Editor
             countLabel.style.marginBottom = 8;
             container.Add(countLabel);
 
-            foreach (var node in nodes)
-            {
-                var nodeLabel = new Label($"  - {node.data.name}");
-                container.Add(nodeLabel);
-            }
+            // Check if all nodes are the same type
+            var firstType = nodes[0].data.GetType();
+            bool allSameType = nodes.All(n => n.data.GetType() == firstType);
 
-            selectionInspectorRoot.Add(container);
-            inspectorLabel.text = "Multiple Selection";
+            if (allSameType)
+            {
+                // Create multi-object inspector
+                var objects = nodes.Select(n => (Object)n.data).ToArray();
+                selectionInspectorRoot.Add(container);
+                selectionInspectorRoot.Add(new InspectorElement(new SerializedObject(objects)));
+                inspectorLabel.text = firstType.Name;
+            }
+            else
+            {
+                // List node names when types differ
+                foreach (var node in nodes)
+                {
+                    var nodeLabel = new Label($"  - {node.data.name}");
+                    container.Add(nodeLabel);
+                }
+                selectionInspectorRoot.Add(container);
+                inspectorLabel.text = "Multiple Selection";
+            }
         }
 
         // ? I don't remember why inspect graph is slightly different. I think its not needed anymore. SHould try removing:
