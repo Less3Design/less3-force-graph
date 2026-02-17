@@ -5,19 +5,17 @@ A scriptable object framework and node graph UI that lets you easily create comp
 ## Scriptable Object Graph
 A `Graph` object can contain `Node` and `Connection` objects that connect with each other to create a tree.
 
-Inside the `Graph` object you define what sort of nodes and connection the class supports, and any connection rules between the two you require.
+`Node`'s can be added to a graph by defining `[L3CreateNodeMenu]` on the node class.
+
+Inside the `Graph` object you define what sort of connections the class supports.
 
 ```csharp
-using Less3.ForceGraph;
-public class GenerationGraph : ForceGraph
+using Less3.Graph;
+
+[CreateAssetMenu(fileName = "GenerationGraph", menuName = "Example/Graph")]
+public class GenerationGraph : L3Graph
 {
-    public override List<(string, Type)> GraphNodeTypes()
-    {
-        return new List<(string, Type)>
-        {
-            ("GenNode" , typeof(GenerationNode))
-        };
-    }
+    // Define what connection types the graph uses
     public override Dictionary<Type, List<(string, Type)>> GraphConnectionTypes()
     {
         return new Dictionary<Type, List<(string, Type)>>
@@ -38,12 +36,13 @@ public class GenerationGraph : ForceGraph
 `Connections` and `Nodes` behave as simple scriptable objects you can fill with whatever data you need.
 
 ```csharp
-public class GenerationNode : ForceNode
+[L3CreateNodeMenu(typeof(GenerationGraph), "Example Node")] // Add node to create node menu for our graph
+public class GenerationNode : L3GraphNode
 {
     public float exampleData;
 }
 
-public class GenerationConnection : ForceConnection
+public class GenerationConnection : L3GraphConnection
 {
     public float helloThere;
 }
