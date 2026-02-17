@@ -1,12 +1,12 @@
 {
-    "name": "less3.forcegraph",
-    "displayName": "Force Graph",
-    "version": "0.1.1",
-    "unity": "2022.3",
-    "description": "A force directed node graph API for the Unity editor",
-    "author": "Less 3",
-    "keywords": [
-        "Node Editor"
-    ],
-    "category": "Unity"
+  "name": "less3.graph",
+  "displayName": "L3 Graph",
+  "version": "0.1.2",
+  "unity": "6000.0",
+  "description": "A scriptable object graph system.",
+  "author": "Less 3",
+  "keywords": [
+    "Node Editor"
+  ],
+  "category": "Unity"
 }
