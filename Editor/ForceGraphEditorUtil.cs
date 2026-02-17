@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     public static class ForceGraphEditorUtil
     {
-        public static ForceNode CreateNode(this ForceGraph graph, Type type)
+        public static L3GraphNode CreateNode(this L3Graph graph, Type type)
         {
-            var node = (ForceNode)ScriptableObject.CreateInstance(type);
+            var node = (L3GraphNode)ScriptableObject.CreateInstance(type);
             node.name = type.Name;
             AssetDatabase.AddObjectToAsset(node, graph);
             node.SetGraph(graph);
@@ -19,7 +19,7 @@ namespace Less3.ForceGraph.Editor
             return node;
         }
 
-        public static T CreateNode<T>(this ForceGraph graph) where T : ForceNode
+        public static T CreateNode<T>(this L3Graph graph) where T : L3GraphNode
         {
             var newNode = ScriptableObject.CreateInstance<T>();
             newNode.name = typeof(T).Name;
@@ -30,7 +30,7 @@ namespace Less3.ForceGraph.Editor
             return newNode;
         }
 
-        public static ForceNode DuplicateNode(this ForceGraph graph, ForceNode node)
+        public static L3GraphNode DuplicateNode(this L3Graph graph, L3GraphNode node)
         {
             var newNode = ScriptableObject.Instantiate(node);
             newNode.name = node.name;
@@ -42,7 +42,7 @@ namespace Less3.ForceGraph.Editor
             return newNode;
         }
 
-        public static void DeleteNode(this ForceGraph graph, ForceNode node)
+        public static void DeleteNode(this L3Graph graph, L3GraphNode node)
         {
             if (graph.nodes.Contains(node) == false)
             {
@@ -54,7 +54,7 @@ namespace Less3.ForceGraph.Editor
             EditorUtility.SetDirty(graph);
         }
 
-        public static ForceConnection CreateConnection(this ForceGraph graph, ForceNode from, ForceNode to, Type type)
+        public static L3GraphConnection CreateConnection(this L3Graph graph, L3GraphNode from, L3GraphNode to, Type type)
         {
             if (graph.nodes.Contains(from) == false || graph.nodes.Contains(to) == false)
             {
@@ -68,7 +68,7 @@ namespace Less3.ForceGraph.Editor
 
             //TODO: validate if `type` is a child of ForceConnection
 
-            var newConnection = (ForceConnection)ScriptableObject.CreateInstance(type);
+            var newConnection = (L3GraphConnection)ScriptableObject.CreateInstance(type);
             newConnection.name = type.Name;
             newConnection.from = from;
             newConnection.to = to;
@@ -78,7 +78,7 @@ namespace Less3.ForceGraph.Editor
             return newConnection;
         }
 
-        public static void DeleteConnection(this ForceGraph graph, ForceConnection connection)
+        public static void DeleteConnection(this L3Graph graph, L3GraphConnection connection)
         {
             if (graph.connections.Contains(connection) == false)
             {
@@ -90,9 +90,9 @@ namespace Less3.ForceGraph.Editor
             EditorUtility.SetDirty(graph);
         }
 
-        public static ForceGroup CreateGroup(this ForceGraph graph, Type type)
+        public static L3GraphGroup CreateGroup(this L3Graph graph, Type type)
         {
-            var group = (ForceGroup)ScriptableObject.CreateInstance(type);
+            var group = (L3GraphGroup)ScriptableObject.CreateInstance(type);
             group.name = type.Name;
             AssetDatabase.AddObjectToAsset(group, graph);
             group.SetGraph(graph);
@@ -101,7 +101,7 @@ namespace Less3.ForceGraph.Editor
             return group;
         }
 
-        public static void AddNodeToGroup(this ForceGraph graph, ForceNode node, ForceGroup group)
+        public static void AddNodeToGroup(this L3Graph graph, L3GraphNode node, L3GraphGroup group)
         {
             if (group == null || node == null)
             {
@@ -120,7 +120,7 @@ namespace Less3.ForceGraph.Editor
         /// <summary>
         /// Remove the node from any groups it is in.
         /// </summary>
-        public static void RemoveNodeFromAllGroups(this ForceGraph graph, ForceNode node)
+        public static void RemoveNodeFromAllGroups(this L3Graph graph, L3GraphNode node)
         {
             foreach (var group in graph.groups)
             {
@@ -135,7 +135,7 @@ namespace Less3.ForceGraph.Editor
         /// <summary>
         ///  Currently assuming that group relationship is one way. Nodes should not know about their groups without querying the graph.
         /// </summary>
-        public static void DeleteGroup(this ForceGraph graph, ForceGroup group)
+        public static void DeleteGroup(this L3Graph graph, L3GraphGroup group)
         {
             if (graph.groups.Contains(group) == false)
             {
@@ -147,7 +147,7 @@ namespace Less3.ForceGraph.Editor
             EditorUtility.SetDirty(graph);
         }
 
-        public static void IsNodeInAGroup(this ForceGraph graph, ForceNode node, out ForceGroup group)
+        public static void IsNodeInAGroup(this L3Graph graph, L3GraphNode node, out L3GraphGroup group)
         {
             group = null;
             foreach (var g in graph.groups)

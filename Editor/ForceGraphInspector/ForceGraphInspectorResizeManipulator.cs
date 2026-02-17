@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     /// <summary>
     /// Manipulator for resizing the size of the graph area in the force graph inspector.
@@ -33,7 +33,7 @@ namespace Less3.ForceGraph.Editor
         {
             _targetStartPosition = target.transform.position;
             _pointerStartPosition = evt.position;
-            _startHeight = EditorPrefs.GetFloat(ForceGraphInspector.HEIGHT_SETTING_KEY, ForceGraphInspector.DEFAULT_GRAPH_HEIGHT);
+            _startHeight = EditorPrefs.GetFloat(L3GraphInspector.HEIGHT_SETTING_KEY, L3GraphInspector.DEFAULT_GRAPH_HEIGHT);
             if (evt.button == (int)MouseButton.LeftMouse)
             {
                 _enabled = true;
@@ -47,7 +47,7 @@ namespace Less3.ForceGraph.Editor
             if (_enabled && target.HasPointerCapture(evt.pointerId))
             {
                 float diff = evt.position.y - _pointerStartPosition.y;
-                EditorPrefs.SetFloat(ForceGraphInspector.HEIGHT_SETTING_KEY, Mathf.Max(ForceGraphInspector.MIN_GRAPH_HEIGHT, _startHeight + diff));
+                EditorPrefs.SetFloat(L3GraphInspector.HEIGHT_SETTING_KEY, Mathf.Max(L3GraphInspector.MIN_GRAPH_HEIGHT, _startHeight + diff));
             }
         }
 

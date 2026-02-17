@@ -6,12 +6,12 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     /// <summary>
     /// Detects when ForceGraph assets are reimported or deleted, and notifies open inspector windows.
     /// </summary>
-    public class ForceGraphAssetPostprocessor : AssetPostprocessor
+    public class L3GraphAssetPostProcessor : AssetPostprocessor
     {
         private static void OnPostprocessAllAssets(
             string[] importedAssets,
@@ -19,8 +19,8 @@ namespace Less3.ForceGraph.Editor
             string[] movedAssets,
             string[] movedFromAssetPaths)
         {
-            ForceGraphInspector[] windows = Resources.FindObjectsOfTypeAll<ForceGraphInspector>();
-            foreach (ForceGraphInspector window in windows)
+            L3GraphInspector[] windows = Resources.FindObjectsOfTypeAll<L3GraphInspector>();
+            foreach (L3GraphInspector window in windows)
             {
                 string targetPath = window.GetTargetAssetPath();
                 if (string.IsNullOrEmpty(targetPath))
@@ -58,7 +58,7 @@ namespace Less3.ForceGraph.Editor
         }
     }
 
-    public class ForceGraphInspector : EditorWindow
+    public class L3GraphInspector : EditorWindow
     {
         public static readonly float DEFAULT_GRAPH_HEIGHT = 400f;
         public static readonly string HEIGHT_SETTING_KEY = "ForceGraphInspectorHeight";
@@ -72,10 +72,10 @@ namespace Less3.ForceGraph.Editor
         public static readonly string OVERLAY_X_SETTINGS_KEY = "ForceGraphInspectorOverlayX";
         public static readonly string OVERLAY_Y_SETTINGS_KEY = "ForceGraphInspectorOverlayY";
 
-        public static System.Action<ForceNode> OnNodeDoubleClicked;
+        public static System.Action<L3GraphNode> OnNodeDoubleClicked;
 
         [SerializeField]
-        private ForceGraph target;
+        private L3Graph target;
         [SerializeField]
         private bool wasInit;
 
@@ -94,17 +94,17 @@ namespace Less3.ForceGraph.Editor
         public VisualElement graphHeightSetter;
         public VisualElement selectionInspectorRoot;
 
-        private LCanvas<ForceNode, ForceConnection, ForceGroup> canvas;
+        private LCanvas<L3GraphNode, L3GraphConnection, L3GraphGroup> canvas;
         private ToolbarBreadcrumbs breadcrumbs;
 
         [SerializeField]
-        private List<ForceGraph> graphStack = new List<ForceGraph>();//
+        private List<L3Graph> graphStack = new List<L3Graph>();//
 
         [OnOpenAsset(1)]
         public static bool DoubleClickAsset(int instanceID, int line)
         {
             Object obj = EditorUtility.InstanceIDToObject(instanceID);
-            if (obj is ForceGraph forceGraph)
+            if (obj is L3Graph forceGraph)
             {
                 OpenGraphNew(forceGraph);
                 return true; // we handled the open
@@ -115,7 +115,7 @@ namespace Less3.ForceGraph.Editor
         // Try to go up (down?) one level of the stack. like a back button.
         public static void TryReverseStack()
         {
-            var window = GetWindow<ForceGraphInspector>();
+            var window = GetWindow<L3GraphInspector>();
             if (window.graphStack.Count <= 1)
             {
                 return;
@@ -126,16 +126,16 @@ namespace Less3.ForceGraph.Editor
         }
 
         // Opens the graph as a new stack
-        public static void OpenGraphNew(ForceGraph graph)
+        public static void OpenGraphNew(L3Graph graph)
         {
-            var window = GetWindow<ForceGraphInspector>();
-            window.InitGUI(new List<ForceGraph> { graph });
+            var window = GetWindow<L3GraphInspector>();
+            window.InitGUI(new List<L3Graph> { graph });
         }
 
         // Opens the graph, adding it to the top of the stack
-        public static void OpenGraphOnStack(ForceGraph graph)
+        public static void OpenGraphOnStack(L3Graph graph)
         {
-            var window = GetWindow<ForceGraphInspector>();
+            var window = GetWindow<L3GraphInspector>();
             if (window.graphStack.Count > 0 && window.graphStack[window.graphStack.Count - 1] == graph)
             {
                 // already on top of stack
@@ -145,16 +145,16 @@ namespace Less3.ForceGraph.Editor
             window.InitGUI(window.graphStack);
         }
 
-        public static void OpenGraphStack(List<ForceGraph> graphStack)
+        public static void OpenGraphStack(List<L3Graph> graphStack)
         {
-            var window = GetWindow<ForceGraphInspector>();
+            var window = GetWindow<L3GraphInspector>();
             window.InitGUI(graphStack);
         }
 
-        public void InitGUI(List<ForceGraph> newGraphStack)
+        public void InitGUI(List<L3Graph> newGraphStack)
         {
-            graphStack = new List<ForceGraph>(newGraphStack);
-            ForceGraph graph = graphStack[graphStack.Count - 1];
+            graphStack = new List<L3Graph>(newGraphStack);
+            L3Graph graph = graphStack[graphStack.Count - 1];
 
             if (target != null && target != graph)
             {
@@ -173,7 +173,7 @@ namespace Less3.ForceGraph.Editor
             inspector.name = "$ForceGraphInspector";
             inspectorLayeredUXML.CloneTree(inspector);
 
-            canvas = new LCanvas<ForceNode, ForceConnection, ForceGroup>(target.GetType());
+            canvas = new LCanvas<L3GraphNode, L3GraphConnection, L3GraphGroup>(target.GetType());
             inspector.Q("GraphOrigin").Add(canvas);
 
             canvas.OnSelectionChanged += OnSelectionChanged;
@@ -182,13 +182,13 @@ namespace Less3.ForceGraph.Editor
             //   Here we are taking "create new object requests" and filling in correct data (creating new SO's)
             canvas.OnGroupCreatedInternally += (group, type) =>
             {
-                var asset = (target as ForceGraph).CreateGroup(type);
+                var asset = (target as L3Graph).CreateGroup(type);
                 group.data = asset;
             };
 
             canvas.OnNodeAddedToGroupInternally += (node, group) =>
             {
-                (target as ForceGraph).AddNodeToGroup(node, group);
+                (target as L3Graph).AddNodeToGroup(node, group);
             };
 
             canvas.OnNodeRemovedFromGroupInternally += (node, group) =>
@@ -198,37 +198,37 @@ namespace Less3.ForceGraph.Editor
                     return;
                 }
                 // TODO maybe don't do from all. Arguably a bug
-                (target as ForceGraph).RemoveNodeFromAllGroups(node);
+                (target as L3Graph).RemoveNodeFromAllGroups(node);
             };
             canvas.OnGroupDeletedInternally += (group) =>
             {
-                (target as ForceGraph).DeleteGroup(group.data);
+                (target as L3Graph).DeleteGroup(group.data);
             };
 
             canvas.OnNodeCreatedInternally += (node, type) =>
             {
-                var asset = (target as ForceGraph).CreateNode(type);
+                var asset = (target as L3Graph).CreateNode(type);
                 node.data = asset;
             };
 
             // ? Same as above, but for deletion and duplication etc
             canvas.OnNodeDeletedInternally += (node) =>
             {
-                (target as ForceGraph).DeleteNode(node.data);
+                (target as L3Graph).DeleteNode(node.data);
             };
             canvas.OnNodeDuplicatedInternally += (node) =>
             {
-                var n = (target as ForceGraph).DuplicateNode(node.data);
+                var n = (target as L3Graph).DuplicateNode(node.data);
                 canvas.InitNodeExternal(n, n.position);
             };
             canvas.OnConnectionCreatedInternally += (connection, type) =>
             {
-                var asset = (target as ForceGraph).CreateConnection(connection.from.data, connection.to.data, type);
+                var asset = (target as L3Graph).CreateConnection(connection.from.data, connection.to.data, type);
                 connection.data = asset;
             };
             canvas.OnConnectionDeletedInternally += (connection) =>
             {
-                (target as ForceGraph).DeleteConnection(connection.data);
+                (target as L3Graph).DeleteConnection(connection.data);
             };
 
             canvas.OnNodeDoubleClickedInternally += (node) =>
@@ -238,15 +238,15 @@ namespace Less3.ForceGraph.Editor
 
             canvas.ConnectionValidator = target.ValidateConnectionRequest;
             canvas.AutoConnectionValidator = target.AutoConnnectionRequest;
-            canvas.PossibleConnectionTypes = (target as ForceGraph).GraphConnectionTypes();
-            canvas.PossibleNodeTypes = (target as ForceGraph).GraphNodeTypes();
-            canvas.PossibleGroupTypes = (target as ForceGraph).GraphGroupTypes();
+            canvas.PossibleConnectionTypes = (target as L3Graph).GraphConnectionTypes();
+            canvas.PossibleNodeTypes = (target as L3Graph).GraphNodeTypes();
+            canvas.PossibleGroupTypes = (target as L3Graph).GraphGroupTypes();
 
             breadcrumbs = inspector.Q<ToolbarBreadcrumbs>("Breadcrumbs");
             for (int i = 0; i < graphStack.Count; i++)
             {
                 int index = i;
-                ForceGraph g = graphStack[i];
+                L3Graph g = graphStack[i];
                 if (g == null)
                     continue;
                 string name = g.name;
@@ -353,19 +353,19 @@ namespace Less3.ForceGraph.Editor
                     pinOverlayButton.RemoveFromClassList("PinOn");
             }));
 
-            foreach (var node in (target as ForceGraph).nodes)
+            foreach (var node in (target as L3Graph).nodes)
             {
                 if (node.position == Vector2.zero)
                     node.position = new Vector2(UnityEngine.Random.Range(-200, 200), UnityEngine.Random.Range(-200, 200));
                 canvas.InitNodeExternal(node, node.position);
             }
 
-            foreach (var connection in (target as ForceGraph).connections)
+            foreach (var connection in (target as L3Graph).connections)
             {
                 canvas.InitConnectionExternal(connection.from, connection.to, connection);
             }
 
-            foreach (var group in (target as ForceGraph).groups)
+            foreach (var group in (target as L3Graph).groups)
             {
                 canvas.InitGroupExternal(group, group.position, group.nodes);
             }

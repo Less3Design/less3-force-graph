@@ -1,20 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Less3.ForceGraph
+namespace Less3.Graph
 {
-    public abstract class ForceGroup : ScriptableObject 
+    public abstract class L3GraphGroup : ScriptableObject 
     {
         /// <summary>
         /// Position only used if the group is empty. Otherwise position/scale is derived from the nodes.
         /// </summary>
         [HideInInspector]
         public Vector2 position;
-        public ForceGraph graph { get; private set; }
+        public L3Graph graph { get; private set; }
         [HideInInspector]
-        public List<ForceNode> nodes = new List<ForceNode>();
+        public List<L3GraphNode> nodes = new List<L3GraphNode>();
 
-        public void SetGraph(ForceGraph graph)
+        public void SetGraph(L3Graph graph)
         {
             if (this.graph != null)
             {

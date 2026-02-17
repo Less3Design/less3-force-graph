@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     // N = Node type, C = Connection type, G = Group type
     public class ForceNodeDragManipulator<N, C, G> : PointerManipulator where N : class where C : class where G : class

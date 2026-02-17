@@ -1,12 +1,8 @@
 {
-    "name": "Less3.ForceGraph.Editor",
-    "rootNamespace": "Less3.ForceGraph.Editor",
-    "references": [
-        "GUID:8911a4102e8fc524f917fef0a61cbb26"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "name": "Less3.Graph",
+    "rootNamespace": "Less3.Graph",
+    "references": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

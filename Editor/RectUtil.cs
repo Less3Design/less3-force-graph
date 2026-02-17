@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     public static class RectUtil//rect extension
     {

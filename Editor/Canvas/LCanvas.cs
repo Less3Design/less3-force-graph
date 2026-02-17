@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     public static class LCanvasPrefs
     {
@@ -315,7 +315,7 @@ namespace Less3.ForceGraph.Editor
             // Double click
             var doubleClickable = new Clickable(() =>
             {
-                if (data is ILNodeEditorDoubleClick doubleClick)
+                if (data is INodeEditorDoubleClick doubleClick)
                 {
                     doubleClick.EditorOnNodeDoubleClick();
                 }

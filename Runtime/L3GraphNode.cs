@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Less3.ForceGraph
+namespace Less3.Graph
 {
-    public abstract class ForceNode : ScriptableObject
+    public abstract class L3GraphNode : ScriptableObject
     {
         /// <summary>
         /// The position of the node in the graph.
@@ -12,9 +12,9 @@ namespace Less3.ForceGraph
         [HideInInspector]
         public Vector2 position;
         [HideInInspector]
-        public ForceGraph graph { get; private set; }
+        public L3Graph graph { get; private set; }
 
-        public void SetGraph(ForceGraph graph)
+        public void SetGraph(L3Graph graph)
         {
             if (this.graph != null)
             {

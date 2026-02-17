@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Less3.ForceGraph;
+using Less3.Graph;
 
-public class GenerationConnection : ForceConnection, IForceConnectionStyle, IForceConnectionIsDirectional, IForceConnectionLabel
+public class GenerationConnection : L3GraphConnection
 {
     public float test;
     public string customProperty;
@@ -15,7 +15,7 @@ public class GenerationConnection : ForceConnection, IForceConnectionStyle, IFor
     public string conLable;
 
     public string ConnectionLabel => conLable;
-    public Color ConnectionColor => ForceConnection.defaultColor;
+    public Color ConnectionColor => L3GraphConnection.defaultColor;
     public bool Dashed => DashFunc();
     public bool IsDirectional => directional;
 

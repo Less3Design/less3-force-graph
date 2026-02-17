@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     public class ForceGraphInspectorOverlayManipulator : PointerManipulator
     {
@@ -55,8 +55,8 @@ namespace Less3.ForceGraph.Editor
                 newPos.x = Mathf.Clamp(newPos.x, 0, target.panel.visualTree.worldBound.width - _root.layout.width - 24);
                 newPos.y = Mathf.Clamp(newPos.y, 0, target.panel.visualTree.worldBound.height - _root.layout.height - 48);
 
-                EditorPrefs.SetFloat(ForceGraphInspector.OVERLAY_X_SETTINGS_KEY, newPos.x);
-                EditorPrefs.SetFloat(ForceGraphInspector.OVERLAY_Y_SETTINGS_KEY, newPos.y);
+                EditorPrefs.SetFloat(L3GraphInspector.OVERLAY_X_SETTINGS_KEY, newPos.x);
+                EditorPrefs.SetFloat(L3GraphInspector.OVERLAY_Y_SETTINGS_KEY, newPos.y);
 
                 _root.transform.position = newPos;
             }

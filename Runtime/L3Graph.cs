@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-
-namespace Less3.ForceGraph
+namespace Less3.Graph
 {
-    public abstract class ForceGraph : ScriptableObject
+    public abstract class L3Graph : ScriptableObject
     {
         [HideInInspector]
-        public List<ForceNode> nodes = new List<ForceNode>();
+        public List<L3GraphNode> nodes = new List<L3GraphNode>();
         [HideInInspector]
-        public List<ForceConnection> connections = new List<ForceConnection>();
+        public List<L3GraphConnection> connections = new List<L3GraphConnection>();
         [HideInInspector]
-        public List<ForceGroup> groups = new List<ForceGroup>();
+        public List<L3GraphGroup> groups = new List<L3GraphGroup>();
 
         public Action OnForceGraphRepaint;
 
@@ -23,7 +22,7 @@ namespace Less3.ForceGraph
             //Validation. This excists because Nodes didnt have a graph reference before. It should be unnecessary for new graphs.
             for (int i = nodes.Count - 1; i >= 0; i--)
             {
-                ForceNode n = nodes[i];
+                L3GraphNode n = nodes[i];
                 if (n == null)
                 {
                     nodes.RemoveAt(i);
@@ -44,7 +43,7 @@ namespace Less3.ForceGraph
 
             for (int i = groups.Count - 1; i >= 0; i--)
             {
-                ForceGroup g = groups[i];
+                L3GraphGroup g = groups[i];
                 if (g == null)
                 {
                     groups.RemoveAt(i);
@@ -79,7 +78,7 @@ namespace Less3.ForceGraph
         /// Determine if a connection can be made between two nodes.
         /// By default this just simply checks if a connection already exists between the two nodes.
         /// </summary>
-        public virtual bool ValidateConnectionRequest(ForceNode from, ForceNode to, Type connectionType)
+        public virtual bool ValidateConnectionRequest(L3GraphNode from, L3GraphNode to, Type connectionType)
         {
             // check if any connections already exist between these nodes
             foreach (var connection in connections)
@@ -96,7 +95,7 @@ namespace Less3.ForceGraph
             return true;
         }
 
-        public virtual Type AutoConnnectionRequest(ForceNode from, ForceNode to)
+        public virtual Type AutoConnnectionRequest(L3GraphNode from, L3GraphNode to)
         {
             if (GraphConnectionTypes().TryGetValue(from.GetType(), out var connectionTypes) && connectionTypes.Count > 0)
             {
@@ -114,10 +113,10 @@ namespace Less3.ForceGraph
         // *  Utility Functions  *
         // ***********************
 
-        public List<ForceConnection> GetNodeConnections(ForceNode node)
+        public List<L3GraphConnection> GetNodeConnections(L3GraphNode node)
         {
-            List<ForceConnection> foundConnections = new List<ForceConnection>();
-            foreach (ForceConnection connection in connections)
+            List<L3GraphConnection> foundConnections = new List<L3GraphConnection>();
+            foreach (L3GraphConnection connection in connections)
             {
                 if (connection.from == node || connection.to == node)
                 {
@@ -127,10 +126,10 @@ namespace Less3.ForceGraph
             return foundConnections;
         }
 
-        public List<T> GetConnectionsOfType<T>() where T : ForceConnection
+        public List<T> GetConnectionsOfType<T>() where T : L3GraphConnection
         {
             List<T> foundConnections = new List<T>();
-            foreach (ForceConnection connection in connections)
+            foreach (L3GraphConnection connection in connections)
             {
                 if (connection is T)
                 {
@@ -140,11 +139,11 @@ namespace Less3.ForceGraph
             return foundConnections;
         }
 
-        public List<T> GetNodeConnectionsOfType<T>(ForceNode node) where T : ForceConnection
+        public List<T> GetNodeConnectionsOfType<T>(L3GraphNode node) where T : L3GraphConnection
         {
             List<T> foundConnections = new List<T>();
 
-            foreach (ForceConnection connection in GetNodeConnections(node))
+            foreach (L3GraphConnection connection in GetNodeConnections(node))
             {
                 if (connection is T)
                 {
@@ -154,10 +153,10 @@ namespace Less3.ForceGraph
             return foundConnections;
         }
 
-        public List<T> GetNodesOfType<T>() where T : ForceNode
+        public List<T> GetNodesOfType<T>() where T : L3GraphNode
         {
             List<T> foundNodes = new List<T>();
-            foreach (ForceNode node in nodes)
+            foreach (L3GraphNode node in nodes)
             {
                 if (node is T)
                 {
@@ -167,10 +166,10 @@ namespace Less3.ForceGraph
             return foundNodes;
         }
 
-        public List<T> GetGroupsOfType<T>() where T : ForceGroup
+        public List<T> GetGroupsOfType<T>() where T : L3GraphGroup
         {
             List<T> foundGroups = new List<T>();
-            foreach (ForceGroup group in groups)
+            foreach (L3GraphGroup group in groups)
             {
                 if (group is T)
                 {
@@ -183,10 +182,10 @@ namespace Less3.ForceGraph
         /// <summary>
         /// If the node is part of a group, returns that group.
         /// </summary>
-        public bool TryGetNodeGroup(ForceNode node, out ForceGroup group)
+        public bool TryGetNodeGroup(L3GraphNode node, out L3GraphGroup group)
         {
             group = null;
-            foreach (ForceGroup g in groups)
+            foreach (L3GraphGroup g in groups)
             {
                 if (g.nodes.Contains(node))
                 {
@@ -200,10 +199,10 @@ namespace Less3.ForceGraph
         /// <summary>
         /// Returns all nodes that are not the `upstreamNode` and are connected to the `node`.
         /// </summary>
-        public List<ForceNode> GetDownstreamNodes(ForceNode node, ForceNode upstreamNode = null)
+        public List<L3GraphNode> GetDownstreamNodes(L3GraphNode node, L3GraphNode upstreamNode = null)
         {
-            List<ForceNode> downstreamNodes = new List<ForceNode>();
-            foreach (ForceConnection connection in GetNodeConnections(node))
+            List<L3GraphNode> downstreamNodes = new List<L3GraphNode>();
+            foreach (L3GraphConnection connection in GetNodeConnections(node))
             {
                 if (connection.from == node && connection.to != upstreamNode)
                 {
@@ -217,10 +216,10 @@ namespace Less3.ForceGraph
             return downstreamNodes;
         }
 
-        public List<T> GetDownstreamNodes<T>(ForceNode node, ForceNode upstreamNode = null) where T : ForceNode
+        public List<T> GetDownstreamNodes<T>(L3GraphNode node, L3GraphNode upstreamNode = null) where T : L3GraphNode
         {
             List<T> downstreamNodes = new List<T>();
-            foreach (ForceConnection connection in GetNodeConnections(node))
+            foreach (L3GraphConnection connection in GetNodeConnections(node))
             {
                 if (connection.from == node && connection.to != upstreamNode && connection.to is T castedTo)
                 {

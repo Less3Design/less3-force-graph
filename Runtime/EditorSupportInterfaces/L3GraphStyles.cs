@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Less3.ForceGraph
+namespace Less3.Graph
 {
     /// <summary>
     /// Interface you can implement on a type to set its styles for use in the force directed canvas.
     /// </summary>
-    public interface IForceNodeStyle
+    public interface IGraphNodeStyle
     {
         public Color NodeBackgroundColor { get; }
         public Color NodeLabelColor { get; }
@@ -16,31 +16,31 @@ namespace Less3.ForceGraph
     /// <summary>
     /// Override the title of a node in the editor canvas. If unused the node is named using `ToString()` on the node data
     /// </summary>
-    public interface IForceNodeTitle
+    public interface IGraphNodeTitle
     {
         public string NodeTitle { get; }
     }
 
-    public interface IForceNodeSurTitle
+    public interface INodeSurTitle
     {
         public string NodeSurTitle { get; }
     }
 
-    public struct LCanvasNodeTag
+    public struct NodeTag
     {
         public string text;
         public string tooltip;
     }
 
-    public interface ILCanvasTags
+    public interface INodeTags
     {
-        public List<LCanvasNodeTag> NodeTags { get; }
+        public List<NodeTag> NodeTags { get; }
     }
 
     /// <summary>
     /// Set the icon that appears on the node in the editor canvas. Icon is pulled from resources by name
     /// </summary>
-    public interface IForceNodeIcon
+    public interface INodeIcon
     {
         public string NodeIcon { get; }
     }
@@ -48,12 +48,12 @@ namespace Less3.ForceGraph
     /// <summary>
     /// Set the scale of the node in the editor canvas. If unused the node is scaled to 1
     /// </summary>
-    public interface IForceNodeScale
+    public interface INodeScale
     {
         public float NodeScale { get; }
     }
 
-    public interface IForceNodeBadges
+    public interface INodeBadges
     {
         public NodeBadges NodeBadges { get; }
     }
@@ -68,7 +68,7 @@ namespace Less3.ForceGraph
         Error = 1 << 3, // A red octagon
     }
 
-    public interface ILNodeEditorDoubleClick
+    public interface INodeEditorDoubleClick
     {
         /// <summary>
         /// Called when the node is double clicked in the editor canvas.
@@ -79,18 +79,18 @@ namespace Less3.ForceGraph
     /// <summary>
     /// Set the color of a connection in the force graph editor canvas
     /// </summary>
-    public interface IForceConnectionStyle
+    public interface IConnectionStyle
     {
         public Color ConnectionColor { get; }
         public bool Dashed { get; }
     }
 
-    public interface IForceConnectionIsDirectional
+    public interface IConnectionIsDirectional
     {
         public bool IsDirectional { get; }
     }
 
-    public interface IForceConnectionLabel
+    public interface IConnectionLabel
     {
         public string ConnectionLabel { get; }
     }

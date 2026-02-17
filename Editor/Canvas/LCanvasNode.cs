@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     public class LCanvasNode<N>
     {
@@ -30,7 +30,7 @@ namespace Less3.ForceGraph.Editor
                 _data = value;
                 if (_data != null)
                 {
-                    if (_data is IForceNodeTitle title)
+                    if (_data is IGraphNodeTitle title)
                     {
                         if (string.IsNullOrEmpty(title.NodeTitle))
                         {
@@ -48,7 +48,7 @@ namespace Less3.ForceGraph.Editor
                     }
 
                     Label surTitleLabel = element.Q<Label>("SurLabel");
-                    if (_data is IForceNodeSurTitle surTitle && !string.IsNullOrEmpty(surTitle.NodeSurTitle))
+                    if (_data is INodeSurTitle surTitle && !string.IsNullOrEmpty(surTitle.NodeSurTitle))
                     {
                         surTitleLabel.text = surTitle.NodeSurTitle;
                         surTitleLabel.style.display = DisplayStyle.Flex;
@@ -60,7 +60,7 @@ namespace Less3.ForceGraph.Editor
 
                     VisualElement tagContainer = element.Q<VisualElement>("tags");
 
-                    if (_data is ILCanvasTags subTitle)
+                    if (_data is INodeTags subTitle)
                     {
                         int c = 0;
                         foreach (var tag in subTitle.NodeTags)
@@ -90,7 +90,7 @@ namespace Less3.ForceGraph.Editor
                     }
 
                     // Badges
-                    if (_data is IForceNodeBadges badges)
+                    if (_data is INodeBadges badges)
                     {
                         element.Q<VisualElement>("Badges").style.display = badges.NodeBadges != NodeBadges.None ? DisplayStyle.Flex : DisplayStyle.None;
                         element.Q<VisualElement>("tip").style.display = (badges.NodeBadges & NodeBadges.Tip) != 0 ? DisplayStyle.Flex : DisplayStyle.None;
@@ -104,7 +104,7 @@ namespace Less3.ForceGraph.Editor
                     }
 
                     var icon = element.Q<VisualElement>("Icon");
-                    if (_data is IForceNodeStyle style)
+                    if (_data is IGraphNodeStyle style)
                     {
                         element.Q("NodeContainer").style.backgroundColor = style.NodeBackgroundColor;
                         element.Q<Label>("Label").style.color = style.NodeLabelColor;
@@ -113,18 +113,18 @@ namespace Less3.ForceGraph.Editor
                     }
                     else
                     {
-                        element.Q("NodeContainer").style.backgroundColor = ForceNode.defaultBackgroundColor;
-                        element.Q<Label>("Label").style.color = ForceNode.defaultTextColor;
-                        surTitleLabel.style.color = ForceNode.defaultTextColor;
-                        icon.style.unityBackgroundImageTintColor = ForceNode.defaultTextColor;
+                        element.Q("NodeContainer").style.backgroundColor = L3GraphNode.defaultBackgroundColor;
+                        element.Q<Label>("Label").style.color = L3GraphNode.defaultTextColor;
+                        surTitleLabel.style.color = L3GraphNode.defaultTextColor;
+                        icon.style.unityBackgroundImageTintColor = L3GraphNode.defaultTextColor;
                     }
 
-                    if (_data is IForceNodeScale scale)
+                    if (_data is INodeScale scale)
                     {
                         element.transform.scale = new Vector3(scale.NodeScale, scale.NodeScale, 1f);
                     }
 
-                    if (_data is IForceNodeIcon iconData && !string.IsNullOrEmpty(iconData.NodeIcon))
+                    if (_data is INodeIcon iconData && !string.IsNullOrEmpty(iconData.NodeIcon))
                     {
                         Texture2D tex = Resources.Load<Texture2D>(iconData.NodeIcon);
                         if (tex == null)

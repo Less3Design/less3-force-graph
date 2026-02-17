@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Less3.ForceGraph
+namespace Less3.Graph
 {
     /// <summary>
     /// A collection of string names for icons included in the Less3.ForceGraph package. 
     /// These are not available outside of the editor.
     /// </summary>
     /// {Package}/Editor/Textures/NodeIconPack/Resources
-    public static class ForceNodeIcons
+    public static class L3GraphNodeIcons
     {
         public static string Alien = "Icon_Alien";
         public static string Connection = "Icon_Connection";

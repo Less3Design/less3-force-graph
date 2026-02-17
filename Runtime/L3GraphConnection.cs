@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Less3.ForceGraph
+namespace Less3.Graph
 {
-    public abstract class ForceConnection : ScriptableObject
+    public abstract class L3GraphConnection : ScriptableObject
     {
         [HideInInspector]
-        public ForceNode from;
+        public L3GraphNode from;
         [HideInInspector]
-        public ForceNode to;
+        public L3GraphNode to;
 
         public static Color defaultColor = new Color(.7f, .7f, .7f, 1f);
     }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     public class LCanvasGroup<G, N>
     {
@@ -51,7 +51,7 @@ namespace Less3.ForceGraph.Editor
             }
             else
             {
-                if (data is IForceNodeTitle title)
+                if (data is IGraphNodeTitle title)
                     label.text = title.NodeTitle;
                 else
                     label.text = data.ToString();
@@ -65,7 +65,7 @@ namespace Less3.ForceGraph.Editor
         {
             if (label == null || data == null)
                 return;
-            if (data is ILGroupLabel title)
+            if (data is IGroupLabel title)
                 label.text = title.Label;
             else
                 label.text = data.ToString();

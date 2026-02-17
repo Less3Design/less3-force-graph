@@ -3,10 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Less3.ForceGraph;
+using Less3.Graph;
 
 [CreateAssetMenu(fileName = "GenerationGraph", menuName = "Force Graphs/Generation Graph")]
-public class GenerationGraph : ForceGraph
+public class GenerationGraph : L3Graph
 {
     public float test;
     public string customProperty;

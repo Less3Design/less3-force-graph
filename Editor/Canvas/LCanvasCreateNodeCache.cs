@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     // Creates cached tree collections for building the create node menu.
 
@@ -41,12 +41,12 @@ namespace Less3.ForceGraph.Editor
         static LCanvasCreateNodeCache()
         {
             // get all LCreateNodeMenuAttribute types
-            List<(Type graphType, Type nodeType, LCreateNodeMenuAttribute[] attrs)> types = new List<(Type, Type, LCreateNodeMenuAttribute[])>();
+            List<(Type graphType, Type nodeType, L3CreateNodeMenuAttribute[] attrs)> types = new List<(Type, Type, L3CreateNodeMenuAttribute[])>();
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 foreach (var type in assembly.GetTypes())
                 {
-                    var attrs = (LCreateNodeMenuAttribute[])type.GetCustomAttributes(typeof(LCreateNodeMenuAttribute), false);
+                    var attrs = (L3CreateNodeMenuAttribute[])type.GetCustomAttributes(typeof(L3CreateNodeMenuAttribute), false);
                     if (attrs.Length > 0)
                     {
                         types.Add((attrs[0].graphType, type, attrs));
@@ -55,11 +55,11 @@ namespace Less3.ForceGraph.Editor
             }
 
             // sort by graph types
-            Dictionary<Type, List<(Type nodeType, LCreateNodeMenuAttribute att)>> graphTypes = new Dictionary<Type, List<(Type, LCreateNodeMenuAttribute)>>();
+            Dictionary<Type, List<(Type nodeType, L3CreateNodeMenuAttribute att)>> graphTypes = new Dictionary<Type, List<(Type, L3CreateNodeMenuAttribute)>>();
             foreach (var (graphType, nodeType, attrs) in types)
             {
                 if (!graphTypes.ContainsKey(graphType))
-                    graphTypes[graphType] = new List<(Type, LCreateNodeMenuAttribute)>();
+                    graphTypes[graphType] = new List<(Type, L3CreateNodeMenuAttribute)>();
 
                 foreach (var attr in attrs)
                 {
@@ -77,7 +77,7 @@ namespace Less3.ForceGraph.Editor
             }
         }
 
-        public static void BuildMenuForGraph(Type graphType, List<(Type nodeType, LCreateNodeMenuAttribute att)> nodeTypes)
+        public static void BuildMenuForGraph(Type graphType, List<(Type nodeType, L3CreateNodeMenuAttribute att)> nodeTypes)
         {
             if (nodeCreateMenuCache.ContainsKey(graphType))
                 return;

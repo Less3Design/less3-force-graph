@@ -1,8 +1,8 @@
 {
-    "name": "Less3.ForceGraph.Example",
+    "name": "Less3.Graph.Example",
     "rootNamespace": "",
     "references": [
-        "GUID:8911a4102e8fc524f917fef0a61cbb26"
+        "Less3.Graph"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

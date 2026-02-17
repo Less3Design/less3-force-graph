@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Less3.ForceGraph.Editor
+namespace Less3.Graph.Editor
 {
     public class LCanvasConnection<N, C>
     {
@@ -50,7 +50,7 @@ namespace Less3.ForceGraph.Editor
             if (_element != null && _data != null)
             {
                 VisualElement arrow = _element.Q("DirArrow");
-                if (_data is IForceConnectionStyle style)
+                if (_data is IConnectionStyle style)
                 {
                     arrow.style.unityBackgroundImageTintColor = style.ConnectionColor;
                     if (style.Dashed)
@@ -64,7 +64,7 @@ namespace Less3.ForceGraph.Editor
                     else
                     {
                         _element.style.backgroundImage = null;
-                        _element.style.unityBackgroundImageTintColor = ForceConnection.defaultColor;
+                        _element.style.unityBackgroundImageTintColor = L3GraphConnection.defaultColor;
                         _element.style.backgroundColor = style.ConnectionColor;
                     }
 
@@ -72,12 +72,12 @@ namespace Less3.ForceGraph.Editor
                 }
                 else
                 {
-                    _element.style.backgroundColor = ForceConnection.defaultColor;
-                    arrow.style.unityBackgroundImageTintColor = ForceConnection.defaultColor;
+                    _element.style.backgroundColor = L3GraphConnection.defaultColor;
+                    arrow.style.unityBackgroundImageTintColor = L3GraphConnection.defaultColor;
                     _element.style.unityBackgroundImageTintColor = Color.clear;
                 }
 
-                if (_data is IForceConnectionIsDirectional directional)
+                if (_data is IConnectionIsDirectional directional)
                 {
                     arrow.style.display = directional.IsDirectional ? DisplayStyle.Flex : DisplayStyle.None;
                 }
@@ -86,7 +86,7 @@ namespace Less3.ForceGraph.Editor
                     arrow.style.display = DisplayStyle.None;
                 }
 
-                if (_data is IForceConnectionLabel labelData)
+                if (_data is IConnectionLabel labelData)
                 {
                     if (string.IsNullOrEmpty(labelData.ConnectionLabel))
                     {
