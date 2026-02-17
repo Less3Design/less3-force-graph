@@ -210,7 +210,6 @@ namespace Less3.Graph.Editor
 
         #region Configuration
         public Dictionary<Type, List<(string, Type)>> PossibleConnectionTypes = new();
-        public List<(string, Type)> PossibleNodeTypes = new();
         public List<(string, Type)> PossibleGroupTypes = new();
         #endregion
 

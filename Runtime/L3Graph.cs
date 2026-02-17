@@ -65,7 +65,6 @@ namespace Less3.Graph
             }
         }
 
-        public abstract List<(string, Type)> GraphNodeTypes();
         public abstract List<(string, Type)> GraphGroupTypes();
         /// <summary>
         /// Returns a dictionary that lists all the connection types that can be made from a node type

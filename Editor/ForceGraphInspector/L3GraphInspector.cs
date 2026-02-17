@@ -239,7 +239,6 @@ namespace Less3.Graph.Editor
             canvas.ConnectionValidator = target.ValidateConnectionRequest;
             canvas.AutoConnectionValidator = target.AutoConnnectionRequest;
             canvas.PossibleConnectionTypes = (target as L3Graph).GraphConnectionTypes();
-            canvas.PossibleNodeTypes = (target as L3Graph).GraphNodeTypes();
             canvas.PossibleGroupTypes = (target as L3Graph).GraphGroupTypes();
 
             breadcrumbs = inspector.Q<ToolbarBreadcrumbs>("Breadcrumbs");

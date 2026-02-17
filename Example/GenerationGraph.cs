@@ -15,14 +15,6 @@ public class GenerationGraph : L3Graph
     // ? Here I am defining what node types we want this graph to support.
     //   The types and strings below populate the create node menu in the editor.
 
-    public override List<(string, Type)> GraphNodeTypes()
-    {
-        return new List<(string, Type)>
-        {
-            ("GenNode" , typeof(GenerationNode))
-        };
-    }
-
     public override List<(string, Type)> GraphGroupTypes()
     {
         return new List<(string, Type)>
