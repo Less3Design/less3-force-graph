@@ -361,16 +361,6 @@ namespace Less3.Graph.Editor
             }
         }
 
-        // ? I don't remember why inspect graph is slightly different. I think its not needed anymore. SHould try removing:
-        private void InspectGraph()
-        {
-            graphInspectorRoot.style.display = DisplayStyle.Flex;
-            selectionInspectorRoot.style.display = DisplayStyle.None;
-
-            var so = new SerializedObject(target);
-            inspectorLabel.text = target.GetType().Name;
-        }
-
         private void InspectObject(Object connection)
         {
             selectionInspectorRoot.Clear();
