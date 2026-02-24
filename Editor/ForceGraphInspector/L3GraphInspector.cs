@@ -290,68 +290,6 @@ namespace Less3.Graph.Editor
             // drag
             inspectorOverlay.AddManipulator(new ForceGraphInspectorOverlayManipulator(inspectorOverlay));
 
-            // * Show / hide settings overlay
-            var settingsOverlay = inspector.Q("SettingsOverlay");
-            settingsOverlay.style.display = DisplayStyle.None;
-            var settingsButton = inspector.Q<Button>("SettingsButton");
-            settingsButton.clicked += () =>
-            {
-                bool show = settingsOverlay.style.display == DisplayStyle.None;
-                settingsOverlay.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
-                if (show)
-                    settingsButton.AddToClassList("ToggleButtonEnabled");
-                else
-                    settingsButton.RemoveFromClassList("ToggleButtonEnabled");
-            };
-
-            var fastForwardButton = inspector.Q<Button>("FastForward");
-            if (EditorPrefs.GetBool(FAST_FORWARD_SETTINGS_KEY, false))
-                fastForwardButton.AddToClassList("ToggleButtonEnabled");
-            else
-                fastForwardButton.RemoveFromClassList("ToggleButtonEnabled");
-
-            fastForwardButton.clicked += () =>
-            {
-                EditorPrefs.SetBool(FAST_FORWARD_SETTINGS_KEY, !EditorPrefs.GetBool(FAST_FORWARD_SETTINGS_KEY, false));
-                bool fastForward = EditorPrefs.GetBool(FAST_FORWARD_SETTINGS_KEY, false);
-                if (fastForward)
-                    fastForwardButton.AddToClassList("ToggleButtonEnabled");
-                else
-                    fastForwardButton.RemoveFromClassList("ToggleButtonEnabled");
-            };
-
-            var snapButton = inspector.Q<Button>("Snap");
-            if (EditorPrefs.GetBool(LCanvasPrefs.SNAP_SETTINGS_KEY, true))
-                snapButton.AddToClassList("ToggleButtonEnabled");
-            else
-                snapButton.RemoveFromClassList("ToggleButtonEnabled");
-
-            snapButton.clicked += () =>
-            {
-                EditorPrefs.SetBool(LCanvasPrefs.SNAP_SETTINGS_KEY, !EditorPrefs.GetBool(LCanvasPrefs.SNAP_SETTINGS_KEY, true));
-                bool snap = EditorPrefs.GetBool(LCanvasPrefs.SNAP_SETTINGS_KEY, true);
-                if (snap)
-                    snapButton.AddToClassList("ToggleButtonEnabled");
-                else
-                    snapButton.RemoveFromClassList("ToggleButtonEnabled");
-            };
-
-            var pinOverlayButton = inspector.Q("PinInspector");
-            if (EditorPrefs.GetBool(PIN_OVERLAY_SETTINGS_KEY, false))
-                pinOverlayButton.AddToClassList("PinOn");
-            else
-                pinOverlayButton.RemoveFromClassList("PinOn");
-
-            pinOverlayButton.AddManipulator(new Clickable(() =>
-            {
-                bool pinned = !EditorPrefs.GetBool(PIN_OVERLAY_SETTINGS_KEY, false);
-                EditorPrefs.SetBool(PIN_OVERLAY_SETTINGS_KEY, pinned);
-                if (pinned)
-                    pinOverlayButton.AddToClassList("PinOn");
-                else
-                    pinOverlayButton.RemoveFromClassList("PinOn");
-            }));
-
             foreach (var node in (target as L3Graph).nodes)
             {
                 if (node.position == Vector2.zero)
@@ -419,7 +357,7 @@ namespace Less3.Graph.Editor
             }
             else
             {
-                InspectGraph();
+                InspectObject(target);
             }
         }
 

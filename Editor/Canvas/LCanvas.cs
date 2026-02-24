@@ -88,7 +88,7 @@ namespace Less3.Graph.Editor
             bg.AddManipulator(new ForceDirectedCanvasScrollManipulator(translationContainer));
             bg.AddManipulator(new ForceDirectedCanvasBGManipulator
             {
-                OnLeftClick = () => ClearSelection(false),
+                OnLeftClick = () => ClearSelection(true),
                 OnRightClick = ShowBackgroundContextMenu,
                 OnMiddleDrag = delta => translationContainer.transform.position += new Vector3(delta.x, delta.y, 0),
                 OnLeftDragStart = pos =>
